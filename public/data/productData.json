@@ -1,0 +1,87 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "image":"/images/sneakers1.jpg",
+      "brand": "호카오네오네",
+      "name": "HOKA ONE ONE BONDI 7 WIDE BLACK / 1110530-BBLC",
+      "price": "199,000원",
+      "heartCount": 324,
+      "commentCount": 52
+    },
+    {
+      "id": 2,
+      "image":"/images/sneakers2.jpg",
+      "brand": "조셉트",
+      "name": "[Josepht] Smith",
+      "price": "94,000원",
+      "heartCount": 434,
+      "commentCount": 132
+    },
+    {
+      "id": 3,
+      "image":"/images/sneakers3.jpg",
+      "brand": "캐치볼",
+      "name": "CATCHBALL X E.H.S Corduroy",
+      "price": "119,200원",
+      "heartCount": 434,
+      "commentCount": 132
+    },
+    {
+      "id": 4,
+      "image":"/images/sneakers4.jpg",
+      "brand": "뉴발란스",
+      "name": "[뉴발란스] 574 스니커즈 ML574EGG",
+      "price": "69,000원",
+      "heartCount": 134,
+      "commentCount": 12
+    },
+    {
+      "id": 5,
+      "image":"/images/sneakers5.jpg",
+      "brand": "나이키",
+      "name": "우먼스 나이키 데이브레이크 / CK2351-001",
+      "price": "82,000원",
+      "heartCount": 21,
+      "commentCount": 8
+    },
+    {
+      "id": 6,
+      "image":"/images/sneakers6.jpg",
+      "brand": "나이키",
+      "name": "나이키 에어 테일윈드 79 (CW4808-010)",
+      "price": "89,000원",
+      "heartCount": 233,
+      "commentCount": 92
+    },
+    {
+      "id": 7,
+      "image":"/images/sneakers7.jpg",
+      "brand": "엑셀시오르",
+      "name": "SCREW 스크류 슬립온 카본블랙(FS_M5023CV_BK)",
+      "price": "3,5000원",
+      "heartCount": 221,
+      "commentCount": 33
+    },
+    {
+      "id": 8,
+      "image":"/images/sneakers8.jpg",
+      "brand": "컨버스",
+      "name": "SCREW 스크류 슬립온 카본블랙(FS_M5023CV_BK)",
+      "price": "99,000원",
+      "heartCount": 211,
+      "commentCount": 81
+    }, 
+    {
+      "id": 9,
+      "image":"/images/sneakers9.jpg",
+      "brand": "팀버랜드",
+      "name": "[팀버랜드] 남성 월드 하이커 미드 페브릭 블랙 [A1YTF]",
+      "price": "82,000원",
+      "heartCount": 112,
+      "commentCount": 105
+    }
+  ]
+}
+
+
