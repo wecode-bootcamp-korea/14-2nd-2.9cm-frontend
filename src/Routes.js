@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-import Main from './pages/Main/Main';
-import Cart from './pages/Cart/Cart';
-import Order from './pages/Order/Order';
-import ProductDetail from './pages/ProductDetail/ProductDetail';
-import Tv from './pages/Tv/Tv';
+import Main from './Pages/Main/Main';
+import Login from './Component/Login/Login';
+import Cart from './Pages/Cart/Cart';
+import Order from './Pages/Order/Order';
+import ProductDetail from './Pages/ProductDetail/ProductDetail';
+import Tv from './Pages/Tv/Tv';
 
 class Routes extends Component {
   render() {
     return (
       <Router>
         <Switch>
+          <Route exact path='/login' component={Login}/>
           <Route exact path='/' component={Main} />
           <Route exact path='/cart' component={Cart} />
           <Route exact path='/order' component={Order} />

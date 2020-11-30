@@ -1,0 +1,96 @@
+@import '../../Styles/common.scss';
+
+.Login {
+  @include flex-center;
+  height: 100vh;
+
+  .loginWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 620px;
+
+    .loginHeading {
+      margin: 30px auto;
+      font-size: 44px;
+    }
+
+    .loginBorder {
+      border: 2px solid #000;
+    }
+
+    .loginContents {
+      display: flex;
+      flex-direction: column;
+      .loginId {
+        height: 48px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        padding: 0 14px;
+        margin: 20px 0;
+      }
+      .passwordId {
+        height: 48px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        padding: 0 14px;
+        margin-bottom: 20px;
+      }
+      .loginButton {
+        background-color: #000;
+        color: #fff;
+        height: 56px;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .socialLogin {
+        .socialLoginHeading {
+          font-size: 16px;
+          text-align: center;
+          font-weight: bold;
+          margin: 10px 0 20px 0;
+        }
+        .socialLoginIcons {
+          display: flex;
+          justify-content: center;
+          .facebookIcon {
+            width: 44px;
+            height: 44px;
+            margin: 10px;
+          }
+          margin-bottom: 60px;
+        }
+        .signUpButton {
+          height: 56px;
+          width: 100%;
+          background-color: #fff;
+          border: 1px solid #000;
+          border-radius: 28px;
+          margin-bottom: 20px;
+        }
+        .loginEtc {
+          display: flex;
+          text-align: center;
+          font-size: 12px;
+          .findId {
+            display: inline-block;
+            padding: 20px 0;
+            height: 19px;
+            margin: 0 8px;
+          }
+          .findPassword {
+            display: inline-block;
+            padding: 20px 0;
+            margin: 0 8px;
+          }
+          .checkOrder {
+            display: inline-block;
+            padding: 20px 0;
+            color: #bbb;
+            margin: 0 8px;
+          }
+        }
+      }
+    }
+  }
+}
