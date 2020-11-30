@@ -1,0 +1,21 @@
+@import '../../Styles/common.scss';
+
+.Footer {
+  width: 100%;
+  // height: 100vh;
+  .footerTop {
+    background-color: red;
+    width: 100%;
+    height: 149px;
+  }
+  .footerMiddle {
+    background-color: blue;
+    width: 100%;
+    height: 177px;
+  }
+  .footerBottom {
+    background-color: green;
+    width: 100%;
+    height: 111px;
+  }
+}
