@@ -1,19 +1,5 @@
-/* eslint-disable no-lone-blocks */
-/* eslint-disable prettier/prettier */
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import Category from "./Components/Category";
-import ShowComment from "./Components/ShowComment";
-import Modal from "./Components/Modal";
-import { FaRegHeart } from "react-icons/fa";
-import { AiFillStar } from "react-icons/ai";
-import HoverRatings from "./Components/HoverRatings";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import Slider from "react-slick";
-import "../../../node_modules/slick-carousel/slick/slick.css";
-import "../../../node_modules/slick-carousel/slick/slick-theme.css";
-import { isDOMComponentElement } from 'react-dom/test-utils';
-import { fireEvent } from '@testing-library/react';
+import React from 'react';
+import styled, { StyleSheetManager } from "styled-components";
 
 export default function ProductDetail() {
   const [images, setImages] = useState([]);
