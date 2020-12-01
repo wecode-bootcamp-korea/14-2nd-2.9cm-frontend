@@ -174,6 +174,7 @@ const FooterMiddleRight = styled.div`
 
 const FooterBottom = styled.div`
   display: flex;
+  justify-content: space-between;
   width: 100%;
   height: 111px;
   border-top: 1px solid #eee;
@@ -183,7 +184,6 @@ const FooterBottomLeft = styled.div`
   display: flex;
   flex-direction: column;
   width: 899px;
-  margin-right: 30px;
 
   ul {
     font-size: 12px;
