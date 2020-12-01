@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { StyleSheetManager } from "styled-components";
 import Nav from '../../Component/Nav/Nav';
 import Footer from '../../Component/Footer/Footer';
+import { FaRegHeart } from 'react-icons/fa';
+import { VscComment } from 'react-icons/vsc';
+import ProductCard from './ProductCard/ProductCard';
 
 export default function Main() {
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    fetch("/data/productData.json")
+      .then((response) => response.json())
+      .then((response) => {
+        setProductData(response.data)
+      })
+  })
+
+  // console.log('productData >>>>>>>>>>>> ', productData);
+
   return (
     <>
       <Nav />
@@ -23,6 +38,7 @@ export default function Main() {
               <Filter>필터</Filter>
               <Refresh>초기화</Refresh>
             </OptionFilter>
+          <CategoryOptionFilter>
             <ProductInfo>
               <ProductInfoHeading>상품정보</ProductInfoHeading>
               <FreeShipping>
@@ -176,11 +192,52 @@ export default function Main() {
                   </BrandLabel>
                 </BrandList>
             </BrandListWrapper>
-          <CategoryOptionFilter>
           </CategoryOptionFilter>
         </CategoryOption>
         <CategoryList>
+          <ListFilterWrapper>
+            <ListFilter>
+              <ListFilterAll>
+                전체
+              </ListFilterAll>
+              <ListFilterOne>
+                하이탑
+              </ListFilterOne>
+              <ListFilterTwo>
+                로우탑
+              </ListFilterTwo>
+              <ListFilterThree>
+                슬립온
+              </ListFilterThree>
+              <ListFilterFour>
+                런닝화
+              </ListFilterFour>
+            </ListFilter>
+            <ListFilterButton>
+              추천순
+            </ListFilterButton>
+          </ListFilterWrapper>
         </CategoryList>
+          {!!productData.length > 0 && productData.map((product) => {
+            return (
+              <ProductCard key={product.id} id={product.id} product={product}/>
+            )
+          })}
+          {/* <ProductCard>
+            <ProductImage src='/images/sneakers1.jpg'></ProductImage>
+            <ProductName>호카오네오네</ProductName>
+            <ProductNameDetail>HOKA ONE ONE BONDI 7 WIDE BLACK / 1110530-BBLC</ProductNameDetail>
+            <ProductPrice>199,000원</ProductPrice>
+            <ProductShpping>무료배송</ProductShpping>
+            <ProductReaction>
+              <HeartIcon>
+                <FaRegHeart />626
+              </HeartIcon>
+              <CommentIcon>
+                <VscComment />37
+              </CommentIcon>              
+            </ProductReaction>
+          </ProductCard> */}
       </MainWrapper>
       <Footer />
     </>
@@ -324,5 +381,110 @@ const BrandLabel = styled.label`
 `
 
 const CategoryList = styled.div`
+  width: 100%;
+  margin-right: 100px;
+  box-sizing: border-box;
+`
+
+const ListFilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  height: 50px;
+  margin: 30px 50px 0 60px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #bbb;
 
 `
+
+const ListFilter = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const ListFilterAll = styled.div`
+  margin: 0 20px;
+  padding-right: 20px;
+  border-right: 1px solid #bbb;
+  font-weight: bold;
+  color: #000;
+`
+
+const ListFilterOne = styled.div`
+  margin: 0 20px;
+  padding-right: 20px;
+  border-right: 1px solid #bbb;
+`
+
+const ListFilterTwo = styled.div`
+  margin: 0 20px;
+  padding-right: 20px;
+  border-right: 1px solid #bbb;
+`
+
+const ListFilterThree = styled.div`
+  margin: 0 20px;
+  padding-right: 20px;
+  border-right: 1px solid #bbb;
+`
+
+const ListFilterFour = styled.div`
+  margin: 0 20px;
+  padding-right: 20px;
+  border-right: 1px solid #bbb;
+`
+
+const ListFilterButton = styled.button`
+  border: none;
+  text-align: center;
+  height: 100%;
+  padding: 0 30px;
+  border-left: 1px solid #ddd;
+`
+
+// const ProductImage = styled.img`
+//   width: 330px;
+//   height: 330px;
+// `
+
+// const ProductName = styled.div`
+//   text-decoration: underline;
+//   font-size: 13px;
+//   font-weight: bold;
+//   margin: 10px 0;
+// `
+
+// const ProductNameDetail = styled.div`
+//   font-size: 12px;
+//   color: #ccc;
+//   margin: 10px 0;
+// `
+
+// const ProductPrice = styled.div`
+//   font-size: 14px;
+//   font-weight: bold;
+//   margin: 10px 0;
+// `
+
+// const ProductShpping = styled.button`
+//   border: 1px solid #ddd;
+//   margin: 10px 0;
+// `
+
+// const ProductReaction = styled.div`
+//   display: flex;
+//   margin: 10px 0;
+
+//   svg {
+//     margin-right: 5px;
+//   }
+// `
+
+// const HeartIcon = styled.div`
+//   margin-right: 30px;
+// `
+
+// const CommentIcon = styled.div``

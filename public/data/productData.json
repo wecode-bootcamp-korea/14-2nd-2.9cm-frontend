@@ -1,0 +1,51 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "productImage":"/images/sneakers1.jpg",
+      "brand": "조셉트",
+      "productName": "[Josepht] Smith",
+      "price": "94,000원",
+      "heartCount": 434,
+      "commentCount": 132
+    },
+    {
+      "id": 2,
+      "productImage":"/images/sneakers2.jpg",
+      "brand": "호카오네오네",
+      "productName": "HOKA ONE ONE BONDI 7 WIDE BLACK / 1110530-BBLC",
+      "price": "199,000원",
+      "heartCount": 324,
+      "commentCount": 52
+    },
+    {
+      "id": 3,
+      "productImage":"/images/sneakers3.jpg",
+      "brand": "캐치볼",
+      "productName": "CATCHBALL X E.H.S Corduroy",
+      "price": "119,200원",
+      "heartCount": 434,
+      "commentCount": 132
+    },
+    {
+      "id": 4,
+      "productImage":"/images/sneakers4.jpg",
+      "brand": "뉴발란스",
+      "productName": "[뉴발란스] 574 스니커즈 ML574EGG",
+      "price": "69,000원",
+      "heartCount": 134,
+      "commentCount": 12
+    },
+    {
+      "id": 5,
+      "productImage":"/images/sneakers5.jpg",
+      "brand": "나이키",
+      "productName": "우먼스 나이키 데이브레이크 / CK2351-001",
+      "price": "82,000원",
+      "heartCount": 21,
+      "commentCount": 8
+    }
+  ]
+}
+
+
