@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 import Nav from '../../Component/Nav/Nav';
 import Footer from '../../Component/Footer/Footer';
 import { RiChatDeleteLine } from 'react-icons/ri';
 import { AiFillPlusCircle, AiFillPauseCircle } from 'react-icons/ai';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export default function Cart() {
   return (
