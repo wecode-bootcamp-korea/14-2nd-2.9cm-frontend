@@ -1,4 +1,5 @@
 import React from 'react'
+import styled, { StyleSheetManager } from "styled-components";
 import { AiOutlineDownload } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
@@ -6,41 +7,44 @@ import { AiFillShopping } from 'react-icons/ai';
 import { RiLoginBoxFill } from 'react-icons/ri';
 import { FaSearch } from 'react-icons/fa';
 
-import './nav.scss'
-
 export default function Nav() {
   return (
-    <div className='Nav'>
-      <div className='navBanner'>
-        <div className='bannerDescription'>
-          29CM 회원가입 경품혜택과 앱 <span>15%</span> 할인쿠폰
-        </div>
-        <div className='bannerButton'>
-          <span>혜택받기</span>
+    <NavWrapper>
+      <NavBanner>
+        <BannerDescription>
+          29CM 회원가입 경품혜택과 앱 <color>15%</color> 할인쿠폰
+        </BannerDescription>
+        <BannerButton>
+          <bonus>혜택받기</bonus>
           <AiOutlineDownload />
-        </div>
-      </div>
-      <div className='navIconWrapper'>
-        <div className='logo'>2.9CM</div>
-        <div className='navIcons'>
-          <div className='myPage'><FaUser className='myPageIcon' /> MY PAGE</div>
-          <div className='myHeart'><FaHeart className='myHeartIcon' /> MY HEART</div>
-          <div className='shoppingBag'><AiFillShopping className='shoppingBagIcon' />SHOPPING BAG</div>
-          <div className='login'><RiLoginBoxFill className='loginIcon' />LOGIN</div>
-        </div>
-      </div>
-      <div className='navMenuWrapper'>
-        <ul className='navMenu'>
+        </BannerButton>
+      </NavBanner>
+      <NavIconWrapper>
+        <Logo>
+          2.9CM
+        </Logo>
+        <NavIcons>
+          <MyPage><FaUser className='myPageIcon' /> MY PAGE</MyPage>
+          <MyHeart><FaHeart /> MY HEART</MyHeart>
+          <ShoppingBag>
+            <AiFillShopping />
+            SHOPPING BAG
+          </ShoppingBag>
+          <Login><RiLoginBoxFill />LOGIN</Login>
+        </NavIcons>
+      </NavIconWrapper>
+      <NavMenuWrapper>
+        <ul>
           <li>Special-Order</li>
           <li>Showcase</li>
           <li>29TV</li>
           <li>PT</li>
           <li>Welove</li>
         </ul>
-        <FaSearch className='searchIcon' />
-      </div>
-      <div className='navDetailMenuWrapper'>
-        <ul className='detailLeftMenu'>
+        <FaSearch />
+      </NavMenuWrapper>
+      <NavDetailMenuWrapper>
+        <ul>
           <li>WOMEN</li>
           <li>MEN</li>
           <li>HOME</li>
@@ -48,14 +52,164 @@ export default function Nav() {
           <li>TECH</li>
           <li>CULTURE</li>
         </ul>
-          <div className='border'></div>
-        <ul className='detailRightMenu'>
+       <Border></Border> 
+        <ul>
           <li>Best</li>
           <li>Event</li>
           <li>Brand</li>
           <li>Lookbook</li>
         </ul>
-      </div>
-    </div>
+      </NavDetailMenuWrapper>
+    </NavWrapper>
   )
 }
+
+const NavWrapper = styled.div``
+
+const NavBanner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000;
+  height: 56px;
+`
+
+const BannerDescription = styled.div`
+  margin-left: 50px;
+  color: #fff;
+  font-weight: bold;
+  
+  span {
+    color: #ff4800;
+  }
+`
+
+const BannerButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+  color: #fff;
+  background-color: #ff4800;
+  width: 90px;
+  height: 30px;
+  font-size: 13px;
+  border-radius: 15px;
+
+  span {
+    font-size: 13px;
+    color: #ff4800;
+  }
+
+  svg {
+    font-size: 13px;
+  }
+`
+
+const NavIconWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000;
+  height: 59px;
+`
+
+const Logo = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: 50px;
+`
+
+const NavIcons = styled.div`
+  display: flex;
+`
+
+const MyPage = styled.div`
+  font-size: 10px;
+  margin: auto 5px;
+
+  svg {
+    font-size: 17px;
+  }
+`
+
+const MyHeart = styled.div`
+  font-size: 10px;
+  margin: auto 5px;
+
+  svg {
+    font-size: 17px;
+  }
+`
+
+const ShoppingBag = styled.div`
+  font-size: 10px;
+  margin: auto 5px;
+
+  svg {
+    font-size: 14px;
+  }
+`
+
+const Login = styled.div`
+  font-size: 10px;
+  margin: auto 5px;
+  margin-right: 50px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`
+
+const NavMenuWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000;
+  height: 53px;
+  margin-top: 20px;
+  margin-left: 20px;
+
+  svg {
+    font-size: 40px;
+    margin-right: 50px;
+  }
+
+  ul {
+    display: flex;
+    font-size: 36px;
+    font-weight: bold;
+
+    li {
+      margin-left: 30px;
+    }
+  }
+
+`
+
+const NavDetailMenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  color: #000;
+  height: 34px;
+  margin: 30px;
+
+  ul {
+    display: flex;
+    font-weight: bold;
+    margin-left: 20px;
+
+    li {
+      margin-right: 20px;
+      font-weight: bold;
+    }
+  }
+`
+
+const Border = styled.div`
+  width: 15px;
+  height: 30px;
+  border-right: 1px solid #ddd;
+  margin-right: 30px;
+`
