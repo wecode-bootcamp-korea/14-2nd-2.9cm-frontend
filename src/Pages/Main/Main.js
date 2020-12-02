@@ -3,8 +3,10 @@ import styled, { StyleSheetManager } from "styled-components";
 import Nav from '../../Component/Nav/Nav';
 import Footer from '../../Component/Footer/Footer';
 import { FaRegHeart } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { VscComment } from 'react-icons/vsc';
 import ProductCard from './ProductCard/ProductCard';
+// import ProductCard from './ProductCard/ProductCard';
 
 export default function Main() {
   const [productData, setProductData] = useState([]);
@@ -217,13 +219,13 @@ export default function Main() {
               추천순
             </ListFilterButton>
           </ListFilterWrapper>
-        </CategoryList>
-          {!!productData.length > 0 && productData.map((product) => {
+        
+          {/* {!!productData.length > 0 && productData.map((product) => {
             return (
               <ProductCard key={product.id} id={product.id} product={product}/>
             )
-          })}
-          {/* <ProductCard>
+          })} */}
+          <ProductCards>
             <ProductImage src='/images/sneakers1.jpg'></ProductImage>
             <ProductName>호카오네오네</ProductName>
             <ProductNameDetail>HOKA ONE ONE BONDI 7 WIDE BLACK / 1110530-BBLC</ProductNameDetail>
@@ -237,7 +239,13 @@ export default function Main() {
                 <VscComment />37
               </CommentIcon>              
             </ProductReaction>
-          </ProductCard> */}
+          </ProductCards>
+          <PageChangeWrapper>
+            <PageChange>
+              1 2 3 4 5 6 <FaArrowRight />
+            </PageChange>
+          </PageChangeWrapper>
+        </CategoryList>
       </MainWrapper>
       <Footer />
     </>
@@ -445,46 +453,75 @@ const ListFilterButton = styled.button`
   border-left: 1px solid #ddd;
 `
 
-// const ProductImage = styled.img`
-//   width: 330px;
-//   height: 330px;
-// `
+// 
 
-// const ProductName = styled.div`
-//   text-decoration: underline;
-//   font-size: 13px;
-//   font-weight: bold;
-//   margin: 10px 0;
-// `
+const ProductCards = styled.div`
+  margin: 30px 60px 30px 60px;
+  width: 330px;
+  height: 470px;
+`
 
-// const ProductNameDetail = styled.div`
-//   font-size: 12px;
-//   color: #ccc;
-//   margin: 10px 0;
-// `
+const ProductImage = styled.img`
+  width: 330px;
+  height: 330px;
+`
 
-// const ProductPrice = styled.div`
-//   font-size: 14px;
-//   font-weight: bold;
-//   margin: 10px 0;
-// `
+const ProductName = styled.div`
+  text-decoration: underline;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 10px 0;
+`
 
-// const ProductShpping = styled.button`
-//   border: 1px solid #ddd;
-//   margin: 10px 0;
-// `
+const ProductNameDetail = styled.div`
+  font-size: 12px;
+  color: #ccc;
+  margin: 10px 0;
+`
 
-// const ProductReaction = styled.div`
-//   display: flex;
-//   margin: 10px 0;
+const ProductPrice = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 10px 0;
+`
 
-//   svg {
-//     margin-right: 5px;
-//   }
-// `
+const ProductShpping = styled.button`
+  border: 1px solid #ddd;
+  margin: 10px 0;
+`
 
-// const HeartIcon = styled.div`
-//   margin-right: 30px;
-// `
+const ProductReaction = styled.div`
+  display: flex;
+  margin: 10px 0;
 
-// const CommentIcon = styled.div``
+  svg {
+    margin-right: 5px;
+  }
+`
+
+const HeartIcon = styled.div`
+  margin-right: 30px;
+`
+
+const CommentIcon = styled.div``
+
+const PageChangeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+`
+
+const PageChange = styled.div`
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  font-size: 48px;
+  margin-right: 20px;
+  width: 300px;
+
+  svg {
+    font-size: 28px;
+  }
+`

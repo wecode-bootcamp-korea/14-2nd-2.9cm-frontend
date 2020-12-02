@@ -60,6 +60,9 @@ export default function Nav() {
           <li>Lookbook</li>
         </ul>
       </NavDetailMenuWrapper>
+      <NavDropDownMenu>
+
+      </NavDropDownMenu>
     </NavWrapper>
   )
 }
@@ -213,3 +216,11 @@ const Border = styled.div`
   border-right: 1px solid #ddd;
   margin-right: 30px;
 `
+
+const NavDropDownMenu = styled.div`
+  background-color: #eee;
+  width: 100%;
+  height: 300px;
+`
+
+
