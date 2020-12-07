@@ -11,7 +11,7 @@ export default function Login() {
   const responseGoogle = (response) => {
     console.log(response.accessToken, "success");
     
-    fetch("http://192.168.200.117:8000/user/login/google", {
+    fetch("http://10.58.3.134:8000/user/login/google", {
       method: "POST",
       headers: {
         Authorization: response.accessToken,
