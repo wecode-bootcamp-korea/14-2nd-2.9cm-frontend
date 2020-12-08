@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled, { StyleSheetManager } from "styled-components";
 import Dropdown from './Dropdown';
+import NavScroll from './NavScroll';
 import { AiOutlineDownload } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
@@ -31,8 +32,9 @@ export default function Nav(props) {
   const closeDropDown = () => {
     setIsHover(false);
   }
-
+  
   return (
+  <>
     <NavWrapper>
       <NavBanner>
         <BannerDescription>
@@ -59,12 +61,13 @@ export default function Nav(props) {
       </NavIconWrapper>
       <NavMenuWrapper>
         <ul
-          onMouseEnter={openDropDown}
-          onMouseLeave={closeDropDown}
         >
           {navMenuData?.map((menu) => {
             return(
-              <li>{menu}</li>
+              // 들썩이는거 어떻게 고치지??
+              <div style={{padding: "10px"}}>
+                <li style={{width: "100%", height: "100%"}}>{menu}</li>
+              </div>
             )
           })}
         </ul>
@@ -72,12 +75,10 @@ export default function Nav(props) {
       </NavMenuWrapper>
       <NavDetailMenuWrapper>
         <ul          
-          onMouseEnter={openDropDown}
-          onMouseLeave={closeDropDown}
         >
           {navDetailMenuL?.map((menu) => {
             return (
-              <li>{menu}</li>
+              <li onMouseEnter={openDropDown}>{menu}</li>
             )
           })}
         </ul>
@@ -90,13 +91,16 @@ export default function Nav(props) {
           })}
         </ul>
       </NavDetailMenuWrapper>
-      {isHover ? <Dropdown/> : ''}
+      {isHover ? <Dropdown closeDropDown={closeDropDown}/> : ''}
     </NavWrapper>
+  </>
   )
 }
 
 const NavWrapper = styled.div`
-  z-index: -1;
+  height: 250px;
+  margin-bottom: 30px;
+  
 `
 
 const NavBanner = styled.div`
@@ -105,6 +109,7 @@ const NavBanner = styled.div`
   align-items: center;
   background-color: #000;
   height: 56px;
+
 `
 
 const BannerDescription = styled.div`
@@ -115,6 +120,7 @@ const BannerDescription = styled.div`
   span {
     color: #ff4800;
   }
+  
 `
 
 const BannerButton = styled.div`
@@ -128,6 +134,7 @@ const BannerButton = styled.div`
   height: 30px;
   font-size: 13px;
   border-radius: 15px;
+  cursor: pointer;
 
   span {
     font-size: 13px;
@@ -150,46 +157,62 @@ const NavIconWrapper = styled.div`
 const Logo = styled.div`
   font-size: 30px;
   font-weight: bold;
-  margin-left: 50px;
+  margin-top: 30px;
+  margin-left: 60px;
+  
 `
 
 const NavIcons = styled.div`
   display: flex;
+  align-items: center;
+  cursor: pointer;
 `
 
 const MyPage = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 10px;
-  margin: auto 5px;
+  margin: 0 10px;
 
   svg {
+    margin: 0 5px;
     font-size: 17px;
   }
 `
 
 const MyHeart = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 10px;
-  margin: auto 5px;
+  margin: 0 5px;
 
   svg {
+    margin: 0 5px;
     font-size: 17px;
   }
 `
 
 const ShoppingBag = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 10px;
-  margin: auto 5px;
+  margin: 0 5px;
 
   svg {
-    font-size: 14px;
+    margin: 0 5px;
+    font-size: 22px;
   }
 `
 
 const Login = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 10px;
-  margin: auto 5px;
+  margin: 0 5px;
   margin-right: 50px;
 
   svg {
+    margin: 0 5px;
     width: 20px;
     height: 20px;
   }
@@ -205,18 +228,21 @@ const NavMenuWrapper = styled.div`
   margin-left: 20px;
 
   svg {
-    font-size: 40px;
+    font-size: 60px;
     margin-right: 50px;
+    cursor: pointer;
   }
 
   ul {
     display: flex;
     font-size: 36px;
     font-weight: bold;
+    height: 51px;
 
     li {
       margin-left: 30px;
-
+      cursor: pointer;
+      
       &:hover {
       border-bottom: 4px solid #000;
     }
@@ -236,10 +262,12 @@ const NavDetailMenuWrapper = styled.div`
     display: flex;
     font-weight: bold;
     margin-left: 20px;
+    height: 15px;
 
     li {
       margin-right: 20px;
       font-weight: bold;
+      cursor: pointer;
 
       &:hover {
       border-bottom: 4px solid #000;
@@ -255,5 +283,3 @@ const Border = styled.div`
   margin-right: 30px;
 
 `
-
-

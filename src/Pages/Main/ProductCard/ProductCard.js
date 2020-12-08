@@ -5,33 +5,32 @@ import { VscComment } from 'react-icons/vsc';
 
 export default function ProductCard(props) {
 
-  const {
-    image,
-    brand,
-    name,
-    price,
-    heartCount,
-    commentCount
-  } = props.product;
-
   return (
-
     <ProductCardWrapper>
-      <div>
-        <ProductImage src={image}></ProductImage>
-        <ProductName>{brand}</ProductName>
-        <ProductNameDetail>{name}</ProductNameDetail>
-        <ProductPrice>{price}</ProductPrice>
-        <span>무료배송</span>
-        <ProductReaction>
-          <div>
-            <FaRegHeart />{heartCount}
-          </div>
-          <div>
-            <VscComment />{commentCount}
-          </div>              
-        </ProductReaction>
-      </div>
+      {props.product.map((item, idx) => {
+        return (
+        <ProductCards key={idx}>
+          <ProductImageWrapper>
+            <ProductImage onClick={props.goToProductDetail} src={item.image}></ProductImage>
+          </ProductImageWrapper>
+          <ProductName>{item.brand}</ProductName>
+          <ProductNameDetail>{item.name}</ProductNameDetail>
+          <ProductPrice>{item.price}</ProductPrice>
+          {/* <Percent></Percent> */}
+          <ProductSalePrice>{Math.ceil((1-(item.sale_price/item.price))*100)}% <span>{item.sale_price}원</span></ProductSalePrice>
+          <span>무료배송</span>
+          <ProductReaction>
+            <div>
+              <FaRegHeart />{item.heartCount}
+            </div>
+            <div>
+              <VscComment />{item.commentCount}
+            </div>              
+          </ProductReaction>
+        </ProductCards>
+        )
+      })}
+      <Mark />
     </ProductCardWrapper>
   )
 }
@@ -40,12 +39,30 @@ const ProductCardWrapper = styled.div`
   display: inline-block;
   margin: 10px 0;
   padding-left: 30px;
+  width: 100%;
   
+`
+
+const ProductCards = styled.div`
+  display: inline-block;
+  margin: 20px 20px 0 0;
+  position: relative;
+
+`
+
+const ProductImageWrapper = styled.div`
+  overflow: hidden;
 `
 
 const ProductImage = styled.img`
   width: 330px;
   height: 330px;
+  transition: 0.3s;
+  cursor: pointer;  
+
+  &:hover {
+    transform: scale(1.2);
+  }
   
 `
 
@@ -59,16 +76,33 @@ const ProductName = styled.div`
 
 const ProductNameDetail = styled.div`
   margin: 10px 0;
-  color: #ccc;
+  color: #000;
   font-size: 12px;
   
 `
 
 const ProductPrice = styled.div`
   margin: 10px 0;
+  color: #aaa;
   font-size: 14px;
   font-weight: bold;
+  text-decoration: line-through;
   
+`
+
+const Percent = styled.div`
+  margin-bottom: 5px;
+`
+
+const ProductSalePrice = styled.div`
+  color: #FF4800;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+
+  span {
+    color: #000;
+  }
 `
 
 const ProductReaction = styled.div`
@@ -82,3 +116,5 @@ const ProductReaction = styled.div`
     margin-right: 30px;
   }
 `
+
+const Mark = styled.div``
