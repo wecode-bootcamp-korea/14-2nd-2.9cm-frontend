@@ -4,27 +4,26 @@ import { FaSearch } from 'react-icons/fa'
 
 export default function SearchModal(props) {
 
+  const SearchList = {
+    menu: ['Wright LLC', 'Cole-Smith', 'Coleman Inc', 'Thompson-Martin', 'Newman-Anderson', 'Roman Ltd', 'Pierce-Smith']  
+  }
+
   return (
     <ModalWrapper onClick={props.closeModal}>
       <Modal>
         <button onClick={props.closeModal}>X</button>
         <SearchBox onClick={(e) => e.stopPropagation()}>
           <p>
-            <input onChange={props.handleSearch} onKeyUp={props.handleSearch} placeholder='Search'></input>
+            <input onChange={props.handleChange} onKeyUp={props.handleSearch} placeholder='Search'></input>
             <FaSearch />
           </p>
           <span>인기검색어</span>
           <ul>
-            <li>오라리</li>
-            <li>니들스</li>
-            <li>캡틴선샤인</li>
-            <li>엔지니어드가먼츠</li>
-            <li>빔즈</li>
-            <li>오라리</li>
-            <li>니들스</li>
-            <li>캡틴선샤인</li>
-            <li>엔지니어드가먼츠</li>
-            <li>빔즈</li>
+            {SearchList.menu.map((item) => {
+              return (
+              <li>{item}</li>
+              )
+            })}
           </ul>
         </SearchBox>
       </Modal>
@@ -76,8 +75,8 @@ const SearchBox = styled.div`
   right: 50px;
 
   span {
-    margin-top: 30px;
-    font-size: 26px;
+    margin: 30px 0;
+    font-size: 36px;
   }
 
   p {
@@ -108,6 +107,8 @@ const SearchBox = styled.div`
     li {
       font-size: 15px;
       line-height: 40px;
+      color: #000;
+      font-weight:normal;
     }
   }
 `
