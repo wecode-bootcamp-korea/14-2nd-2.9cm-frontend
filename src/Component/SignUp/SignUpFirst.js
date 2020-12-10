@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import Line from "./Components/SignUpFirstStep";
 import {useState, useEffect} from "react";
+import Footer from "../Footer/Footer";
 
 function SignUpFirst(props) {
   const [allChecked, setAllChecked] = useState(false);
@@ -9,7 +10,7 @@ function SignUpFirst(props) {
   const [checked2, setChecked2] = useState(false);
   const [checked3, setChecked3] = useState(false);
   const [checked4, setChecked4] = useState(false);
-  const [activateBtn, setActivateBtn] = useState();
+  const [activateBtn, setActivateBtn] = useState(true);
   console.log(activateBtn);
   console.log(allChecked);
   console.log(checked1);
@@ -154,6 +155,7 @@ function SignUpFirst(props) {
           </Box2>
         </Box>
       </SignUpWrapper>
+      <Footer />
     </>
   )
 }
@@ -250,7 +252,7 @@ const GoToSignUp = styled.button`
   width: 100%;
   height:48px;
   border: none;
-  background: ${props => props.activateBtn ? "#375FFF" : "#c4c4c4"};
+  background: ${props => props.activateBtn ? "#c4c4c4" : "#375FFF"};
   font-size: 14px;
   color: #fff;
   outline: none;
