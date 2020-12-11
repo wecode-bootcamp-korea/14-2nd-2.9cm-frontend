@@ -82,27 +82,40 @@ export default function Main() {
   const history = useHistory();
 
   const goToProductDetail = () => {
-    history.push("/product-detail");
-  };
+    history.push("/product-detail/1");
+  }
 
   useEffect(() => {
-    fetch("/data/productData.json")
-      .then((response) => response.json())
-      .then((response) => {
-        setProductData(response.data);
-        setLoading(false);
-      });
-  }, []);
+    setLoading(true);
+    fetch("http://13.125.3.178:8000/store")
+    .then((response) => response.json())
+    .then((response) => {
+      setProductData(response.result);
+      setLoading(false);
+    })
+   
+  }, [])
 
   useEffect(() => {
     window.addEventListener("scroll", changeNav);
     return () => window.removeEventListener("scroll", changeNav);
   }, [isScrollOver]);
 
-  // 가격필터 구현예정
-  const filterPrice = (e) => {
-    console.log(e);
-  };
+  const filterPrice = () => {
+    setLoading(true);
+    fetch(
+      `http://13.125.3.178:8000/store?min_price=50000&max_price=100000` ,
+    )
+    .then((response) => response.json())
+    .then((result) => {
+      setProductData(result.result)
+      setLoading(false);
+      }
+    )
+    .catch((error) => console.log('error', error));
+    setIsChecked(!isChecked);
+    goToTop();
+  }
 
   const openModal = (e) => {
     setIsModal(true);
@@ -114,9 +127,24 @@ export default function Main() {
 
   const handleChange = (e) => {
     setSearch(e.target.value);
-    if (e.keyCode === 13) {
-      console.log("entered");
-      setIsSearched(true);
+  }
+
+  const goToTop = () => window.scrollTo({top:0, behavior:'smooth'});
+
+  const handleSearch = (e) => {
+    setLoading(true);
+    if(e.keyCode === 13) {
+      setLoading(true);
+      fetch(
+        `http://13.125.3.178:8000/store?search=${search}`,
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setProductData(result.result)
+        setLoading(false)}
+      )
+      .catch((error) => console.log('error', error));
+
       closeModal();
     }
   };
@@ -128,7 +156,9 @@ export default function Main() {
   const handleCheckbox = (e) => {
     setLoading(true);
     setShoesBrand(e.target.name);
-    fetch(`http://192.168.0.12:8000/store?brand=${e.target.name}`)
+    fetch(
+      `http://13.125.3.178:8000/store?brand=${e.target.name}` ,
+    )
       .then((response) => response.json())
       .then((result) => {
         setProductData(result.result);
@@ -138,9 +168,68 @@ export default function Main() {
     setIsChecked(!isChecked);
   };
 
-  let checkedData = productData.filter((product) => {
-    return product.brand.toLowerCase().includes(check.toLowerCase());
-  });
+  const paginate = (e) => {
+    setLoading(true);
+    fetch(
+      `http://13.125.3.178:8000/store?page=${e.target.innerText}`,
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setProductData(result.result)
+        setLoading(false)
+        }
+      )
+      .catch((error) => console.log('error', error));
+
+      goToTop();
+
+  }
+
+  const filterType = (e) => {
+
+    setLoading(true);
+    
+    let api = '';
+
+    if(e.target.innerText === '전체') {
+      api = `http://13.125.3.178:8000/store`
+    } else {
+      if(shoesbrand) {
+        api = `http://13.125.3.178:8000/store?brand=${shoesbrand}&type=${e.target.innerText}`
+      } else {
+        api = `http://13.125.3.178:8000/store?type=${e.target.innerText}`
+      }
+    }
+
+    fetch(
+      api,
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setProductData(result.result)
+        setLoading(false)
+      }
+      )
+      .catch((error) => console.log('error', error));
+  }
+
+  const filterFree = (e) => {
+    setLoading(true);
+    const api = e.target.innerText === '초기화' &&  `http://13.125.3.178:8000/store`
+    fetch(
+      api,
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setProductData(result.result)
+        setLoading(false)
+        setGoPriceFilter(false)
+      }
+      )
+      .catch((error) => console.log('error', error));
+
+      goToTop();
+  }
 
   return (
     <>
@@ -209,41 +298,6 @@ export default function Main() {
             <BrandListWrapper>
               <BrandsHeading>브랜드</BrandsHeading>
               <SearchBox></SearchBox>
-
-              {/* {checkBoxDataList.map((checkboxData) => {
-                return (
-                  <div>
-                    <Brand
-                    type='checkbox'
-                    defaultChecked={false}
-                    name={item}
-                    onClick={handleCheckbox}
-                    />
-                  <BrandLabel
-                    for={`cb${idx}`}
-                    name={item}
-                  >
-                    {item} ({Math.ceil(Math.random() * 700)})
-                  </BrandLabel>
-                </div>
-                )
-              })} */}
-
-              {/* <div>
-                <Brand
-                  type='checkbox'
-                  defaultChecked={false}
-                  name='나이키'
-                  onClick={handleCheckbox}
-                  />
-                <BrandLabel
-                  for='cb1'
-                  name='나이키'
-                >
-                  나이키 (59)
-                </BrandLabel>
-              </div> */}
-
               <div>
                 <Brand
                   type="checkbox"

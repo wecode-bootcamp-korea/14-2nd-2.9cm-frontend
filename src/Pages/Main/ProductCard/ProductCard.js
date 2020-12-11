@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom';
 import styled, { StyleSheetManager } from "styled-components";
 import { FaRegHeart } from 'react-icons/fa';
 import { VscComment } from 'react-icons/vsc';
