@@ -1,9 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import SignUpSecond from './SignUpSecond';
+import SignUpChild from './SignUpChild';
 
-export default function SignUpThirds(props) {
-
+export default function SignUpThird(props) {
 
     const [title, setTitle] = useState("비밀번호");
     const [idValue, setIdValue] = useState("");
@@ -25,7 +24,7 @@ export default function SignUpThirds(props) {
 
     return (
       <div>
-        <SignUpSecond 
+        <SignUpChild 
         title={title}
         push={props.history.push}
         data={datas}

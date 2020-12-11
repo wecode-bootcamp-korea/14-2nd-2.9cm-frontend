@@ -19,7 +19,6 @@ export default function Login() {
     })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res.access_token);
       if(res.access_token) {
         localStorage.setItem("token", res.access_token);
       }

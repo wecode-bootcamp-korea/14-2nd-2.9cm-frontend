@@ -23,12 +23,11 @@ const arr = [
 
 export default function Dropdown({closeDropDown, goToProductDetail}) {
 
-
   return (
     <Menu onMouseLeave={closeDropDown}>
       {arr.map((itemList, idx) => {
         return (
-          <div key={idx} >
+          <div>
             <span>{itemList.title}</span>
             <ul>
               {itemList.contents.map((item) => {
@@ -43,7 +42,7 @@ export default function Dropdown({closeDropDown, goToProductDetail}) {
       })}
       <p>
         <img src='/images/dangdange.jpeg'></img>
-        <button>이벤트 전체 보기 ----> </button>
+        <button>이벤트 전체 보기 ----`{`>`}` </button>
       </p>
     </Menu>
   )
@@ -52,7 +51,7 @@ export default function Dropdown({closeDropDown, goToProductDetail}) {
 const Menu = styled.div`
   position: absolute;
   display: flex;
-  top: 260px;
+  top: 290px;
   height: 300px;
   width: 100%;
   border: 1px solid #ddd;
@@ -78,11 +77,11 @@ const Menu = styled.div`
       li {
         font-size: 13px;
         line-height: 24px;
-
         &:hover {
           font-weight: bold;
           cursor: pointer;
         }
+
       }
     }
   }
