@@ -28,10 +28,6 @@ function SignUpChild(props) {
       }
     }
   };
-  // console.log(props.inputId);
-  // useEffect((e) => {
-  //   console.log(props.inputId);
-  // }, [])
   const handleInputPw = (event) => {
     setUserInputPw(event.target.value);
     const checkNum = /[0-9]/;
@@ -73,7 +69,7 @@ function SignUpChild(props) {
         Authorization: localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        email: "2.323mm@gmail.com",
+        email: "polepole0733@gmail.com",
         password: userInputPw,
       }),
     })
