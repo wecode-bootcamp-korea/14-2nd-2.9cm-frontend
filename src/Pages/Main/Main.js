@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled, { StyleSheetManager } from "styled-components";
@@ -52,7 +51,9 @@ export default function Main() {
   const [productData, setProductData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [isModal, setIsModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+
   const [search, setSearch] = useState("");
   const [check, setCheck] = useState("");
   const [isSearched, setIsSearched] = useState(false);
@@ -83,39 +84,39 @@ export default function Main() {
 
   const goToProductDetail = () => {
     history.push("/product-detail/1");
-  }
+  };
 
   useEffect(() => {
     setLoading(true);
     fetch("http://13.125.3.178:8000/store")
-    .then((response) => response.json())
-    .then((response) => {
-      setProductData(response.result);
-      setLoading(false);
-    })
-   
-  }, [])
+      .then((response) => response.json())
+      .then((response) => {
+        setProductData(response.result);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", changeNav);
     return () => window.removeEventListener("scroll", changeNav);
   }, [isScrollOver]);
 
-  const filterPrice = () => {
+  // 가격필터 구현예정
+  const filterPrice = (e) => {
+    console.log(">>>>>>>>>>>>>", e);
+    console.log(e.target.value);
+
     setLoading(true);
-    fetch(
-      `http://13.125.3.178:8000/store?min_price=50000&max_price=100000` ,
-    )
-    .then((response) => response.json())
-    .then((result) => {
-      setProductData(result.result)
-      setLoading(false);
-      }
-    )
-    .catch((error) => console.log('error', error));
+    fetch(`http://13.125.3.178:8000/store?min_price=50000&max_price=100000`)
+      .then((response) => response.json())
+      .then((result) => {
+        setProductData(result.result);
+        setLoading(false);
+      })
+      .catch((error) => console.log("error", error));
     setIsChecked(!isChecked);
     goToTop();
-  }
+  };
 
   const openModal = (e) => {
     setIsModal(true);
@@ -127,38 +128,30 @@ export default function Main() {
 
   const handleChange = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
-  const goToTop = () => window.scrollTo({top:0, behavior:'smooth'});
+  const goToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const handleSearch = (e) => {
     setLoading(true);
-    if(e.keyCode === 13) {
+    if (e.keyCode === 13) {
       setLoading(true);
-      fetch(
-        `http://13.125.3.178:8000/store?search=${search}`,
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setProductData(result.result)
-        setLoading(false)}
-      )
-      .catch((error) => console.log('error', error));
+      fetch(`http://13.125.3.178:8000/store?search=${search}`)
+        .then((response) => response.json())
+        .then((result) => {
+          setProductData(result.result);
+          setLoading(false);
+        })
+        .catch((error) => console.log("error", error));
 
       closeModal();
     }
   };
 
-  let filteredProductData = productData.filter((product) => {
-    return product.brand.toLowerCase().includes(search.toLowerCase());
-  });
-
   const handleCheckbox = (e) => {
     setLoading(true);
     setShoesBrand(e.target.name);
-    fetch(
-      `http://13.125.3.178:8000/store?brand=${e.target.name}` ,
-    )
+    fetch(`http://13.125.3.178:8000/store?brand=${e.target.name}`)
       .then((response) => response.json())
       .then((result) => {
         setProductData(result.result);
@@ -166,74 +159,77 @@ export default function Main() {
       })
       .catch((error) => console.log("error", error));
     setIsChecked(!isChecked);
+    goToTop();
   };
 
   const paginate = (e) => {
     setLoading(true);
-    fetch(
-      `http://13.125.3.178:8000/store?page=${e.target.innerText}`,
-    )
+    fetch(`http://13.125.3.178:8000/store?page=${e.target.innerText}`)
       .then((response) => response.json())
       .then((result) => {
-        setProductData(result.result)
-        setLoading(false)
-        }
-      )
-      .catch((error) => console.log('error', error));
+        setProductData(result.result);
+        setLoading(false);
+      })
+      .catch((error) => console.log("error", error));
 
-      goToTop();
-
-  }
+    goToTop();
+  };
 
   const filterType = (e) => {
-
     setLoading(true);
-    
-    let api = '';
 
-    if(e.target.innerText === '전체') {
-      api = `http://13.125.3.178:8000/store`
+    let api = "";
+
+    if (e.target.innerText === "전체") {
+      api = `http://13.125.3.178:8000/store`;
     } else {
-      if(shoesbrand) {
-        api = `http://13.125.3.178:8000/store?brand=${shoesbrand}&type=${e.target.innerText}`
+      if (shoesbrand) {
+        api = `http://13.125.3.178:8000/store?brand=${shoesbrand}&type=${e.target.innerText}`;
       } else {
-        api = `http://13.125.3.178:8000/store?type=${e.target.innerText}`
+        api = `http://13.125.3.178:8000/store?type=${e.target.innerText}`;
       }
     }
 
-    fetch(
-      api,
-    )
+    // 절대지우지마!
+    // const api = e.target.innerText === '전체' ? `http://13.125.3.178:8000/store` : `http://13.125.3.178:8000/store?brand=${shoesbrand}&type=${e.target.innerText}`;
+
+    fetch(api)
       .then((response) => response.json())
       .then((result) => {
-        setProductData(result.result)
-        setLoading(false)
-      }
-      )
-      .catch((error) => console.log('error', error));
-  }
+        setProductData(result.result);
+        setLoading(false);
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   const filterFree = (e) => {
     setLoading(true);
-    const api = e.target.innerText === '초기화' &&  `http://13.125.3.178:8000/store`
-    fetch(
-      api,
-    )
+    const api =
+      e.target.innerText === "초기화" && `http://13.125.3.178:8000/store`;
+    fetch(api)
       .then((response) => response.json())
       .then((result) => {
-        setProductData(result.result)
-        setLoading(false)
-        setGoPriceFilter(false)
-      }
-      )
-      .catch((error) => console.log('error', error));
+        setProductData(result.result);
+        setLoading(false);
+        setGoPriceFilter(false);
+      })
+      .catch((error) => console.log("error", error));
 
-      goToTop();
-  }
+    goToTop();
+  };
 
   return (
     <>
-      <Nav openModal={openModal} closeModal={closeModal} isModal={isModal} />
+      {isScrollOver ? (
+        <NavScroll
+          openModal={openModal}
+          closeModal={closeModal}
+          isModal={isModal}
+          isScrolled={isScrolled}
+        />
+      ) : (
+        <Nav openModal={openModal} closeModal={closeModal} isModal={isModal} />
+      )}
       <MainWrapper>
         <CategoryOption>
           <CategoryOptionList>
@@ -244,175 +240,82 @@ export default function Main() {
           </CategoryOptionList>
           <OptionFilter>
             <Filter>필터</Filter>
-            <Refresh>초기화</Refresh>
+            <Refresh onClick={filterFree}>초기화</Refresh>
           </OptionFilter>
           <div>
             <ProductInfo>
               <div>상품정보</div>
-              <CheckBoxWrapper>
-                <input type="checkbox" defaultChecked={false} />
-                <PriceLabel for="cb1">무료배송</PriceLabel>
-              </CheckBoxWrapper>
-              <CheckBoxWrapper>
-                <input type="checkbox" defaultChecked={false} />
-                <PriceLabel for="cb2">할인상품만</PriceLabel>
-              </CheckBoxWrapper>
-              <CheckBoxWrapper>
-                <input type="checkbox" defaultChecked={false} />
-                <PriceLabel for="cb3">품절상품 제외</PriceLabel>
-              </CheckBoxWrapper>
+              {menus.shipping.map((item, idx) => {
+                return (
+                  <>
+                    <CheckBoxWrapper>
+                      <input type="checkbox" defaultChecked={false} />
+                      <PriceLabel for={`cb${idx + 1}`}>{item}</PriceLabel>
+                    </CheckBoxWrapper>
+                  </>
+                );
+              })}
             </ProductInfo>
             <PriceList>
               <div>가격대</div>
               {menus.price.map((item, idx) => {
                 return (
-                  <>
-                    <PriceWidth>
-                      <input
-                        type="radio"
-                        defaultChecked={false}
-                        onClick={filterPrice}
-                      />
-                      <PriceLabel for="cb1">전체 가격</PriceLabel>
-                    </PriceWidth>
-                    <PriceWidth>
-                      <input type="radio" defaultChecked={false} />
-                      <PriceLabel for="cb2">0 ~ 10,000원</PriceLabel>
-                    </PriceWidth>
-                    <PriceWidth>
-                      <input type="radio" defaultChecked={false} />
-                      <PriceLabel for="cb3">10,000원 ~ 50,000원</PriceLabel>
-                    </PriceWidth>
-                    <PriceWidth>
-                      <input type="radio" defaultChecked={false} />
-                      <PriceLabel for="cb4">50,0000원 ~ 100,0000원</PriceLabel>
-                    </PriceWidth>
-                    <PriceWidth>
-                      <input type="radio" defaultChecked={false} />
-                      <PriceLabel for="cb5">100,0000원 ~ 20,0000원</PriceLabel>
-                    </PriceWidth>
-                  </>
+                  <PriceWidth>
+                    <input
+                      type="radio"
+                      defaultChecked={false}
+                      onClick={goPriceFilter ? filterPrice : ""}
+                      // onClick={filterPrice}
+                    />
+                    <PriceLabel for={`cb${idx + 1}`}>{item}</PriceLabel>
+                  </PriceWidth>
                 );
               })}
             </PriceList>
             <BrandListWrapper>
               <BrandsHeading>브랜드</BrandsHeading>
-              <SearchBox></SearchBox>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="나이키"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="나이키">
-                  나이키 (59)
-                </BrandLabel>
-              </div>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="아디다스"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="아디다스">
-                  아디다스 (36)
-                </BrandLabel>
-              </div>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="뉴발란스"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="뉴발란스">
-                  뉴발란스 (88)
-                </BrandLabel>
-              </div>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="엑셀시오르"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="엑셀시오르">
-                  엑셀시오르 (21)
-                </BrandLabel>
-              </div>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="컨버스"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="컨버스">
-                  컨버스 (28)
-                </BrandLabel>
-              </div>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="캐치볼"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="캐치볼">
-                  캐치볼 (18)
-                </BrandLabel>
-              </div>
-              <div>
-                <Brand
-                  type="checkbox"
-                  defaultChecked={false}
-                  name="조셉트"
-                  onClick={handleCheckbox}
-                />
-                <BrandLabel for="cb1" name="조셉트">
-                  조셉트 (8)
-                </BrandLabel>
-              </div>
+              {brandList.brand.map((item, idx) => {
+                return (
+                  <div>
+                    <Brand
+                      type="checkbox"
+                      defaultChecked={false}
+                      name={item}
+                      onClick={handleCheckbox}
+                    />
+                    <BrandLabel for={`cb${idx}`} name={item}>
+                      {item} ({Math.ceil(Math.random() * 700)})
+                    </BrandLabel>
+                  </div>
+                );
+              })}
             </BrandListWrapper>
           </div>
         </CategoryOption>
         <CategoryList>
           <ListFilterWrapper>
             <ListFilter>
-              <FilterAll>전체</FilterAll>
-              <FilterItem>하이탑</FilterItem>
-              <FilterItem>로우탑</FilterItem>
-              <FilterItem>슬립온</FilterItem>
-              <FilterItem>런닝화</FilterItem>
+              {menus.type.map((item) => {
+                return <FilterItem onClick={filterType}>{item}</FilterItem>;
+              })}
             </ListFilter>
-            <ListFilterButton>추천순</ListFilterButton>
+            <ListFilterButton>
+              {menus.filter.map((item, idx) => {
+                return <option value={"$(idx)"}>{item}</option>;
+              })}
+            </ListFilterButton>
           </ListFilterWrapper>
-          {isChecked ? (
-            <ProductCard product={checkedData[0]} />
-          ) : isSearched ? (
-            <ProductCard product={filteredProductData[0]} />
-          ) : (
-            !!productData.length > 0 &&
-            productData.map((product) => {
-              return (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  product={product}
-                />
-              );
-            })
-          )}
-
+          <ProductCard
+            goToProductDetail={goToProductDetail}
+            product={productData}
+          />
           <PageChangeWrapper>
             <PageChanges paginate={paginate} />
           </PageChangeWrapper>
         </CategoryList>
       </MainWrapper>
       <Footer />
-      {isModal ? (
+      {isModal && (
         <SearchModal
           isModal={isModal}
           openModal={openModal}
@@ -420,9 +323,8 @@ export default function Main() {
           handleSearch={handleSearch}
           handleChange={handleChange}
         />
-      ) : (
-        ""
       )}
+      {loading && <Loading />}
     </>
   );
 }
@@ -441,7 +343,6 @@ const CategoryOptionList = styled.div`
   flex-direction: column;
   border-bottom: 4px solid #000;
   padding-bottom: 40px;
-
   h1 {
     font-size: 23px;
     font-weight: bold;
@@ -449,7 +350,6 @@ const CategoryOptionList = styled.div`
     border-bottom: 4px solid #000;
     margin: 20px 0;
   }
-
   button {
     font-size: 16px;
     line-height: 40px;
@@ -457,6 +357,10 @@ const CategoryOptionList = styled.div`
     text-align: start;
     font-size: 16px;
     color: #5d5d5d;
+    &:hover {
+      font-weight: bold;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -474,6 +378,9 @@ const Refresh = styled.div`
   font-size: 14px;
   text-decoration: underline;
   color: #bbb;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const ProductInfo = styled.div`
@@ -489,11 +396,18 @@ const ProductInfo = styled.div`
 const CheckBoxWrapper = styled.div`
   margin: 10px 0;
   font-weight: normal;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PriceLabel = styled.label`
   margin-left: 5px;
   font-size: 13px;
+  &:hover {
+    font-weight: bold;
+    cursor: pointer;
+  }
 `;
 
 const PriceList = styled.div`
@@ -521,13 +435,6 @@ const BrandsHeading = styled.div`
   margin: 40px 0 20px 0;
 `;
 
-const SearchBox = styled.input`
-  width: 100%;
-  height: 40px;
-  border: 1px solid #ccc;
-  margin: 10px 0;
-`;
-
 const Brand = styled.input`
   margin: 10px 0;
 `;
@@ -536,6 +443,10 @@ const BrandLabel = styled.label`
   margin-left: 5px;
   font-size: 13px;
   font-weight: normal;
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
 `;
 
 const CategoryList = styled.div`
@@ -560,6 +471,7 @@ const ListFilterWrapper = styled.div`
 const ListFilter = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const FilterAll = styled.div`
@@ -572,6 +484,9 @@ const FilterAll = styled.div`
 const FilterItem = styled(FilterAll)`
   border-right: 1px solid #bbb;
   font-weight: normal;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const ListFilterButton = styled.select`
@@ -580,6 +495,7 @@ const ListFilterButton = styled.select`
   height: 100%;
   padding: 0 40px;
   border-left: 1px solid #ddd;
+  outline: none;
 `;
 
 const PageChangeWrapper = styled.div`
@@ -589,7 +505,7 @@ const PageChangeWrapper = styled.div`
   margin-top: 100px;
 `;
 
-const PageChange = styled.div`
+const PageChanges = styled(Pagination)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -597,7 +513,6 @@ const PageChange = styled.div`
   font-size: 48px;
   margin-right: 20px;
   width: 300px;
-
   svg {
     font-size: 28px;
   }
