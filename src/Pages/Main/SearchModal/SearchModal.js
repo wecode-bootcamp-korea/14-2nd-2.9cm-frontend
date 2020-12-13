@@ -1,12 +1,19 @@
-import React from 'react'
+import React from "react";
 import styled, { StyleSheetManager } from "styled-components";
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch } from "react-icons/fa";
 
 export default function SearchModal(props) {
-
   const SearchList = {
-    menu: ['Wright LLC', 'Cole-Smith', 'Coleman Inc', 'Thompson-Martin', 'Newman-Anderson', 'Roman Ltd', 'Pierce-Smith']  
-  }
+    menu: [
+      "Wright LLC",
+      "Cole-Smith",
+      "Coleman Inc",
+      "Thompson-Martin",
+      "Newman-Anderson",
+      "Roman Ltd",
+      "Pierce-Smith",
+    ],
+  };
 
   return (
     <ModalWrapper onClick={props.closeModal}>
@@ -14,21 +21,23 @@ export default function SearchModal(props) {
         <button onClick={props.closeModal}>X</button>
         <SearchBox onClick={(e) => e.stopPropagation()}>
           <p>
-            <input onChange={props.handleChange} onKeyUp={props.handleSearch} placeholder='Search'></input>
+            <input
+              onChange={props.handleChange}
+              onKeyUp={props.handleSearch}
+              placeholder="Search"
+            ></input>
             <FaSearch />
           </p>
           <span>인기검색어</span>
           <ul>
             {SearchList.menu.map((item) => {
-              return (
-              <li>{item}</li>
-              )
+              return <li>{item}</li>;
             })}
           </ul>
         </SearchBox>
       </Modal>
     </ModalWrapper>
-  )
+  );
 }
 
 const ModalWrapper = styled.div`
@@ -41,11 +50,9 @@ const ModalWrapper = styled.div`
   font-size: 17px;
   font-weight: bold;
   z-index: 1000000000;
-
-`
+`;
 
 const Modal = styled.div`
-
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -62,10 +69,8 @@ const Modal = styled.div`
     font-size: 40px;
     border: none;
     font-weight: normal;
-
   }
-  
-`
+`;
 
 const SearchBox = styled.div`
   position: fixed;
@@ -85,16 +90,16 @@ const SearchBox = styled.div`
     margin-top: 100px;
 
     input {
-    width: 750px;
-    height: 55px;
-    border: none;
-    border-bottom: 6px solid #000;
+      width: 750px;
+      height: 55px;
+      border: none;
+      border-bottom: 6px solid #000;
 
-    &::placeholder {
-      font-size: 40px;
-      font-weight: bold;
-      color: #ccc;
-    }
+      &::placeholder {
+        font-size: 40px;
+        font-weight: bold;
+        color: #ccc;
+      }
     }
 
     svg {
@@ -103,12 +108,11 @@ const SearchBox = styled.div`
     }
   }
   ul {
-    
     li {
       font-size: 15px;
       line-height: 40px;
       color: #000;
-      font-weight:normal;
+      font-weight: normal;
     }
   }
-`
+`;

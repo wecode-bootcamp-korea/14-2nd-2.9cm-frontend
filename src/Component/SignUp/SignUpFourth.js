@@ -2,85 +2,57 @@ import React from "react";
 import styled from "styled-components";
 import Line from "./Components/SignUpFourthStep";
 function SignUpFourth(props) {
-
-  const goToFifth = () =>{
+  const goToFifth = () => {
     props.history.push("/signUp5");
-  }
+  };
   console.log(props.history);
   return (
     <>
       <SignUpWrapper>
         <Box>
-          <SimpleSignUp>
-            간편가입
-          </SimpleSignUp>
+          <SimpleSignUp>간편가입</SimpleSignUp>
           <BorderBox>
-            <Line
-            />
+            <Line />
             <TextWrapper>
-              <Text1>
-                본인인증하고
-              </Text1>
-              <Text2>
-                혜택을 받으세요
-              </Text2>
+              <Text1>본인인증하고</Text1>
+              <Text2>혜택을 받으세요</Text2>
             </TextWrapper>
             <BottomWrapper>
-            <AgreeBox>
-              <Input
-                type="checkbox"
-                defaultChecked={true}
-              />
-              <Label 
-                title="[필수] 이용약관 동의"
-                for="cb1"
-              >
-                이벤트 참여 시 당첨 확률이 높아요.
-              </Label>
-            </AgreeBox>
+              <AgreeBox>
+                <Input type="checkbox" defaultChecked={true} />
+                <Label title="[필수] 이용약관 동의" for="cb1">
+                  이벤트 참여 시 당첨 확률이 높아요.
+                </Label>
+              </AgreeBox>
 
-            <AgreeBox>
-              <Input
-                type="checkbox"
-                defaultChecked={true}
-              />
-              <Label 
-                title="[필수] 개인정보 처리방침 동의"
-                for="cb1"
-              >
-                더 많은 쿠폰을 받을 수 있어요.
-              </Label>
-            </AgreeBox>
+              <AgreeBox>
+                <Input type="checkbox" defaultChecked={true} />
+                <Label title="[필수] 개인정보 처리방침 동의" for="cb1">
+                  더 많은 쿠폰을 받을 수 있어요.
+                </Label>
+              </AgreeBox>
 
-            <AgreeBox>
-              <Input
-                type="checkbox"
-                defaultChecked={true}
-              />
-              <Label 
-                title="[선택]] 광고성 정보 수신 및 마케팅 활용 동의"
-                for="cb1"
-              >
-                주문 시 따로 본인인증할 필요 없어요.
-              </Label>
-            </AgreeBox>
+              <AgreeBox>
+                <Input type="checkbox" defaultChecked={true} />
+                <Label
+                  title="[선택]] 광고성 정보 수신 및 마케팅 활용 동의"
+                  for="cb1"
+                >
+                  주문 시 따로 본인인증할 필요 없어요.
+                </Label>
+              </AgreeBox>
             </BottomWrapper>
-            <FirstButton 
-            type="button"
-            onClick={goToFifth}>
+            <FirstButton type="button" onClick={goToFifth}>
               혜택 없이 계속 가입하기
             </FirstButton>
-            <SecondButton 
-            type="button"
-            onClick={goToFifth}
-            >
+            <SecondButton type="button" onClick={goToFifth}>
               본인인증하고 혜택받기
             </SecondButton>
           </BorderBox>
         </Box>
       </SignUpWrapper>
     </>
-  )
+  );
 }
 
 export default SignUpFourth;
@@ -99,7 +71,7 @@ const Box = styled.div`
   flex-direction: column;
 `;
 
-const  SimpleSignUp = styled.div`
+const SimpleSignUp = styled.div`
   margin-bottom: 16px;
   font-weight: 600;
   font-size: 44px;
@@ -162,9 +134,9 @@ const Input = styled.input`
 `;
 
 const Label = styled.label`
-padding: 10px 0;
-font-size: 16px;
-cursor: pointer;
+  padding: 10px 0;
+  font-size: 16px;
+  cursor: pointer;
 `;
 
 const FirstButton = styled.div`
@@ -172,7 +144,7 @@ const FirstButton = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height:48px;
+  height: 48px;
   margin-bottom: 8px;
   font-size: 14px;
   color: #5d5d5d;

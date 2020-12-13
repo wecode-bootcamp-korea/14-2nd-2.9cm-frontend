@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import Line from "./Components/SignUpFirstStep";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Footer from "../Footer/Footer";
 
 function SignUpFirst(props) {
@@ -19,7 +19,7 @@ function SignUpFirst(props) {
   console.log(checked4);
   const handleAllChecked = () => {
     setAllChecked(!allChecked);
-    if(!allChecked) {
+    if (!allChecked) {
       setChecked1(!checked1);
       setChecked2(!checked2);
       setChecked3(!checked3);
@@ -32,63 +32,56 @@ function SignUpFirst(props) {
       setChecked4(!checked4);
       setActivateBtn(!activateBtn);
     }
-  }
+  };
   const handleChecked1 = () => {
     setChecked1(!checked1);
-  }
+  };
   const handleChecked2 = () => {
     setChecked2(!checked2);
-  }
+  };
   const handleChecked3 = () => {
     setChecked3(!checked3);
-  }
+  };
   const handleChecked4 = () => {
     setChecked4(!checked4);
-  }
+  };
 
   useEffect(() => {
-    let curtruecnt  = 0;
-    if(checked1) curtruecnt++;
-    if(checked2) curtruecnt++;
-    if(checked3) curtruecnt++;
-    if(checked4) curtruecnt++;
-    if(curtruecnt > 2) {
+    let curtruecnt = 0;
+    if (checked1) curtruecnt++;
+    if (checked2) curtruecnt++;
+    if (checked3) curtruecnt++;
+    if (checked4) curtruecnt++;
+    if (curtruecnt > 2) {
       setActivateBtn(true);
     }
-    if(curtruecnt < 3) {
+    if (curtruecnt < 3) {
       setActivateBtn(false);
     }
-    if(curtruecnt === 4) {
+    if (curtruecnt === 4) {
       setAllChecked(true);
     }
-    if(curtruecnt < 4) {
+    if (curtruecnt < 4) {
       setAllChecked(false);
     }
-  }, [checked1, checked2, checked3, checked4])
+  }, [checked1, checked2, checked3, checked4]);
   return (
-     <>
+    <>
       <SignUpWrapper>
         <Box>
-          <SimpleSignUp>
-            간편가입
-          </SimpleSignUp>
+          <SimpleSignUp>간편가입</SimpleSignUp>
           <Box2>
-            <Line
-            />
+            <Line />
             <Text>
               29CM 서비스 이용약관에<br></br>동의해주세요.
             </Text>
             <AllAgreement>
               <InputCheckbox
-              type="checkbox"
-              checked={allChecked}
-              onChange={handleAllChecked}
+                type="checkbox"
+                checked={allChecked}
+                onChange={handleAllChecked}
               />
-              <Label 
-              for="cb1"
-              >
-                모두 동의 (선택 정보 포함)
-              </Label>
+              <Label for="cb1">모두 동의 (선택 정보 포함)</Label>
             </AllAgreement>
             <AgreementCheckbox>
               <InputCheckbox
@@ -96,10 +89,7 @@ function SignUpFirst(props) {
                 checked={checked1}
                 onChange={handleChecked1}
               />
-              <Label 
-                title="[필수] 만14세 이상 보기"
-                for="cb1"
-              >
+              <Label title="[필수] 만14세 이상 보기" for="cb1">
                 [필수] 만 14세 이상
               </Label>
               <None type="button">비밀글인데 보셨나요?</None>
@@ -110,10 +100,7 @@ function SignUpFirst(props) {
                 checked={checked2}
                 onChange={handleChecked2}
               />
-              <Label 
-                title="[필수] 만14세 이상 보기"
-                for="cb1"
-              >
+              <Label title="[필수] 만14세 이상 보기" for="cb1">
                 [필수] 이용약관 동의
               </Label>
               <Button type="button">보기</Button>
@@ -124,10 +111,7 @@ function SignUpFirst(props) {
                 checked={checked3}
                 onChange={handleChecked3}
               />
-              <Label 
-                title="[필수] 만14세 이상 보기"
-                for="cb1"
-              >
+              <Label title="[필수] 만14세 이상 보기" for="cb1">
                 [필수] 개인정보 처리방침 동의
               </Label>
               <Button type="button">보기</Button>
@@ -138,18 +122,20 @@ function SignUpFirst(props) {
                 checked={checked4}
                 onChange={handleChecked4}
               />
-              <Label 
-                title="[필수] 만14세 이상 보기"
-                for="cb1"
-              >
+              <Label title="[필수] 만14세 이상 보기" for="cb1">
                 [선택] 광고성 정보 수신 및 마케팅 활용 동의
               </Label>
               <Button type="button">보기</Button>
             </AgreementCheckbox>
-            <GoToSignUp 
-            id={activateBtn}
-            type="button"
-            onClick={()=>{allChecked ? props.history.push("/signUp2"):props.history.push("#")}}>
+            <GoToSignUp
+              id={activateBtn}
+              type="button"
+              onClick={() => {
+                allChecked
+                  ? props.history.push("/signUp2")
+                  : props.history.push("#");
+              }}
+            >
               동의하고 가입하기
             </GoToSignUp>
           </Box2>
@@ -157,7 +143,7 @@ function SignUpFirst(props) {
       </SignUpWrapper>
       <Footer />
     </>
-  )
+  );
 }
 export default SignUpFirst;
 
@@ -176,7 +162,7 @@ const Box = styled.div`
   flex-direction: column;
 `;
 
-const  SimpleSignUp = styled.div`
+const SimpleSignUp = styled.div`
   margin-bottom: 16px;
   font-weight: 600;
   font-size: 44px;
@@ -237,7 +223,7 @@ const InputCheckbox = styled.input`
 `;
 
 const Label = styled.label`
-cursor: pointer;
+  cursor: pointer;
 `;
 
 const Button = styled.span`
@@ -250,9 +236,9 @@ const GoToSignUp = styled.button`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height:48px;
+  height: 48px;
   border: none;
-  background: ${props => props.activateBtn ? "#c4c4c4" : "#375FFF"};
+  background: ${(props) => (props.activateBtn ? "#c4c4c4" : "#375FFF")};
   font-size: 14px;
   color: #fff;
   outline: none;

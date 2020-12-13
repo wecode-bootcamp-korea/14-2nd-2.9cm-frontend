@@ -1,5 +1,19 @@
-import React from 'react';
-import styled, { StyleSheetManager } from "styled-components";
+/* eslint-disable no-lone-blocks */
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect, useRef } from "react";
+import styled from "styled-components";
+import Category from "./Components/Category";
+import ShowComment from "./Components/ShowComment";
+import Modal from "./Components/Modal";
+import { FaRegHeart } from "react-icons/fa";
+import { AiFillStar } from "react-icons/ai";
+import HoverRatings from "./Components/HoverRatings";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Slider from "react-slick";
+import "../../../node_modules/slick-carousel/slick/slick.css";
+import "../../../node_modules/slick-carousel/slick/slick-theme.css";
+import { isDOMComponentElement } from 'react-dom/test-utils';
+import { fireEvent } from '@testing-library/react';
 
 export default function ProductDetail() {
   const [images, setImages] = useState([]);
@@ -50,7 +64,7 @@ export default function ProductDetail() {
     // sizeData[i].Object.assign(i) ;
   }}
 
-  const API = "http://192.168.200.163:8000/store/1";
+  const API = "http://13.125.3.178:8000/store/1";
   const MOCK = " http://localhost:3000/data/mockUp.json";
   useEffect(() => {
     fetch(MOCK)
@@ -79,7 +93,7 @@ export default function ProductDetail() {
   const inputValueFunc = (input) => {
     setInputValue(input);
   }
-  const REVIEWAPI = `http://192.168.200.163:8000/store/1/review`;
+  const REVIEWAPI = `http://13.125.3.178:8000/store/1/review`;
   const SubmitComment = (inputComment) => {
     fetch(REVIEWAPI, {
       method : "POST",
@@ -149,7 +163,7 @@ export default function ProductDetail() {
   const handlePagination = (e) => {
     setInnerText(e.target.innerText);
     console.log(innerText);
-    fetch(`http://192.168.200.163:8000/store/1/review?page=${e.target.innerText}`)
+    fetch(`http:/13.125.3.178:8000/store/1/review?page=${e.target.innerText}`)
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
