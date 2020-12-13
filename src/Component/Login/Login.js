@@ -1,58 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import GoogleLogin from 'react-google-login';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import GoogleLogin from "react-google-login";
 import styled, { StyleSheetManager } from "styled-components";
-import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
+import Nav from "../Nav/Nav";
+import Footer from "../Footer/Footer";
 
 export default function Login() {
   let history = useHistory();
 
   const responseGoogle = (response) => {
     console.log(response.accessToken, "success");
-    
+
     fetch("http://192.168.200.117:8000/user/login/google", {
       method: "POST",
       headers: {
         Authorization: response.accessToken,
       },
     })
-    .then((res) => res.json())
-    .then((res) => {
-      if(res.access_token) {
-        localStorage.setItem("token", res.access_token);
-      }
-    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.access_token) {
+          localStorage.setItem("token", res.access_token);
+        }
+      });
 
     history.push("/");
-
-  } 
+  };
 
   const failResponseGoogle = (response) => {
     console.log(response, "fail");
-  }
+  };
 
   return (
     <>
       <Nav />
       <LoginWrapper>
         <LoginContentsWrapper>
-          <LoginHeading>로그인</LoginHeading> 
+          <LoginHeading>로그인</LoginHeading>
           <LoginBorder></LoginBorder>
           <LoginContents>
-            <LoginId placeholder='아이디 (이메일)'></LoginId>
-            <PasswordId placeholder='비밀번호'></PasswordId>
+            <LoginId placeholder="아이디 (이메일)"></LoginId>
+            <PasswordId placeholder="비밀번호"></PasswordId>
             <LoginButton>로그인하기</LoginButton>
             <div>
               <SocialLoginHeading>SNS계정으로 로그인하기</SocialLoginHeading>
               <SocialLoginIcons>
-                <GoogleLogin 
+                <GoogleLogin
                   clientId="977684250755-p43j7e34c5m3a0vfkhdpj1qkmuh8nfd2.apps.googleusercontent.com"
                   buttonText=""
                   onSuccess={responseGoogle}
                   onFailure={failResponseGoogle}
-                  cookiePolicy={'single_host_origin'}
-                />            
+                  cookiePolicy={"single_host_origin"}
+                />
               </SocialLoginIcons>
               <SignUpButton>계정이 없으신가요? 간편가입하기</SignUpButton>
               <LoginEtc>
@@ -61,12 +60,12 @@ export default function Login() {
                 <CheckOrder>2018년 2월 이전 비회원 주문조회</CheckOrder>
               </LoginEtc>
             </div>
-            </LoginContents>
-          </LoginContentsWrapper>
-        </LoginWrapper>
+          </LoginContents>
+        </LoginContentsWrapper>
+      </LoginWrapper>
       <Footer />
     </>
-  )
+  );
 }
 
 const LoginWrapper = styled.div`
@@ -90,12 +89,12 @@ const LoginHeading = styled.div`
 
 const LoginBorder = styled.div`
   border: 2px solid #000;
-`
+`;
 
 const LoginContents = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const LoginId = styled.input`
   height: 48px;
@@ -103,10 +102,9 @@ const LoginId = styled.input`
   padding: 0 14px;
   border: 1px solid #ddd;
   font-size: 16px;
+`;
 
-`
-
-const PasswordId = styled(LoginId)``
+const PasswordId = styled(LoginId)``;
 
 const LoginButton = styled.button`
   height: 56px;
@@ -114,16 +112,14 @@ const LoginButton = styled.button`
   background-color: #000;
   color: #fff;
   font-size: 16px;
-  
-`
+`;
 
 const SocialLoginHeading = styled.div`
   text-align: center;
   margin: 10px 0 20px 0;
   font-size: 16px;
   font-weight: bold;
-  
-`
+`;
 
 const SocialLoginIcons = styled.div`
   display: flex;
@@ -139,15 +135,13 @@ const SocialLoginIcons = styled.div`
   }
 
   button {
-
     width: 44px;
     height: 44px;
     margin: 0 10px 20px 5px;
     border-radius: 50% !important;
     text-align: center !important;
-    
   }
-`
+`;
 
 const SignUpButton = styled.button`
   height: 56px;
@@ -156,33 +150,27 @@ const SignUpButton = styled.button`
   background-color: #fff;
   border: 1px solid #000;
   border-radius: 28px;
-  
-`
+`;
 
 const LoginEtc = styled.div`
   display: flex;
   text-align: center;
   font-size: 12px;
-
-`
+`;
 
 const FindPassword = styled.div`
   display: inline-block;
   margin: 0 8px;
   padding: 20px 0;
-  
-`
+`;
 
 const FindId = styled(FindPassword)`
   height: 19px;
-  
-`
+`;
 
 const CheckOrder = styled.div`
   display: inline-block;
   margin: 0 8px;
   padding: 20px 0;
   color: #bbb;
-  
-
-`
+`;

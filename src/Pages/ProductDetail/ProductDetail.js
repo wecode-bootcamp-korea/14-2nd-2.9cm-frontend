@@ -64,7 +64,7 @@ export default function ProductDetail() {
     // sizeData[i].Object.assign(i) ;
   }}
 
-  const API = "http://192.168.200.163:8000/store/1";
+  const API = "http://13.125.3.178:8000/store/1";
   const MOCK = " http://localhost:3000/data/mockUp.json";
   useEffect(() => {
     fetch(MOCK)
@@ -93,7 +93,7 @@ export default function ProductDetail() {
   const inputValueFunc = (input) => {
     setInputValue(input);
   }
-  const REVIEWAPI = `http://192.168.200.163:8000/store/1/review`;
+  const REVIEWAPI = `http://13.125.3.178:8000/store/1/review`;
   const SubmitComment = (inputComment) => {
     fetch(REVIEWAPI, {
       method : "POST",
@@ -159,11 +159,11 @@ export default function ProductDetail() {
   // const seeReview = (e) => {
   //   wscrollTo();
   // }
-  // const PAGINATIONAPI = `http://192.168.200.163:8000/store/1/review?page=${innerText}`;
+  // const PAGINATIONAPI = `http://13.125.3.178:8000/store/1/review?page=${innerText}`;
   const handlePagination = (e) => {
     setInnerText(e.target.innerText);
     console.log(innerText);
-    fetch(`http://192.168.200.163:8000/store/1/review?page=${e.target.innerText}`)
+    fetch(`http://13.125.3.178:8000/store/1/review?page=${e.target.innerText}`)
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
@@ -191,9 +191,9 @@ export default function ProductDetail() {
               alt=""
             />
             <HeaderText>
-              <BrandName>뉴발란스</BrandName>
+              <BrandName>Wright LLC</BrandName>
               <ProductDescription>
-                불균형한 발에 새로운 균형을 창조한다 하는 신발 브랜드, 뉴발란스
+                불균형한 발에 새로운 균형을 창조한다 하는 신발 브랜드, Wright LLC
               </ProductDescription>
               <GoToBrand type="button">Brand Home</GoToBrand>
             </HeaderText>
@@ -617,6 +617,7 @@ const Pagination = styled.div`
   button {
     cursor: pointer;
     background: white;
+    border: none;
   }
 `;
 

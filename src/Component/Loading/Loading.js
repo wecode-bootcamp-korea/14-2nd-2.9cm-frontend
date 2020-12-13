@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 import styled, { StyleSheetManager } from "styled-components";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const loadingContainer = {
   width: "80px",
   height: "80px",
   display: "flex",
-  justifyContent: "space-around"
-}
+  justifyContent: "space-around",
+};
 
 const loadingCircle = {
   display: "block",
@@ -15,52 +15,64 @@ const loadingCircle = {
   height: "20px",
   marginRight: "5px",
   background: "#000",
-  borderRadius: "50%"
-}
+  borderRadius: "50%",
+};
 
 const loadingContainerVariants = {
   start: {
     transition: {
-      staggerChildren: 0.1
-    }
+      staggerChildren: 0.1,
+    },
   },
   end: {
     transition: {
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 const loadingCircleVariants = {
   start: {
-    y: '0%'
+    y: "0%",
   },
   end: {
-    y: '100%'
-  }
+    y: "100%",
+  },
 };
 
 const loadingCircleTransition = {
   duration: 0.4,
   yoyo: Infinity,
-  ease: "easeInOut"
-}
+  ease: "easeInOut",
+};
 
 export default function Loading() {
   return (
     <LoadingBar>
-      <motion.div 
-        style={loadingContainer} 
-        variants={loadingContainerVariants} 
-        inital="start" 
+      <motion.div
+        style={loadingContainer}
+        variants={loadingContainerVariants}
+        inital="start"
         animate="end"
       >
-        <motion.span style={loadingCircle} variants={loadingCircleVariants} transition={loadingCircleTransition}/>
-        <motion.span style={loadingCircle} variants={loadingCircleVariants} transition={loadingCircleTransition}/>
-        <motion.span style={loadingCircle} variants={loadingCircleVariants} transition={loadingCircleTransition}/>
+        <motion.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+        <motion.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+        <motion.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
       </motion.div>
     </LoadingBar>
-  )
+  );
 }
 
 const LoadingBar = styled.div`
@@ -75,4 +87,4 @@ const LoadingBar = styled.div`
   background: #eee;
   opacity: 0.7;
   z-index: 10000;
-`
+`;

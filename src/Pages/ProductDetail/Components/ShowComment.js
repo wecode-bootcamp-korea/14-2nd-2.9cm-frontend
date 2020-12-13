@@ -9,7 +9,7 @@ export default function ShowComment(props) {
   const data = props?.commentsData[0];
   const [showData, setShowData] = useState(); 
 
-  const API = "http://192.168.200.163:8000/store/1/review";
+  const API = "http://13.125.3.178:8000/store/1/review";
   useEffect(() => {
     fetch(API, {
       method : "GET",
@@ -19,8 +19,8 @@ export default function ShowComment(props) {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log("....", res);
         setShowData(res.review_list);
-        // console.log("....", res);
         props.totalCount(res.total_count);
       });
       // props.
@@ -43,12 +43,11 @@ export default function ShowComment(props) {
               <UserSize>[사이즈]{data?.size} 구매</UserSize>
               <UserComment key={el?.id}>{el?.content}</UserComment>
             </CommentInfo>
-            <UserCommentImage alt="" src={el.image} />
+            {/* <UserCommentImage alt="" src={el.image} /> */}
           </ReviewComments>
         </>
       )}
     </ReviewCommentsWrapper>
-
   );
 }
 

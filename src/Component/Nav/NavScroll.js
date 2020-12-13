@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import styled, { StyleSheetManager } from "styled-components";
-import Dropdown from './Dropdown';
-import ScrolledDropdown from './ScrolledDropdown';
+import Dropdown from "./Dropdown";
+import ScrolledDropdown from "./ScrolledDropdown";
 
-import { AiOutlineDownload } from 'react-icons/ai';
-import { FaUser } from 'react-icons/fa';
-import { FaHeart } from 'react-icons/fa';
-import { AiFillShopping } from 'react-icons/ai';
-import { RiLoginBoxFill } from 'react-icons/ri';
-import { FaSearch } from 'react-icons/fa';
+import { AiOutlineDownload } from "react-icons/ai";
+import { FaUser } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { AiFillShopping } from "react-icons/ai";
+import { RiLoginBoxFill } from "react-icons/ri";
+import { FaSearch } from "react-icons/fa";
 
 export default function NavScroll(props) {
   const [navData, setNavData] = useState([]);
@@ -21,35 +21,38 @@ export default function NavScroll(props) {
     fetch("/data/navData.json")
       .then((response) => response.json())
       .then((response) => {
-        setNavData(response.navData)
-      })
+        setNavData(response.navData);
+      });
   }, []);
 
   const openDropDown = () => setIsHover(true);
-  
-  const closeDropDown = () => setIsHover(false);  
+
+  const closeDropDown = () => setIsHover(false);
 
   return (
     <NavScrollWrapper>
       <NavIconWrapper>
-        <Logo>
-          2.9CM
-        </Logo>
+        <Logo>2.9CM</Logo>
         <NavMenuWrapper>
-          <ul
-          >
+          <ul>
             {navMenuData?.map((menu) => {
-              return(
-                <li>{menu}</li>
-              )
+              return <li>{menu}</li>;
             })}
           </ul>
         </NavMenuWrapper>
         <NavIcons>
-          <MyPage><FaUser className='myPageIcon' /></MyPage>
-          <MyHeart><FaHeart /></MyHeart>
-          <ShoppingBag><AiFillShopping /></ShoppingBag>
-          <Login><RiLoginBoxFill /></Login>
+          <MyPage>
+            <FaUser className="myPageIcon" />
+          </MyPage>
+          <MyHeart>
+            <FaHeart />
+          </MyHeart>
+          <ShoppingBag>
+            <AiFillShopping />
+          </ShoppingBag>
+          <Login>
+            <RiLoginBoxFill />
+          </Login>
         </NavIcons>
       </NavIconWrapper>
       <NavDetailMenuWrapper>
@@ -57,31 +60,41 @@ export default function NavScroll(props) {
           <ul>
             {navDetailMenuL?.map((menu, idx) => {
               return (
-                <li key={idx} onMouseEnter={openDropDown}>{menu}</li>
-              )
+                <li key={idx} onMouseEnter={openDropDown}>
+                  {menu}
+                </li>
+              );
             })}
           </ul>
-          <Border></Border> 
+          <Border></Border>
           <ul>
             {navDetailMenuR?.map((menu) => {
-              return (
-                <li>{menu}</li>
-              )
+              return <li>{menu}</li>;
             })}
           </ul>
         </div>
-        <SearchIcon><FaSearch onClick={props.openModal}/></SearchIcon>
+        <SearchIcon>
+          <FaSearch onClick={props.openModal} />
+        </SearchIcon>
       </NavDetailMenuWrapper>
-      {isHover ? props.isScrolled ? <ScrolledDropdown closeDropDown={closeDropDown} /> : <Dropdown closeDropDown={closeDropDown}/> : ''}
+      {isHover ? (
+        props.isScrolled ? (
+          <ScrolledDropdown closeDropDown={closeDropDown} />
+        ) : (
+          <Dropdown closeDropDown={closeDropDown} />
+        )
+      ) : (
+        ""
+      )}
     </NavScrollWrapper>
-  )
+  );
 }
 
 const NavScrollWrapper = styled.div`
   height: 250px;
   padding-top: 160px;
   margin-bottom: 60px;
-`
+`;
 
 const NavIconWrapper = styled.div`
   display: flex;
@@ -89,20 +102,18 @@ const NavIconWrapper = styled.div`
   align-items: center;
   color: #000;
   height: 59px;
-`
+`;
 
 const Logo = styled.div`
   font-size: 56px;
   font-weight: bold;
   margin-left: 50px;
-  
-`
+`;
 
 const NavIcons = styled.div`
   display: flex;
   cursor: pointer;
-    
-`
+`;
 
 const MyPage = styled.div`
   font-size: 10px;
@@ -111,7 +122,7 @@ const MyPage = styled.div`
   svg {
     font-size: 17px;
   }
-`
+`;
 
 const MyHeart = styled.div`
   font-size: 10px;
@@ -120,7 +131,7 @@ const MyHeart = styled.div`
   svg {
     font-size: 18px;
   }
-`
+`;
 
 const ShoppingBag = styled.div`
   font-size: 10px;
@@ -129,7 +140,7 @@ const ShoppingBag = styled.div`
   svg {
     font-size: 22px;
   }
-`
+`;
 
 const Login = styled.div`
   font-size: 10px;
@@ -140,7 +151,7 @@ const Login = styled.div`
     width: 20px;
     height: 20px;
   }
-`
+`;
 
 const NavMenuWrapper = styled.div`
   display: flex;
@@ -165,13 +176,13 @@ const NavMenuWrapper = styled.div`
     li {
       margin-left: 30px;
       cursor: pointer;
-      
+
       &:hover {
-      border-bottom: 4px solid #000;
-    }
+        border-bottom: 4px solid #000;
+      }
     }
   }
-`
+`;
 
 const NavDetailMenuWrapper = styled.div`
   display: flex;
@@ -198,19 +209,18 @@ const NavDetailMenuWrapper = styled.div`
       cursor: pointer;
 
       &:hover {
-      border-bottom: 4px solid #000;
-    }
+        border-bottom: 4px solid #000;
+      }
     }
   }
-`
+`;
 
 const Border = styled.div`
   width: 15px;
   height: 30px;
   border-right: 1px solid #ddd;
   margin-right: 30px;
-
-`
+`;
 
 const SearchIcon = styled.div`
   svg {
@@ -218,5 +228,4 @@ const SearchIcon = styled.div`
     margin-right: 20px;
     cursor: pointer;
   }
-
-`
+`;
