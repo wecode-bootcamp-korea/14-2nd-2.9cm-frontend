@@ -1,17 +1,15 @@
-/* eslint-disable no-lone-blocks */
-/* eslint-disable prettier/prettier */
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import Category from "./Components/Category";
-import ShowComment from "./Components/ShowComment";
-import Modal from "./Components/Modal";
-import { FaRegHeart } from "react-icons/fa";
-import { AiFillStar } from "react-icons/ai";
-import HoverRatings from "./Components/HoverRatings";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import Slider from "react-slick";
-import "../../../node_modules/slick-carousel/slick/slick.css";
-import "../../../node_modules/slick-carousel/slick/slick-theme.css";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import Category from './Components/Category';
+import ShowComment from './Components/ShowComment';
+import Modal from './Components/Modal';
+import { FaRegHeart } from 'react-icons/fa';
+import { AiFillStar } from 'react-icons/ai';
+import HoverRatings from './Components/HoverRatings';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import Slider from 'react-slick';
+import '../../../node_modules/slick-carousel/slick/slick.css';
+import '../../../node_modules/slick-carousel/slick/slick-theme.css';
 import { isDOMComponentElement } from 'react-dom/test-utils';
 import { fireEvent } from '@testing-library/react';
 
@@ -20,17 +18,17 @@ export default function ProductDetail() {
   const [isModal, setIsModal] = useState(false);
   const [comment, setComment] = useState([]);
   const [createReview, setCreateReview] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [show, setShow] = useState(false);
   const [productDetailData, setProductDetailData] = useState();
   const [innerText, setInnerText] = useState();
   const [totalCount, setTotalCount] = useState();
 
   const settings = {
-    className: "center",
+    className: 'center',
     centerMode: false,
     infinite: true,
-    centerPadding: "60px",
+    centerPadding: '60px',
     slidesToShow: 5,
     arrows: true,
     speed: 500,
@@ -40,136 +38,139 @@ export default function ProductDetail() {
 
   const commentsData = [
     {
-      "id": 1,
-      "userId": "수료하고 위코드 또 갈거야 ...",
-      "date": "2020.12.11",
-      "size": "270", 
-      "img": "사진",
-      "comment": "태현님이 좋아할 것 같은 신발, 할인가에 겟또 :)",
-    }
+      id: 1,
+      userId: '수료하고 위코드 또 갈거야 ...',
+      date: '2020.12.11',
+      size: '270',
+      img: '사진',
+      comment: '태현님이 좋아할 것 같은 신발, 할인가에 겟또 :)',
+    },
   ];
   const len = Math.ceil(totalCount / 5);
   const num = [];
-  {for(let i=1; i<len+1; i++) {
-    num.push(i);
-  }}
-// value: 0~12, size: 220~290 객체를 배열 안에 넣어라
+  {
+    for (let i = 1; i < len + 1; i++) {
+      num.push(i);
+    }
+  }
+  // value: 0~12, size: 220~290 객체를 배열 안에 넣어라
   const size = [];
-  {for (let i = 0; i < 13; i++) {
-    size.push(220 + (5 * i));
-  }}
+  {
+    for (let i = 0; i < 13; i++) {
+      size.push(220 + 5 * i);
+    }
+  }
 
   const sizeData = [];
-  {for (let i = 0; i < 13; i++) {
-    // sizeData[i].Object.assign(i) ;
-  }}
+  {
+    for (let i = 0; i < 13; i++) {
+      // sizeData[i].Object.assign(i) ;
+    }
+  }
 
-  const API = "http://13.125.3.178:8000/store/1";
-  const MOCK = " http://localhost:3000/data/mockUp.json";
+  const API = 'http://3.35.131.154:8000/store/1';
+  const MOCK = ' http://localhost:3000/data/mockUp.json';
   useEffect(() => {
     fetch(MOCK)
-    .then((res) => res.json())
-    .then((res) => {
-      console.log('목업데이터', res);
-      setImages(res.src);
-    });
+      .then(res => res.json())
+      .then(res => {
+        console.log('목업데이터', res);
+        setImages(res.src);
+      });
 
     fetch(API)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         console.log('>>>>>>>>>>>>>>>>', res);
         setProductDetailData(res.result);
       });
   }, []);
 
-  const openModal = (e) => {
+  const openModal = e => {
     setIsModal(true);
   };
 
   const closeModal = () => {
     setIsModal(false);
-  }
-    
-  const inputValueFunc = (input) => {
+  };
+
+  const inputValueFunc = input => {
     setInputValue(input);
-  }
-  const REVIEWAPI = `http://13.125.3.178:8000/store/1/review`;
-  const SubmitComment = (inputComment) => {
+  };
+  const REVIEWAPI = `http://3.35.131.154:8000/store/1/review`;
+  const SubmitComment = inputComment => {
     fetch(REVIEWAPI, {
-      method : "POST",
-      headers : {
-        "Authorization" : localStorage.getItem("token")
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('token'),
       },
-      body : JSON.stringify({
-        content : inputComment,
-        rate : 4,
-        review_image_url : "http://google.com",
-      })
+      body: JSON.stringify({
+        content: inputComment,
+        rate: 4,
+        review_image_url: 'http://google.com',
+      }),
     })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log("message", res);
-      // props.
-    });
-    setCreateReview([ 
+      .then(res => res.json())
+      .then(res => {
+        console.log('message', res);
+        // props.
+      });
+    setCreateReview([
       {
-        "id": createReview?.length,
-        "userId": commentsData[0].userId,
-        "date": Math.floor(Date.now()/1000),
-        "size": "290",
-        "img": "사진",
-        "comment": inputValue,
+        id: createReview?.length,
+        userId: commentsData[0].userId,
+        date: Math.floor(Date.now() / 1000),
+        size: '290',
+        img: '사진',
+        comment: inputValue,
       },
-      ...createReview
+      ...createReview,
     ]);
     setIsModal(false);
-    setInputValue("");
-  }
+    setInputValue('');
+  };
 
-  const deleteComment = (idx) => {
-    console.log("이거야야야야야야야",idx);
+  const deleteComment = idx => {
+    console.log('이거야야야야야야야', idx);
     fetch(REVIEWAPI, {
-      method : "DELETE",
-      headers : {
-        "Authorization" : localStorage.getItem("token")
+      method: 'DELETE',
+      headers: {
+        Authorization: localStorage.getItem('token'),
       },
-      body : JSON.stringify({
-        "review_id" : idx.target.id
-      })
+      body: JSON.stringify({
+        review_id: idx.target.id,
+      }),
     })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log("message", res);
-    });
-    console.log("이거야야야야야야야",idx.target.id);
+      .then(res => res.json())
+      .then(res => {
+        console.log('message', res);
+      });
+    console.log('이거야야야야야야야', idx.target.id);
     const copy = Object.assign([], createReview);
     copy.splice(idx, 1);
     setCreateReview(copy);
     // setCreateReview(createReview.filter(review => review.id !== idx));
-  }
+  };
 
-  const updateComment = () => {
-    
-  }
+  const updateComment = () => {};
 
   const goToBottom = () => {
-    window.scrollTo({top:12000,
-    behavior:"smooth"})
-  }
+    window.scrollTo({ top: 12000, behavior: 'smooth' });
+  };
   // const seeReview = (e) => {
   //   wscrollTo();
   // }
-  // const PAGINATIONAPI = `http://13.125.3.178:8000/store/1/review?page=${innerText}`;
-  const handlePagination = (e) => {
+  // const PAGINATIONAPI = `http://3.35.131.154:8000/store/1/review?page=${innerText}`;
+  const handlePagination = e => {
     setInnerText(e.target.innerText);
     console.log(innerText);
-    fetch(`http://13.125.3.178:8000/store/1/review?page=${e.target.innerText}`)
-      .then((res) => res.json())
-      .then((res) => {
+    fetch(`http://3.35.131.154:8000/store/1/review?page=${e.target.innerText}`)
+      .then(res => res.json())
+      .then(res => {
         console.log(res);
         setProductDetailData(res?.result);
       });
-  }
+  };
 
   // console.log("111111111111111111",productDetailData);
 
@@ -177,82 +178,112 @@ export default function ProductDetail() {
     <>
       <Category />
       <ModalWrapper>
-      { isModal ?
-        <Modal inputValue={inputValueFunc} SubmitComment={SubmitComment} closeModal={closeModal}/>:""
-      }
+        {isModal ? (
+          <Modal
+            inputValue={inputValueFunc}
+            SubmitComment={SubmitComment}
+            closeModal={closeModal}
+          />
+        ) : (
+          ''
+        )}
       </ModalWrapper>
       <ProductDetailWrapper>
-        {productDetailData?.map((el) => { 
+        {productDetailData?.map(el => {
           return (
-          <ContentsWrapper key={el.id}>
-          <Header>
-            <Logo
-              src="https://img.29cm.co.kr/contents/brand/201705/20170525185325.jpg?width=100"
-              alt=""
-            />
-            <HeaderText>
-              <BrandName>Wright LLC</BrandName>
-              <ProductDescription>
-                불균형한 발에 새로운 균형을 창조한다 하는 신발 브랜드, Wright LLC
-              </ProductDescription>
-              <GoToBrand type="button">Brand Home</GoToBrand>
-            </HeaderText>
-          </Header>
-          <ProductInformation>
-            <Img
-              src={el.product_img}
-              alt=""
-            ></Img>
-            <ProductInfoWrapper>
-              <TopBox>
-          <ProductName>{el.title}</ProductName>
-                <Like>
-                  <FaRegHeart />
-                  <LikeCounter>345</LikeCounter>
-                </Like>
-              </TopBox>
-              <ReviewBox>
-                <HoverRatings />
-                <GoToReview type="button" onClick={goToBottom}>33개 리뷰 보기</GoToReview>
-              </ReviewBox>
-              <Price>{el.market_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Price>
-              <Sale>{Number((1 - el.sale_price/el.market_price)*100)}% {el.sale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</Sale>
-              <BonusBox>
-                <BonusMenu>
-                  상품할인
-                  <br />
-                  추가혜택
-                </BonusMenu>
-                <Bonus>
-                  <ProductSale>{Number((1 - el.sale_price/el.market_price)*100)}% {el.sale_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</ProductSale>
-                  현대카드 {Number(el.sale_price*0.98).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 (2% 청구할인)
-                  <br />
-                  적립금 890p
-                  <br />
-                  할부금 월 {Number(el.sale_price/6).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 (6개월 할부시)
-                </Bonus>
-              </BonusBox>
-              <form>
-                <Size name='couponSelect'>
-                  <option value='0'>사이즈</option>
-                  <option value='1'>{size[0]}</option>
-                  <option value='2'>{size[1]}</option>
-                </Size>
-              </form>
-              {/* <Size type="input" placeholder="사이즈" /> */}
-              <GoToCart>SHOPPING BAG</GoToCart>
-              <GoToBuy>BUY NOW</GoToBuy>
-            </ProductInfoWrapper>
-          </ProductInformation>
-          </ContentsWrapper>
-        )}
-        )}
+            <ContentsWrapper key={el.id}>
+              <Header>
+                <Logo
+                  src='https://img.29cm.co.kr/contents/brand/201705/20170525185325.jpg?width=100'
+                  alt=''
+                />
+                <HeaderText>
+                  <BrandName>Wright LLC</BrandName>
+                  <ProductDescription>
+                    불균형한 발에 새로운 균형을 창조한다 하는 신발 브랜드,
+                    Wright LLC
+                  </ProductDescription>
+                  <GoToBrand type='button'>Brand Home</GoToBrand>
+                </HeaderText>
+              </Header>
+              <ProductInformation>
+                <Img src={el.product_img} alt=''></Img>
+                <ProductInfoWrapper>
+                  <TopBox>
+                    <ProductName>{el.title}</ProductName>
+                    <Like>
+                      <FaRegHeart />
+                      <LikeCounter>345</LikeCounter>
+                    </Like>
+                  </TopBox>
+                  <ReviewBox>
+                    <HoverRatings />
+                    <GoToReview type='button' onClick={goToBottom}>
+                      33개 리뷰 보기
+                    </GoToReview>
+                  </ReviewBox>
+                  <Price>
+                    {el.market_price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  </Price>
+                  <Sale>
+                    {Number((1 - el.sale_price / el.market_price) * 100)}%{' '}
+                    {el.sale_price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    원
+                  </Sale>
+                  <BonusBox>
+                    <BonusMenu>
+                      상품할인
+                      <br />
+                      추가혜택
+                    </BonusMenu>
+                    <Bonus>
+                      <ProductSale>
+                        {Number((1 - el.sale_price / el.market_price) * 100)}%{' '}
+                        {el.sale_price
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        원
+                      </ProductSale>
+                      현대카드{' '}
+                      {Number(el.sale_price * 0.98)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      원 (2% 청구할인)
+                      <br />
+                      적립금 890p
+                      <br />
+                      할부금 월{' '}
+                      {Number(el.sale_price / 6)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      원 (6개월 할부시)
+                    </Bonus>
+                  </BonusBox>
+                  <form>
+                    <Size name='couponSelect'>
+                      <option value='0'>사이즈</option>
+                      <option value='1'>{size[0]}</option>
+                      <option value='2'>{size[1]}</option>
+                    </Size>
+                  </form>
+                  {/* <Size type="input" placeholder="사이즈" /> */}
+                  <GoToCart>SHOPPING BAG</GoToCart>
+                  <GoToBuy>BUY NOW</GoToBuy>
+                </ProductInfoWrapper>
+              </ProductInformation>
+            </ContentsWrapper>
+          );
+        })}
         <Product sc-iJuUWI dPVueI>
           상품 설명
           {images?.map((image, idx) => {
             return (
               <ProductView key={idx}>
-                <img src={image} alt="ProductDetailView" />
+                <img src={image} alt='ProductDetailView' />
               </ProductView>
             );
           })}
@@ -263,7 +294,7 @@ export default function ProductDetail() {
               <HoverRatings />
             </div>
             <div>
-              <ReviewWriteButton type="button" onClick={openModal}>
+              <ReviewWriteButton type='button' onClick={openModal}>
                 리뷰쓰기
               </ReviewWriteButton>
             </div>
@@ -272,44 +303,51 @@ export default function ProductDetail() {
             {images?.map((image, idx) => {
               return (
                 <ReviewPhotosWrapper key={idx}>
-                  <img src={image} alt="" />
+                  <img src={image} alt='' />
                 </ReviewPhotosWrapper>
               );
             })}
           </Slider>
-          { comment ?
-          (createReview.map((data, idx) => 
-            <ReviewCommentsWrapper key={data.id}>
-              <ReviewInfo>
-                <div>
-                  <span><HoverRatings /></span>
-                  <span>{data.userId}</span>
-                </div>
-                <div>
-                  <UpdateBtn id={data.id} onClick={updateComment}>
-                    수정
-                  </UpdateBtn>
-                  <DeleteBtn idx={data.id} onClick={deleteComment}>
-                    삭제
-                  </DeleteBtn>                  {data.date}
-                </div>
-              </ReviewInfo>
-              <ReviewComments>
-                <CommentInfo onClick={()=>setShow(true)}>
-                  <UserSize>[사이즈]{data.size} 구매</UserSize>
-                  <UserComment key={data.id}>{data.comment}</UserComment>
-                </CommentInfo>
-                <UserCommentImage>{data.img}</UserCommentImage>
-              </ReviewComments>
-            </ReviewCommentsWrapper>
-          )):""}
+          {comment
+            ? createReview.map((data, idx) => (
+                <ReviewCommentsWrapper key={data.id}>
+                  <ReviewInfo>
+                    <div>
+                      <span>
+                        <HoverRatings />
+                      </span>
+                      <span>{data.userId}</span>
+                    </div>
+                    <div>
+                      <UpdateBtn id={data.id} onClick={updateComment}>
+                        수정
+                      </UpdateBtn>
+                      <DeleteBtn idx={data.id} onClick={deleteComment}>
+                        삭제
+                      </DeleteBtn>{' '}
+                      {data.date}
+                    </div>
+                  </ReviewInfo>
+                  <ReviewComments>
+                    <CommentInfo onClick={() => setShow(true)}>
+                      <UserSize>[사이즈]{data.size} 구매</UserSize>
+                      <UserComment key={data.id}>{data.comment}</UserComment>
+                    </CommentInfo>
+                    <UserCommentImage>{data.img}</UserCommentImage>
+                  </ReviewComments>
+                </ReviewCommentsWrapper>
+              ))
+            : ''}
           <ShowComment
-            totalCount={(totalCount)=>setTotalCount(totalCount)}
+            totalCount={totalCount => setTotalCount(totalCount)}
             commentsData={commentsData}
           />
           <Pagination>
-            {num.map((number) => 
-              <button onClick={handlePagination}>{number + '\xa0\xa0\xa0\xa0'}</button>)}
+            {num.map(number => (
+              <button onClick={handlePagination}>
+                {number + '\xa0\xa0\xa0\xa0'}
+              </button>
+            ))}
           </Pagination>
           <Etc>...</Etc>
         </Product>
@@ -489,7 +527,7 @@ const Size = styled.select`
   margin: 20px 0 20px 0;
   border: 1px solid #d4d4d4;
   font-size: 14px;
-  background:white;
+  background: white;
 `;
 
 const GoToCart = styled.button`
@@ -582,7 +620,7 @@ const CommentInfo = styled.div`
   font-size: 14px;
   line-height: 22px;
   padding: 1px 0 1px 0;
-  overflow: ${props => props.show ? "":"hidden"};
+  overflow: ${props => (props.show ? '' : 'hidden')};
 `;
 
 const UserSize = styled.div`
@@ -607,7 +645,8 @@ const Pagination = styled.div`
   width: 300px;
   height: 23px;
   margin-bottom: 50px;
-  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
+  font-family: campton, 'Apple SD Gothic Neo', NanumBarunGothic, 나눔바른고딕,
+    'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
   font-size: 16px;
   font-weight: 300;
   text-decoration: none solid rgb(0, 0, 0);
@@ -624,14 +663,14 @@ const Pagination = styled.div`
 const Etc = styled.span`
   position: absolute;
   transform: translate(600px);
-  font-family: campton, "Apple SD Gothic Neo", NanumBarunGothic, 나눔바른고딕, "Malgun Gothic", "맑은 고딕", dotum, sans-serif;
+  font-family: campton, 'Apple SD Gothic Neo', NanumBarunGothic, 나눔바른고딕,
+    'Malgun Gothic', '맑은 고딕', dotum, sans-serif;
   font-size: 24px;
   font-weight: 300;
   text-decoration: none solid rgb(0, 0, 0);
 `;
 
-const DisplayModal = styled.div`
-`;
+const DisplayModal = styled.div``;
 
 const DeleteBtn = styled.button`
   cursor: pointer;

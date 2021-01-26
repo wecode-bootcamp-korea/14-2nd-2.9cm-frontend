@@ -1,37 +1,37 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import Line from "./Components/SignUpFifthStep";
-import { useState } from "react";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import Line from './Components/SignUpFifthStep';
+import { useState } from 'react';
 function SignUpFifth(props) {
   const [dataBox, setDataBox] = useState();
   const [certificationNumber, setCertificationNumber] = useState();
-  const [inputCertificationNumber, setInputCertificationNumber] = useState("");
+  const [inputCertificationNumber, setInputCertificationNumber] = useState('');
   const data = [
-    { id: 1, info: "이름", placeholder: "이름", name: "Name" },
-    { id: 2, info: "생년월일", placeholder: "ex)1999-12-25", name: "Birth" },
-    { id: 3, info: "성별", placeholder: "남 or 여", name: "Gender" },
+    { id: 1, info: '이름', placeholder: '이름', name: 'Name' },
+    { id: 2, info: '생년월일', placeholder: 'ex)1999-12-25', name: 'Birth' },
+    { id: 3, info: '성별', placeholder: '남 or 여', name: 'Gender' },
     {
       id: 4,
-      info: "휴대폰번호",
+      info: '휴대폰번호',
       placeholder: "'-'없이 숫자만 입력",
-      name: "PhoneNumber",
+      name: 'PhoneNumber',
     },
   ];
   const messageData = [
     {
       id: 5,
-      info: "문자인증번호",
-      placeholder: "ex)000000",
-      name: "CertificationNumber",
+      info: '문자인증번호',
+      placeholder: 'ex)000000',
+      name: 'CertificationNumber',
     },
   ];
-  const handleData = (e) => {
+  const handleData = e => {
     setDataBox({ ...dataBox, [e.target.name]: e.target.value });
   };
-  const API = "http://13.125.3.178:8000/user/sms";
+  const API = 'http://3.35.131.154:8000/user/sms';
   const certification = () => {
     fetch(API, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         name: dataBox?.Name,
         dob: dataBox?.Birth,
@@ -39,22 +39,22 @@ function SignUpFifth(props) {
         phone: dataBox?.PhoneNumber,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("Message:", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('Message:', res);
       });
   };
-  const handleInputCertification = (e) => {
+  const handleInputCertification = e => {
     setInputCertificationNumber(e.target.value);
     setDataBox({ ...dataBox, [e.target.name]: e.target.value });
   };
 
-  const APISECOND = "http://13.125.3.178:8000/user/details";
+  const APISECOND = 'http://3.35.131.154:8000/user/details';
   const goToMain = () => {
     fetch(APISECOND, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Authorization: localStorage.getItem("token"),
+        Authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
         name: dataBox?.Name,
@@ -64,14 +64,14 @@ function SignUpFifth(props) {
         phone: dataBox?.PhoneNumber,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("Message:", res);
-        if (res.message === "SUCCESS") {
-          alert("본인인증이 완료되었습니다.");
-          props.history.push("/");
+      .then(res => res.json())
+      .then(res => {
+        console.log('Message:', res);
+        if (res.message === 'SUCCESS') {
+          alert('본인인증이 완료되었습니다.');
+          props.history.push('/');
         } else {
-          alert("인증번호를 다시 입력해주세요.");
+          alert('인증번호를 다시 입력해주세요.');
         }
       });
   };
@@ -83,25 +83,25 @@ function SignUpFifth(props) {
         <BorderBox>
           <Line />
           <TextWrapper>
-            {data.map((el) => (
+            {data.map(el => (
               <Text key={el.id}>
                 <UserInfo>{el.info}</UserInfo>
                 <UserInfoInput
-                  type="text"
+                  type='text'
                   placeholder={el.placeholder}
                   name={el.name}
                   onChange={handleData}
                 ></UserInfoInput>
               </Text>
             ))}
-            <GoToCertification type="button" onClick={certification}>
+            <GoToCertification type='button' onClick={certification}>
               문자인증 번호받기
             </GoToCertification>
-            {messageData.map((el) => (
+            {messageData.map(el => (
               <Text key={el.id}>
                 <UserInfo>{el.info}</UserInfo>
                 <UserInfoInput
-                  type="text"
+                  type='text'
                   placeholder={el.placeholder}
                   name={el.name}
                   onChange={handleInputCertification}
@@ -109,7 +109,7 @@ function SignUpFifth(props) {
               </Text>
             ))}
           </TextWrapper>
-          <GoToShopping type="button" onClick={goToMain}>
+          <GoToShopping type='button' onClick={goToMain}>
             쇼핑하러 가기
           </GoToShopping>
         </BorderBox>
