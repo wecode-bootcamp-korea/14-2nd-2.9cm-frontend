@@ -16,7 +16,7 @@ function SignUpChild(props) {
   const [isMatchPassword, setIsMatchPassword] = useState(false);
   const [res, setRes] = useState("");
   const [idValue, setIdValue] = useState("");
-
+  // console.log(props.type);
   const handleInputId = (event) => {
     setUserInput(event.target.value);
     if (userInput) {
@@ -101,7 +101,7 @@ function SignUpChild(props) {
               <div key={el.id}>
                 <InputId>
                   <Input
-                    type="text"
+                    type={props.type}
                     alt={alt}
                     value={props.inputId}
                     placeholder={el.placeholder}
@@ -129,7 +129,7 @@ function SignUpChild(props) {
             <>
               <InputId>
                 <Input
-                  type="text"
+                  type={props.type}
                   alt={alt}
                   placeholder={placeholder}
                   onChange={
