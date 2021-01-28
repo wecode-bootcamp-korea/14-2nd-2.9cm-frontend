@@ -85,6 +85,7 @@ export default function Main() {
 
   const history = useHistory();
 
+  console.log('his >>>>> ', history);
   const goToProductDetail = () => {
     history.push('/product-detail/1');
   };
@@ -101,12 +102,6 @@ export default function Main() {
       }
     };
     getStore();
-    // fetch('http://3.35.131.154:8000/store')
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     setProductData(response.result);
-    //     setLoading(false);
-    //   });
     setLoading(false);
   }, []);
 
@@ -115,16 +110,17 @@ export default function Main() {
     return () => window.removeEventListener('scroll', changeNav);
   }, [isScrollOver]);
 
-  // 가격필터 구현예정
+  // 안 먹는다
   const filterPrice = e => {
     setLoading(true);
-    fetch(`http://3.35.131.154:8000/store?min_price=50000&max_price=100000`)
+    fetch(`${STORE_API}?min_price=50000&max_price=100000`)
       .then(response => response.json())
       .then(result => {
         setProductData(result.result);
         setLoading(false);
       })
       .catch(error => console.log('error', error));
+    console.log('>>>>>>>>>> filtered', productData);
     setIsChecked(!isChecked);
     goToTop();
   };
@@ -147,7 +143,7 @@ export default function Main() {
     setLoading(true);
     if (e.keyCode === 13) {
       setLoading(true);
-      fetch(`http://3.35.131.154:8000/store?search=${search}`)
+      fetch(`${STORE_API}?search=${search}`)
         .then(response => response.json())
         .then(result => {
           setProductData(result.result);
@@ -162,7 +158,7 @@ export default function Main() {
   const handleCheckbox = e => {
     setLoading(true);
     setShoesBrand(e.target.name);
-    fetch(`http://3.35.131.154:8000/store?brand=${e.target.name}`)
+    fetch(`${STORE_API}?brand=${e.target.name}`)
       .then(response => response.json())
       .then(result => {
         setProductData(result.result);
@@ -175,7 +171,7 @@ export default function Main() {
 
   const paginate = e => {
     setLoading(true);
-    fetch(`http://3.35.131.154:8000/store?page=${e.target.innerText}`)
+    fetch(`${STORE_API}?page=${e.target.innerText}`)
       .then(response => response.json())
       .then(result => {
         setProductData(result.result);
@@ -192,12 +188,12 @@ export default function Main() {
     let api = '';
 
     if (e.target.innerText === '전체') {
-      api = `http://3.35.131.154:8000/store`;
+      api = `${STORE_API}`;
     } else {
       if (shoesbrand) {
-        api = `http://3.35.131.154:8000/store?brand=${shoesbrand}&type=${e.target.innerText}`;
+        api = `${STORE_API}?brand=${shoesbrand}&type=${e.target.innerText}`;
       } else {
-        api = `http://3.35.131.154:8000/store?type=${e.target.innerText}`;
+        api = `${STORE_API}?type=${e.target.innerText}`;
       }
     }
 
@@ -212,8 +208,7 @@ export default function Main() {
 
   const filterFree = e => {
     setLoading(true);
-    const api =
-      e.target.innerText === '초기화' && `http://3.35.131.154:8000/store`;
+    const api = e.target.innerText === '초기화' && `${STORE_API}`;
     fetch(api)
       .then(response => response.json())
       .then(result => {

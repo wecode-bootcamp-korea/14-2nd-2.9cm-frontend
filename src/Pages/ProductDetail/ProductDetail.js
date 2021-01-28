@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Category from './Components/Category';
 import ShowComment from './Components/ShowComment';
@@ -23,6 +24,8 @@ export default function ProductDetail() {
   const [productDetailData, setProductDetailData] = useState();
   const [innerText, setInnerText] = useState();
   const [totalCount, setTotalCount] = useState();
+
+  let history = useHistory();
 
   const settings = {
     className: 'center',
@@ -68,7 +71,7 @@ export default function ProductDetail() {
     }
   }
 
-  const API = 'http://3.35.131.154:8000/store/1';
+  const API = 'http://3.34.44.13:8000/store/1';
   const MOCK = ' http://localhost:3000/data/mockUp.json';
   useEffect(() => {
     fetch(MOCK)
@@ -97,7 +100,7 @@ export default function ProductDetail() {
   const inputValueFunc = input => {
     setInputValue(input);
   };
-  const REVIEWAPI = `http://3.35.131.154:8000/store/1/review`;
+  const REVIEWAPI = 'http://3.34.44.13:8000/store/1/review';
   const SubmitComment = inputComment => {
     fetch(REVIEWAPI, {
       method: 'POST',
@@ -120,7 +123,7 @@ export default function ProductDetail() {
         id: createReview?.length,
         userId: commentsData[0].userId,
         date: Math.floor(Date.now() / 1000),
-        size: '290',
+        size: '260',
         img: '사진',
         comment: inputValue,
       },
@@ -131,7 +134,6 @@ export default function ProductDetail() {
   };
 
   const deleteComment = idx => {
-    console.log('이거야야야야야야야', idx);
     fetch(REVIEWAPI, {
       method: 'DELETE',
       headers: {
@@ -145,7 +147,6 @@ export default function ProductDetail() {
       .then(res => {
         console.log('message', res);
       });
-    console.log('이거야야야야야야야', idx.target.id);
     const copy = Object.assign([], createReview);
     copy.splice(idx, 1);
     setCreateReview(copy);
@@ -160,11 +161,11 @@ export default function ProductDetail() {
   // const seeReview = (e) => {
   //   wscrollTo();
   // }
-  // const PAGINATIONAPI = `http://3.35.131.154:8000/store/1/review?page=${innerText}`;
+  // const PAGINATIONAPI = `http://3.34.44.13:8000/store/1/review?page=${innerText}`;
   const handlePagination = e => {
     setInnerText(e.target.innerText);
     console.log(innerText);
-    fetch(`http://3.35.131.154:8000/store/1/review?page=${e.target.innerText}`)
+    fetch(`http://3.34.44.13:8000/store/1/review?page=${e.target.innerText}`)
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -268,11 +269,20 @@ export default function ProductDetail() {
                       <option value='0'>사이즈</option>
                       <option value='1'>{size[0]}</option>
                       <option value='2'>{size[1]}</option>
+                      <option value='2'>{size[2]}</option>
+                      <option value='2'>{size[3]}</option>
+                      <option value='2'>{size[4]}</option>
+                      <option value='2'>{size[5]}</option>
+                      <option value='2'>{size[6]}</option>
+                      <option value='2'>{size[7]}</option>
+                      <option value='2'>{size[8]}</option>
                     </Size>
                   </form>
                   {/* <Size type="input" placeholder="사이즈" /> */}
                   <GoToCart>SHOPPING BAG</GoToCart>
-                  <GoToBuy>BUY NOW</GoToBuy>
+                  <GoToBuy onClick={() => history.push('/cart')}>
+                    BUY NOW
+                  </GoToBuy>
                 </ProductInfoWrapper>
               </ProductInformation>
             </ContentsWrapper>

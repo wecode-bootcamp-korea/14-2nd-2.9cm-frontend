@@ -58,7 +58,8 @@ function SignUpChild(props) {
     }
     setIdValue(userInput);
   };
-  const API = 'http://3.35.131.154:8000/user/signup';
+
+  const API = 'http://3.34.44.13:8000/user/signup';
 
   const goToFourth = () => {
     console.log(userInput);
@@ -69,7 +70,7 @@ function SignUpChild(props) {
         Authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
-        email: 'polepole0733@gmail.com',
+        email: 'polepole0737@naver.com',
         password: userInputPw,
       }),
     })

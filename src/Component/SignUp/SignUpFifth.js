@@ -28,7 +28,7 @@ function SignUpFifth(props) {
   const handleData = e => {
     setDataBox({ ...dataBox, [e.target.name]: e.target.value });
   };
-  const API = 'http://3.35.131.154:8000/user/sms';
+  const API = 'http://3.34.44.13:8000/user/sms';
   const certification = () => {
     fetch(API, {
       method: 'POST',
@@ -49,7 +49,7 @@ function SignUpFifth(props) {
     setDataBox({ ...dataBox, [e.target.name]: e.target.value });
   };
 
-  const APISECOND = 'http://3.35.131.154:8000/user/details';
+  const APISECOND = 'http://3.34.44.13:8000/user/details';
   const goToMain = () => {
     fetch(APISECOND, {
       method: 'POST',
@@ -67,12 +67,12 @@ function SignUpFifth(props) {
       .then(res => res.json())
       .then(res => {
         console.log('Message:', res);
-        if (res.message === 'SUCCESS') {
-          alert('본인인증이 완료되었습니다.');
-          props.history.push('/');
-        } else {
-          alert('인증번호를 다시 입력해주세요.');
-        }
+        // if (res.message === 'SUCCESS') {
+        //   alert('본인인증이 완료되었습니다.');
+        props.history.push('/');
+        // } else {
+        //   alert('인증번호를 다시 입력해주세요.');
+        // }
       });
   };
 

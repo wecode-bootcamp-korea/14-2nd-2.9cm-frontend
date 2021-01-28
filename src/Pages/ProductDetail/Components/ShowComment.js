@@ -8,7 +8,7 @@ export default function ShowComment(props) {
   const data = props?.commentsData[0];
   const [showData, setShowData] = useState();
 
-  const API = 'http://3.35.131.154:8000/store/1/review';
+  const API = 'http://3.34.44.13:8000/store/1/review';
   useEffect(() => {
     fetch(API, {
       method: 'GET',

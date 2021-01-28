@@ -40,8 +40,15 @@ export default function Login() {
           <LoginBorder></LoginBorder>
           <LoginContents>
             <LoginId placeholder='아이디 (이메일)'></LoginId>
-            <PasswordId placeholder='비밀번호'></PasswordId>
-            <LoginButton>로그인하기</LoginButton>
+            <PasswordId type='password' placeholder='비밀번호'></PasswordId>
+            <LoginButton
+              onClick={() => {
+                alert('로그인 되었습니다!');
+                history.push('/');
+              }}
+            >
+              로그인하기
+            </LoginButton>
             <div>
               <SocialLoginHeading>SNS계정으로 로그인하기</SocialLoginHeading>
               <SocialLoginIcons>

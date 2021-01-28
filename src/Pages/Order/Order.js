@@ -1,20 +1,22 @@
-import React from "react";
-import styled, { StyleSheetManager } from "styled-components";
+import React from 'react';
+import styled, { StyleSheetManager } from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const paymentList = [
-  "신용/체크카드",
-  "현대카드",
-  "네이버페이",
-  "토스",
-  "페이코",
-  "카카오페이",
-  "삼성 페이",
-  "SSG 페이",
-  "휴대폰결제",
-  "실시간계좌이체",
+  '신용/체크카드',
+  '현대카드',
+  '네이버페이',
+  '토스',
+  '페이코',
+  '카카오페이',
+  '삼성 페이',
+  'SSG 페이',
+  '휴대폰결제',
+  '실시간계좌이체',
 ];
 
 export default function Order() {
+  let history = useHistory();
   return (
     <OrderWrapper>
       <OrderInfoWrapper>
@@ -61,7 +63,7 @@ export default function Order() {
                     <SearchButton>우편번호 검색</SearchButton>
                   </InputWrapper>
                   <ShippingAddressInput></ShippingAddressInput>
-                  <ShippingAddressInput placeholder="상세주소 입력"></ShippingAddressInput>
+                  <ShippingAddressInput placeholder='상세주소 입력'></ShippingAddressInput>
                 </SearchWrapper>
               </EssentialName>
               <PhoneNumberFirst>
@@ -79,16 +81,16 @@ export default function Order() {
                 <PhoneNumberInput></PhoneNumberInput>
               </PhoneNumberSecond>
               <ShippingDetail>
-                <input type="checkbox" defaultChecked={false} />
-                <label for="cb2">기본배송지로 등록</label>
+                <input type='checkbox' defaultChecked={false} />
+                <label for='cb2'>기본배송지로 등록</label>
                 <form>
-                  <select name="shippingRequest">
-                    <option value="none">
+                  <select name='shippingRequest'>
+                    <option value='none'>
                       배송시 요청사항을 선택해 주세요
                     </option>
-                    <option value="1">부재시 문앞에 놓아주세요</option>
-                    <option value="2">부재시 경비실에 맡겨주세요</option>
-                    <option value="3">부재시 전화 또는 문자 주세요</option>
+                    <option value='1'>부재시 문앞에 놓아주세요</option>
+                    <option value='2'>부재시 경비실에 맡겨주세요</option>
+                    <option value='3'>부재시 전화 또는 문자 주세요</option>
                   </select>
                 </form>
                 <div>
@@ -110,13 +112,13 @@ export default function Order() {
             <CouponDetail>
               <div>보너스 쿠폰</div>
               <form>
-                <select name="couponSelect">
-                  <option value="none">사용가능 쿠폰 2장 / 보유 2장</option>
-                  <option value="1">
+                <select name='couponSelect'>
+                  <option value='none'>사용가능 쿠폰 2장 / 보유 2장</option>
+                  <option value='1'>
                     GREEN 회원 16% 특별쿠폰 / 최대 5만원 할인 / ~ 2020년 12월
                     31일 23:59분 까지
                   </option>
-                  <option value="2">
+                  <option value='2'>
                     만나서 반가워요! 10% 쿠폰 / 최대 1만원 할인 / ~ 2020년 12월
                     30일 14:00분 까지
                   </option>
@@ -126,8 +128,8 @@ export default function Order() {
             <CouponDetail>
               <div>브랜드 쿠폰</div>
               <form>
-                <select name="couponSelect">
-                  <option value="none">적용 가능한 쿠폰이 없습니다.</option>
+                <select name='couponSelect'>
+                  <option value='none'>적용 가능한 쿠폰이 없습니다.</option>
                 </select>
               </form>
             </CouponDetail>
@@ -157,7 +159,7 @@ export default function Order() {
           <span>무이자 카드혜택 보기 +</span>
         </CheckOutInfo>
         <SelectPayment>
-          {paymentList.map((payment) => {
+          {paymentList.map(payment => {
             return <button>{payment}</button>;
           })}
         </SelectPayment>
@@ -177,17 +179,17 @@ export default function Order() {
       <OrderCommodity>
         <OrderCommodityTitle>주문상품 정보 / 총 1개</OrderCommodityTitle>
         <OrderCommodityDetail>
-          <img src="/images/sneakers1.jpg" alt="신발"></img>
+          <img src='/images/shoesshoes.jpg' alt='신발'></img>
           <p>
-            <span>호카오네오네</span>
-            까만신발
-            <label>199,000원 / 수량 3개</label>
+            <span>Wright LLC</span>
+            Erika Shaw
+            <label>111,750원 / 수량 1개</label>
           </p>
         </OrderCommodityDetail>
         <OrderCommodityInfo>
           <InfoWrapper>
             <span>결제금액</span>
-            <p>199,000원</p>
+            <p>111,750원</p>
           </InfoWrapper>
           <InfoWrapper>
             <span>배송비</span>
@@ -203,16 +205,23 @@ export default function Order() {
           </InfoWrapper>
           <TotalPrice>
             <TotalPriceCheck>총 결제금액</TotalPriceCheck>
-            <ShowTotalPrice>199,000원</ShowTotalPrice>
+            <ShowTotalPrice>111,750원</ShowTotalPrice>
           </TotalPrice>
           <div>
-            <input type="checkbox" defaultChecked={false} />
-            <label for="cb3">
+            <input type='checkbox' defaultChecked={false} />
+            <label for='cb3'>
               주문하실 상품 및 결제, 주문정보 확인하였으며, 이에 동의합니다.
               (필수)
             </label>
           </div>
-          <CheckOutButton>CHECK OUT</CheckOutButton>
+          <CheckOutButton
+            onClick={() => {
+              alert('구매완료 ! ');
+              history.push('/');
+            }}
+          >
+            CHECK OUT
+          </CheckOutButton>
         </OrderCommodityInfo>
       </OrderCommodity>
     </OrderWrapper>
@@ -443,6 +452,7 @@ const CouponDetail = styled(ShippingDetail)`
 
 const Mileage = styled(Name)`
   height: 60px;
+  margin-top: 30px;
 
   div {
     font-size: 15px;

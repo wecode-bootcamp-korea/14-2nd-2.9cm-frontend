@@ -63,7 +63,7 @@ export default function Dropdown({ closeDropDown, goToProductDetail }) {
         );
       })}
       <p>
-        <img src='/images/dangdange.jpeg'></img>
+        <img src='/images/sneakers3.jpg'></img>
         <button>이벤트 전체 보기 ----> </button>
       </p>
     </Menu>
