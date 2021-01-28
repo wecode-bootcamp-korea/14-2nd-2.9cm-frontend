@@ -70,6 +70,7 @@ function SignUpChild(props) {
         Authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
+
         email: 'polepole0737@naver.com',
         password: userInputPw,
       }),
@@ -102,7 +103,7 @@ function SignUpChild(props) {
               <div key={el.id}>
                 <InputId>
                   <Input
-                    type='text'
+                    type={props.type}
                     alt={alt}
                     value={props.inputId}
                     placeholder={el.placeholder}
@@ -130,7 +131,7 @@ function SignUpChild(props) {
             <>
               <InputId>
                 <Input
-                  type='text'
+                  type={props.type}
                   alt={alt}
                   placeholder={placeholder}
                   onChange={

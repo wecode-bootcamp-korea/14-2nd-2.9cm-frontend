@@ -11,7 +11,12 @@ export default function SignUpSecond(props) {
 
   return (
     <div>
-      <SignUpChild title={title} push={props.history.push} data={data} />
+      <SignUpChild
+        type="text"
+        title={title}
+        push={props.history.push}
+        data={data}
+      />
     </div>
   );
 }
