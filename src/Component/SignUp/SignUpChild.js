@@ -69,7 +69,7 @@ function SignUpChild(props) {
         Authorization: localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        email: "polepole0733@gmail.com",
+        email: "polep0733@gmail.com",
         password: userInputPw,
       }),
     })

@@ -12,6 +12,7 @@ export default function SignUpThird(props) {
       placeholder: "비밀번호 입력",
       validationText: ["영문포함 ", " 숫자포함 ", " 8-20자 이내"],
       handleInput: "handleInputPw",
+      onChange: "handleInputPw",
     },
     {
       id: 2,
@@ -19,6 +20,7 @@ export default function SignUpThird(props) {
       placeholder: "비밀번호 확인",
       validationText: ["비밀번호 일치"],
       handleInput: "handleInputRePw",
+      onChange: "handleInputRePw",
     },
   ];
   console.log(idValue);
