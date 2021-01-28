@@ -1,10 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import SignUpChild from "./SignUpChild";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import SignUpChild from './SignUpChild';
 
 export default function SignUpThird(props) {
-  const [title, setTitle] = useState("비밀번호");
-  const [idValue, setIdValue] = useState("");
+  const [title, setTitle] = useState('비밀번호');
+  const [idValue, setIdValue] = useState('');
   const datas = [
     {
       id: 1,
@@ -23,7 +23,6 @@ export default function SignUpThird(props) {
       onChange: "handleInputRePw",
     },
   ];
-  console.log(idValue);
 
   return (
     <div>

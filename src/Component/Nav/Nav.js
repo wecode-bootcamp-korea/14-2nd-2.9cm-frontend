@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
-import styled, { StyleSheetManager } from "styled-components";
-import Dropdown from "./Dropdown";
-import NavScroll from "./NavScroll";
-import { AiOutlineDownload } from "react-icons/ai";
-import { FaUser } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { AiFillShopping } from "react-icons/ai";
-import { RiLoginBoxFill } from "react-icons/ri";
-import { FaSearch } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled, { StyleSheetManager } from 'styled-components';
+import Dropdown from './Dropdown';
+import NavScroll from './NavScroll';
+import { AiOutlineDownload } from 'react-icons/ai';
+import { FaUser } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import { AiFillShopping } from 'react-icons/ai';
+import { RiLoginBoxFill } from 'react-icons/ri';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Nav(props) {
+  let history = useHistory();
   const [navData, setNavData] = useState([]);
   const [isHover, setIsHover] = useState(false);
 
@@ -18,9 +20,9 @@ export default function Nav(props) {
   const navDetailMenuR = navData[2]?.data;
 
   useEffect(() => {
-    fetch("/data/navData.json")
-      .then((response) => response.json())
-      .then((response) => {
+    fetch('/data/navData.json')
+      .then(response => response.json())
+      .then(response => {
         setNavData(response.navData);
       });
   }, []);
@@ -49,7 +51,7 @@ export default function Nav(props) {
           <Logo>2.9CM</Logo>
           <NavIcons>
             <MyPage>
-              <FaUser className="myPageIcon" /> MY PAGE
+              <FaUser className='myPageIcon' /> MY PAGE
             </MyPage>
             <MyHeart>
               <FaHeart /> MY HEART
@@ -58,7 +60,7 @@ export default function Nav(props) {
               <AiFillShopping />
               SHOPPING BAG
             </ShoppingBag>
-            <Login>
+            <Login onClick={() => history.push('/login')}>
               <RiLoginBoxFill />
               LOGIN
             </Login>
@@ -66,11 +68,11 @@ export default function Nav(props) {
         </NavIconWrapper>
         <NavMenuWrapper>
           <ul>
-            {navMenuData?.map((menu) => {
+            {navMenuData?.map(menu => {
               return (
                 // 들썩이는거 어떻게 고치지??
-                <div style={{ padding: "10px" }}>
-                  <li style={{ width: "100%", height: "100%" }}>{menu}</li>
+                <div style={{ padding: '10px' }}>
+                  <li style={{ width: '100%', height: '100%' }}>{menu}</li>
                 </div>
               );
             })}
@@ -79,18 +81,18 @@ export default function Nav(props) {
         </NavMenuWrapper>
         <NavDetailMenuWrapper>
           <ul>
-            {navDetailMenuL?.map((menu) => {
+            {navDetailMenuL?.map(menu => {
               return <li onMouseEnter={openDropDown}>{menu}</li>;
             })}
           </ul>
           <Border></Border>
           <ul>
-            {navDetailMenuR?.map((menu) => {
+            {navDetailMenuR?.map(menu => {
               return <li>{menu}</li>;
             })}
           </ul>
         </NavDetailMenuWrapper>
-        {isHover ? <Dropdown closeDropDown={closeDropDown} /> : ""}
+        {isHover ? <Dropdown closeDropDown={closeDropDown} /> : ''}
       </NavWrapper>
     </>
   );

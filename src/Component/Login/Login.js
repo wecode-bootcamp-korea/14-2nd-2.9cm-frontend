@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import GoogleLogin from "react-google-login";
-import styled, { StyleSheetManager } from "styled-components";
-import Nav from "../Nav/Nav";
-import Footer from "../Footer/Footer";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
+import styled, { StyleSheetManager } from 'styled-components';
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
 
 export default function Login() {
   let history = useHistory();
 
-  const responseGoogle = (response) => {
-    console.log(response.accessToken, "success");
+  const responseGoogle = response => {
+    console.log(response.accessToken, 'success');
 
-    fetch("http://192.168.200.117:8000/user/login/google", {
-      method: "POST",
+    fetch('http://192.168.200.117:8000/user/login/google', {
+      method: 'POST',
       headers: {
         Authorization: response.accessToken,
       },
     })
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         if (res.access_token) {
-          localStorage.setItem("token", res.access_token);
+          localStorage.setItem('token', res.access_token);
         }
       });
 
-    history.push("/");
+    history.push('/');
   };
 
-  const failResponseGoogle = (response) => {
-    console.log(response, "fail");
+  const failResponseGoogle = response => {
+    console.log(response, 'fail');
   };
 
   return (
@@ -39,18 +39,25 @@ export default function Login() {
           <LoginHeading>로그인</LoginHeading>
           <LoginBorder></LoginBorder>
           <LoginContents>
-            <LoginId placeholder="아이디 (이메일)"></LoginId>
-            <PasswordId placeholder="비밀번호"></PasswordId>
-            <LoginButton>로그인하기</LoginButton>
+            <LoginId placeholder='아이디 (이메일)'></LoginId>
+            <PasswordId type='password' placeholder='비밀번호'></PasswordId>
+            <LoginButton
+              onClick={() => {
+                alert('로그인 되었습니다!');
+                history.push('/');
+              }}
+            >
+              로그인하기
+            </LoginButton>
             <div>
               <SocialLoginHeading>SNS계정으로 로그인하기</SocialLoginHeading>
               <SocialLoginIcons>
                 <GoogleLogin
-                  clientId="977684250755-p43j7e34c5m3a0vfkhdpj1qkmuh8nfd2.apps.googleusercontent.com"
-                  buttonText=""
+                  clientId='977684250755-p43j7e34c5m3a0vfkhdpj1qkmuh8nfd2.apps.googleusercontent.com'
+                  buttonText=''
                   onSuccess={responseGoogle}
                   onFailure={failResponseGoogle}
-                  cookiePolicy={"single_host_origin"}
+                  cookiePolicy={'single_host_origin'}
                 />
               </SocialLoginIcons>
               <SignUpButton>계정이 없으신가요? 간편가입하기</SignUpButton>

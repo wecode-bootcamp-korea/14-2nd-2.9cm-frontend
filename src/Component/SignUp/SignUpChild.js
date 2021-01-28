@@ -1,23 +1,23 @@
 /* eslint-disable no-lone-blocks */
-import React from "react";
-import styled from "styled-components";
-import Line2 from "./Components/SignUpSecondStep";
-import Line3 from "./Components/SignUpThirdStep";
-import { useState, useEffect } from "react";
+import React from 'react';
+import styled from 'styled-components';
+import Line2 from './Components/SignUpSecondStep';
+import Line3 from './Components/SignUpThirdStep';
+import { useState, useEffect } from 'react';
 
 function SignUpChild(props) {
   const [id, setId] = useState();
-  const [userInput, setUserInput] = useState("");
-  const [userInputPw, setUserInputPw] = useState("");
-  const [userInputRePw, setUserInputRePw] = useState("");
+  const [userInput, setUserInput] = useState('');
+  const [userInputPw, setUserInputPw] = useState('');
+  const [userInputRePw, setUserInputRePw] = useState('');
   const [checkPwLength, setIsPwLengthValidation] = useState(false);
   const [checkPwEnglish, setCheckPwEnglish] = useState(false);
   const [checkPwNumber, setCheckPwNumber] = useState(false);
   const [isMatchPassword, setIsMatchPassword] = useState(false);
-  const [res, setRes] = useState("");
-  const [idValue, setIdValue] = useState("");
-  // console.log(props.type);
-  const handleInputId = (event) => {
+  const [res, setRes] = useState('');
+  const [idValue, setIdValue] = useState('');
+
+  const handleInputId = event => {
     setUserInput(event.target.value);
     if (userInput) {
       const idValidation = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -28,7 +28,7 @@ function SignUpChild(props) {
       }
     }
   };
-  const handleInputPw = (event) => {
+  const handleInputPw = event => {
     setUserInputPw(event.target.value);
     const checkNum = /[0-9]/;
     const checkEng = /[a-zA-Z]/;
@@ -45,7 +45,7 @@ function SignUpChild(props) {
       : setCheckPwEnglish(false);
   };
 
-  const handleInputRePw = (event) => {
+  const handleInputRePw = event => {
     setUserInputRePw(event.target.value);
     userInputPw === event.target.value
       ? setIsMatchPassword(true)
@@ -54,32 +54,34 @@ function SignUpChild(props) {
 
   const goToThird = () => {
     if (id) {
-      props.push("/signUp3");
+      props.push('/signUp3');
     }
     setIdValue(userInput);
   };
-  const API = "http://13.125.3.178:8000/user/signup";
+
+  const API = 'http://3.34.44.13:8000/user/signup';
 
   const goToFourth = () => {
     console.log(userInput);
 
     fetch(API, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Authorization: localStorage.getItem("token"),
+        Authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
-        email: "polep0733@gmail.com",
+
+        email: 'polepole0737@naver.com',
         password: userInputPw,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("2", res);
-        localStorage.setItem("token", res.access_token);
+      .then(res => res.json())
+      .then(res => {
+        console.log('2', res);
+        localStorage.setItem('token', res.access_token);
         setRes(res);
-        if (res.message === "SUCCESS") {
-          props.push("/signUp4");
+        if (res.message === 'SUCCESS') {
+          props.push('/signUp4');
         }
       });
   };
@@ -90,14 +92,14 @@ function SignUpChild(props) {
       <Box>
         <SimpleSignUp>간편가입</SimpleSignUp>
         <Box2>
-          {props.title === "아이디" ? <Line2 /> : <Line3 />}
+          {props.title === '아이디' ? <Line2 /> : <Line3 />}
           <Text>
             로그인에 사용할
             <br />
             {props.title}를 입력해주세요.
           </Text>
-          {props.title === "비밀번호" ? (
-            props.data.map((el) => (
+          {props.title === '비밀번호' ? (
+            props.data.map(el => (
               <div key={el.id}>
                 <InputId>
                   <Input
@@ -106,7 +108,7 @@ function SignUpChild(props) {
                     value={props.inputId}
                     placeholder={el.placeholder}
                     onChange={
-                      el.handleInput === "handleInputPw"
+                      el.handleInput === 'handleInputPw'
                         ? handleInputPw
                         : handleInputRePw
                     }
@@ -119,7 +121,7 @@ function SignUpChild(props) {
                       : checkPwEnglish && checkPwNumber && checkPwLength
                   }
                 >
-                  {el.validationText.map((text) => (
+                  {el.validationText.map(text => (
                     <span key={props.data.id}>{text}</span>
                   ))}
                 </Validation>
@@ -133,12 +135,12 @@ function SignUpChild(props) {
                   alt={alt}
                   placeholder={placeholder}
                   onChange={
-                    props.title === "아이디" ? handleInputId : handleInputPw
+                    props.title === '아이디' ? handleInputId : handleInputPw
                   }
                 />
               </InputId>
               <Validation>
-                {id ? "" : "이메일 형식이 올바르지 않습니다."}
+                {id ? '' : '이메일 형식이 올바르지 않습니다.'}
               </Validation>
             </>
           )}
@@ -151,8 +153,8 @@ function SignUpChild(props) {
                   checkPwLength &&
                   isMatchPassword
             }
-            type="button"
-            onClick={props.title === "아이디" ? goToThird : goToFourth}
+            type='button'
+            onClick={props.title === '아이디' ? goToThird : goToFourth}
           >
             다음
           </NextButton>
@@ -226,17 +228,17 @@ const Input = styled.input`
 const Validation = styled.div`
   hieght: 40px;
   margin-bottom: 14px;
-  color: ${(props) =>
+  color: ${props =>
     props?.userInputRePw
       ? props.isMatchPassword
-        ? "#375FFF"
-        : "#ff4800"
+        ? '#375FFF'
+        : '#ff4800'
       : props.checkPwEnglish &&
         props.checkPwNumber &&
         props.checkPwLength &&
         props.isMatchPassword
-      ? "#375FFF"
-      : "#c4c4c4"};
+      ? '#375FFF'
+      : '#c4c4c4'};
   font-size: 12px;
   texst-align: left;
 `;
@@ -248,17 +250,17 @@ const NextButton = styled.button`
   width: 100%;
   height: 48px;
   margin-top: 14px;
-  background: ${(props) =>
+  background: ${props =>
     props?.userInputPw
       ? props.checkPwEnglish &&
         props.checkPwNumber &&
         props.checkPwLength &&
         props.isMatchPassword
-        ? "#375FFF"
-        : "#c4c4c4"
+        ? '#375FFF'
+        : '#c4c4c4'
       : props.id
-      ? "#375FFF"
-      : "#c4c4c4"};
+      ? '#375FFF'
+      : '#c4c4c4'};
   font-size: 14px;
   color: #fff;
   outline: none;
