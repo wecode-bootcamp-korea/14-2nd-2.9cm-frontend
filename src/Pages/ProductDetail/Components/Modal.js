@@ -1,35 +1,31 @@
-/* eslint-disable prettier/prettier */
-import React from "react";
-import styled from "styled-components";
-import { useState, useEffect } from "react";
+import React from 'react';
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 
 export default function Modal(props) {
-  const [inputValue, setInputValue] = useState([""]);
-  const handleInputValue = (event) => {
+  const [inputValue, setInputValue] = useState(['']);
+  const handleInputValue = event => {
     setInputValue(event.target.value);
     props.inputValue(event.target.value);
   };
 
-  const SubmitComment = (e) => {
+  const SubmitComment = e => {
     e.preventDefault();
     props.SubmitComment(inputValue);
   };
   // console.log(inputValue);
   return (
     <Wrapper onClick={props.closeModal}>
-      <Form onClick={(e) => e.stopPropagation()}>
+      <Form onClick={e => e.stopPropagation()}>
         <div>
           <CommentInput
-            type="text"
-            placeholder="댓글을 남기세요..."
+            type='text'
+            placeholder='댓글을 남기세요...'
             onChange={handleInputValue}
           />
         </div>
         <div>
-          <SubmitButton
-            type="button"
-            onClick={SubmitComment}
-          >
+          <SubmitButton type='button' onClick={SubmitComment}>
             등록
           </SubmitButton>
         </div>
@@ -39,27 +35,27 @@ export default function Modal(props) {
 }
 
 const Wrapper = styled.div`
-position: fixed;
-background: rgba(0, 0, 0, 0.5);
-width: 1830px;
-height: 930px;
-z-index: 1000;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  width: 1830px;
+  height: 930px;
+  z-index: 1000;
 `;
 
 const Form = styled.form`
-position: fixed;
-transform: translate(180%, 90%);
-width: 400px;
-height: 250px;
-margin: 0 auto;
-padding: 15px 10px 0 10px;
-z-index: 1001;
-background: #ffffff;
-color: #454c53;
-font-size: 16px;
-font-weight: 500;
-border: 1px solid #c9cdd2;
-border-radius: 6px;
+  position: fixed;
+  transform: translate(180%, 90%);
+  width: 400px;
+  height: 250px;
+  margin: 0 auto;
+  padding: 15px 10px 0 10px;
+  z-index: 1001;
+  background: #ffffff;
+  color: #454c53;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #c9cdd2;
+  border-radius: 6px;
 `;
 
 const CommentInput = styled.input`

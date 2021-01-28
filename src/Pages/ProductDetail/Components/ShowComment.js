@@ -1,42 +1,40 @@
-/* eslint-disable prettier/prettier */
-import React from "react";
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { AiFillStar } from "react-icons/ai";
-import HoverRatings from "./HoverRatings";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { AiFillStar } from 'react-icons/ai';
+import HoverRatings from './HoverRatings';
 
 export default function ShowComment(props) {
   const data = props?.commentsData[0];
-  const [showData, setShowData] = useState(); 
+  const [showData, setShowData] = useState();
 
-  const API = "http://13.125.3.178:8000/store/1/review";
+  const API = 'http://3.34.44.13:8000/store/1/review';
   useEffect(() => {
     fetch(API, {
-      method : "GET",
-      headers : {
-        "Authorization" : localStorage.getItem("token")
+      method: 'GET',
+      headers: {
+        Authorization: localStorage.getItem('token'),
       },
     })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("....", res);
+      .then(res => res.json())
+      .then(res => {
+        console.log('....', res);
         setShowData(res.review_list);
         props.totalCount(res.total_count);
       });
-      // props.
     console.log(showData);
   }, []);
 
   return (
     <ReviewCommentsWrapper>
-      {showData?.map((el) => 
+      {showData?.map(el => (
         <>
           <ReviewInfo>
             <div>
               <HoverRatings value={el?.rate} />
               <span>{el?.user}</span>
             </div>
-            <div>{(el?.date).slice(0,10)}</div>
+            <div>{(el?.date).slice(0, 10)}</div>
           </ReviewInfo>
           <ReviewComments key={el?.id}>
             <CommentInfo>
@@ -46,7 +44,7 @@ export default function ShowComment(props) {
             {/* <UserCommentImage alt="" src={el.image} /> */}
           </ReviewComments>
         </>
-      )}
+      ))}
     </ReviewCommentsWrapper>
   );
 }
@@ -100,4 +98,3 @@ const UserCommentImage = styled.img`
   width: 56px;
   height: 56px;
 `;
-

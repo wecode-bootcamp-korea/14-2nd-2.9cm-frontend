@@ -1,5 +1,5 @@
-import React from 'react'
-import styled, { StyleSheetManager } from "styled-components";
+import React from 'react';
+import styled, { StyleSheetManager } from 'styled-components';
 
 export default function CheckBoxBrand(props) {
   return (
@@ -9,18 +9,14 @@ export default function CheckBoxBrand(props) {
         defaultChecked={false}
         name='나이키'
         onClick={props.handleCheckbox}
-        />
-      <BrandLabel
-        for='cb1'
-        name='나이키'
-      >
+      />
+      <BrandLabel for='cb1' name='나이키'>
         나이키 (59)
       </BrandLabel>
     </div>
-  )
+  );
 }
 
+const Brand = styled.div``;
 
-const Brand = styled.div``
-
-const BrandLabel = styled.div``
+const BrandLabel = styled.div``;

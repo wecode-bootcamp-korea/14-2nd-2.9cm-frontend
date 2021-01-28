@@ -1,44 +1,47 @@
-import React from "react";
-import Nav from "../../Component/Nav/Nav";
-import Footer from "../../Component/Footer/Footer";
-import { RiChatDeleteLine } from "react-icons/ri";
-import { AiFillPlusCircle, AiFillPauseCircle } from "react-icons/ai";
-import styled from "styled-components";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import Nav from '../../Component/Nav/Nav';
+import Footer from '../../Component/Footer/Footer';
+import { RiChatDeleteLine } from 'react-icons/ri';
+import { AiFillPlusCircle, AiFillPauseCircle } from 'react-icons/ai';
+import styled from 'styled-components';
 
 export default function Cart() {
+  let history = useHistory();
+
   return (
     <>
       <Nav />
       <CartWrapper>
         <CartProgressWrapper>
           <div>
-            01 SHOPPING BAG <span>'{">"}'</span>{" "}
+            01 SHOPPING BAG <span>'{'>'}'</span>{' '}
           </div>
           <div>
-            02 ORDER <span>'{">"}'</span>{" "}
+            02 ORDER <span>'{'>'}'</span>{' '}
           </div>
           <div>03 ORDER CONFIRMED</div>
         </CartProgressWrapper>
         <CartContentsWrapper>
           <CartInfo>
-            <CartInfoCheckBox type="checkbox" defaultChecked={false} />
-            <CartInfoLabel for="cb1"></CartInfoLabel>
+            <CartInfoCheckBox type='checkbox' defaultChecked={false} />
+            <CartInfoLabel for='cb1'></CartInfoLabel>
             <ProductInfo>상품정보</ProductInfo>
             <ProductQuantity>수량</ProductQuantity>
             <ProductPrice>주문금액</ProductPrice>
             <ShippingFee>배송비</ShippingFee>
           </CartInfo>
           <CartContents>
-            <CartContentsCheckBox type="checkbox" defaultChecked={false} />
-            <CartContentsLabel for="cb2"></CartContentsLabel>
+            <CartContentsCheckBox type='checkbox' defaultChecked={false} />
+            <CartContentsLabel for='cb2'></CartContentsLabel>
             <ProductDetailWrapper>
               <ProductInfoDetail>
-                <ProductInfoImage src="/images/sneakers1.jpg"></ProductInfoImage>
+                <ProductInfoImage src='/images/shoesshoes.jpg'></ProductInfoImage>
                 <ProductDetailContetns>
-                  <ProductInfoBrand>호카오네오네</ProductInfoBrand>
-                  <ProductInfoName>까만 신발</ProductInfoName>
-                  <ProductInfoPrice>199,0000원</ProductInfoPrice>
-                  <ProductInfoOption>옵션 : [사이즈] 270</ProductInfoOption>
+                  <ProductInfoBrand>Wright LLC</ProductInfoBrand>
+                  <ProductInfoName>Erika Shaw</ProductInfoName>
+                  <ProductInfoPrice>111,750원</ProductInfoPrice>
+                  <ProductInfoOption>옵션 : [사이즈] 260</ProductInfoOption>
                 </ProductDetailContetns>
               </ProductInfoDetail>
               <CartDeleteButton>
@@ -47,11 +50,11 @@ export default function Cart() {
             </ProductDetailWrapper>
             <ProductQuantityCheckWrapper>
               <ProductQuantityCheck>
-                <InputQuantity value="1" />
+                <InputQuantity value='1' />
               </ProductQuantityCheck>
             </ProductQuantityCheckWrapper>
             <ProductPriceDetail>
-              <PriceTag>135,000원</PriceTag>
+              <PriceTag>111,750원</PriceTag>
               <BuyButton>BUY NOW</BuyButton>
               <SoldOut>SOLD OUT</SoldOut>
             </ProductPriceDetail>
@@ -73,7 +76,7 @@ export default function Cart() {
           </PriceHeading>
           <CalculatePrice>
             <div>
-              <h1>199,000원</h1>
+              <h1>111,750원</h1>
               <span>총 1개</span>
             </div>
             <AiFillPlusCircle />
@@ -81,13 +84,15 @@ export default function Cart() {
             <div>
               <AiFillPauseCircle />
             </div>
-            <div>199,000원</div>
+            <div>111,750원</div>
           </CalculatePrice>
         </ConfirmPriceWrapper>
         <div>
           <ChooseShopping>
             <ContinueShoppingButton>CONTINUE SHOPPING</ContinueShoppingButton>
-            <CheckoutButton>CHECK OUT</CheckoutButton>
+            <CheckoutButton onClick={() => history.push('/order')}>
+              CHECK OUT
+            </CheckoutButton>
           </ChooseShopping>
         </div>
       </CartWrapper>
