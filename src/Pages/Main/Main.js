@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useHistory, router } from 'react-router-dom';
 import styled, { StyleSheetManager } from 'styled-components';
 import Nav from '../../Component/Nav/Nav';
 import NavScroll from '../../Component/Nav/NavScroll';
@@ -11,7 +11,7 @@ import CheckBoxBrand from './CheckBoxBrand/CheckBoxBrand';
 import Pagination from './Pagination/Pagination';
 import Loading from '../../Component/Loading/Loading';
 
-import { TOKEN, STORE_API } from '../../config';
+import { TOKEN, STORE_API, PRICE_FILTER_API } from '../../config';
 import axios from 'axios';
 
 const menus = {
@@ -72,12 +72,12 @@ export default function Main() {
   const [shoesType, setShoesType] = useState('');
 
   const changeNav = () => {
-    if (window.scrollY >= 60 && !isScrollOver) {
+    if (window.scrollY >= 60 && isScrollOver === false) {
       setIsScrollOver(true);
       setIsScrolled(true);
     }
 
-    if ((window.scrollY < 60) & isScrollOver) {
+    if (window.scrollY < 60 && isScrollOver === true) {
       setIsScrollOver(false);
       setIsScrolled(false);
     }
@@ -85,17 +85,19 @@ export default function Main() {
 
   const history = useHistory();
 
-  console.log('his >>>>> ', history);
-  const goToProductDetail = () => {
-    history.push('/product-detail/1');
+  const goToProductDetail = id => {
+    history.push(`/product-detail/${id}`);
   };
 
+  const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // 비동기 작업 useEffect
   useEffect(() => {
     setLoading(true);
+    // async await 비동기 작업처리
     const getStore = async () => {
       try {
         const response = await axios.get(STORE_API);
-        console.log(response.data.result);
         setProductData(response.data.result);
       } catch (error) {
         console.log(error);
@@ -105,22 +107,26 @@ export default function Main() {
     setLoading(false);
   }, []);
 
+  // 이벤트 등록 useEffect
   useEffect(() => {
+    // 스크롤 이벤트 등록
     window.addEventListener('scroll', changeNav);
+    // 사이드 이펙트 해제
     return () => window.removeEventListener('scroll', changeNav);
   }, [isScrollOver]);
 
-  // 안 먹는다
   const filterPrice = e => {
     setLoading(true);
-    fetch(`${STORE_API}?min_price=50000&max_price=100000`)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const priceFilter = async () => {
+      try {
+        const response = await axios.get(PRICE_FILTER_API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
-    console.log('>>>>>>>>>> filtered', productData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    priceFilter();
     setIsChecked(!isChecked);
     goToTop();
   };
@@ -129,7 +135,7 @@ export default function Main() {
     setIsModal(true);
   };
 
-  const closeModal = e => {
+  const closeModal = () => {
     setIsModal(false);
   };
 
@@ -137,48 +143,56 @@ export default function Main() {
     setSearch(e.target.value);
   };
 
-  const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  const handleSearch = e => {
-    setLoading(true);
+  const filterSearch = e => {
+    const SEARCH_FILTER_API = `${STORE_API}?search=${search}`;
     if (e.keyCode === 13) {
       setLoading(true);
-      fetch(`${STORE_API}?search=${search}`)
-        .then(response => response.json())
-        .then(result => {
-          setProductData(result.result);
+      const searchFilter = async () => {
+        try {
+          const response = await axios.get(SEARCH_FILTER_API);
+          setProductData(response.data.result);
           setLoading(false);
-        })
-        .catch(error => console.log('error', error));
-
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      searchFilter();
       closeModal();
     }
   };
 
-  const handleCheckbox = e => {
-    setLoading(true);
+  const filterCheckbox = e => {
+    const CHECKBOX_FILTER_API = `${STORE_API}?brand=${e.target.name}`;
     setShoesBrand(e.target.name);
-    fetch(`${STORE_API}?brand=${e.target.name}`)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    setLoading(true);
+    const checkboxFilter = async () => {
+      try {
+        const response = await axios.get(CHECKBOX_FILTER_API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    checkboxFilter();
     setIsChecked(!isChecked);
     goToTop();
   };
 
   const paginate = e => {
+    const PAGINATE_API = `${STORE_API}?page=${e.target.innerText}`;
     setLoading(true);
-    fetch(`${STORE_API}?page=${e.target.innerText}`)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const changePages = async () => {
+      try {
+        const response = await axios.get(PAGINATE_API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    changePages();
     goToTop();
   };
 
@@ -206,18 +220,17 @@ export default function Main() {
       .catch(error => console.log('error', error));
   };
 
-  const filterFree = e => {
+  const filterFree = () => {
     setLoading(true);
-    const api = e.target.innerText === '초기화' && `${STORE_API}`;
-    fetch(api)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const filterFree = async () => {
+      try {
+        const response = await axios.get(STORE_API);
+        setProductData(response.data.result);
         setLoading(false);
-        setGoPriceFilter(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {}
+    };
 
+    filterFree();
     goToTop();
   };
 
@@ -283,7 +296,7 @@ export default function Main() {
                       type='checkbox'
                       defaultChecked={false}
                       name={item}
-                      onClick={handleCheckbox}
+                      onClick={filterCheckbox}
                     />
                     <BrandLabel for={`cb${idx}`} name={item}>
                       {item} ({Math.ceil(Math.random() * 700)})
@@ -319,10 +332,8 @@ export default function Main() {
       <Footer />
       {isModal && (
         <SearchModal
-          isModal={isModal}
-          openModal={openModal}
           closeModal={closeModal}
-          handleSearch={handleSearch}
+          filterSearch={filterSearch}
           handleChange={handleChange}
         />
       )}

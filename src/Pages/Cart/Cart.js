@@ -49,9 +49,11 @@ export default function Cart() {
               </CartDeleteButton>
             </ProductDetailWrapper>
             <ProductQuantityCheckWrapper>
+              <MinusBtn>-</MinusBtn>
               <ProductQuantityCheck>
                 <InputQuantity value='1' />
               </ProductQuantityCheck>
+              <PlusBtn>+</PlusBtn>
             </ProductQuantityCheckWrapper>
             <ProductPriceDetail>
               <PriceTag>111,750원</PriceTag>
@@ -251,11 +253,14 @@ const ProductQuantityCheckWrapper = styled.div`
   }
 `;
 
+const PlusBtn = styled.button``;
+
+const MinusBtn = styled.button``;
+
 const ProductQuantityCheck = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ddd;
   width: 100px;
   color: #ddd;
 `;
@@ -264,10 +269,6 @@ const InputQuantity = styled.input`
   text-align: center;
   width: 30px;
   height: 40px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-top: none;
-  border-bottom: none;
   margin: 0 10px;
 `;
 

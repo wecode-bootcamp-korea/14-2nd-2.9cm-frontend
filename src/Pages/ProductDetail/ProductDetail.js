@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Category from './Components/Category';
 import ShowComment from './Components/ShowComment';
@@ -13,6 +13,8 @@ import '../../../node_modules/slick-carousel/slick/slick.css';
 import '../../../node_modules/slick-carousel/slick/slick-theme.css';
 import { isDOMComponentElement } from 'react-dom/test-utils';
 import { fireEvent } from '@testing-library/react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { addCart } from '../../Store/actions/';
 
 export default function ProductDetail() {
   const [images, setImages] = useState([]);
@@ -25,7 +27,10 @@ export default function ProductDetail() {
   const [innerText, setInnerText] = useState();
   const [totalCount, setTotalCount] = useState();
 
-  let history = useHistory();
+  // let location = useLocation();
+  const params = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const settings = {
     className: 'center',
@@ -71,7 +76,7 @@ export default function ProductDetail() {
     }
   }
 
-  const API = 'http://3.34.44.13:8000/store/1';
+  const API = `http://3.34.44.13:8000/store/${params.id}`;
   const MOCK = ' http://localhost:3000/data/mockUp.json';
   useEffect(() => {
     fetch(MOCK)
@@ -88,6 +93,8 @@ export default function ProductDetail() {
         setProductDetailData(res.result);
       });
   }, []);
+
+  console.log(productDetailData);
 
   const openModal = e => {
     setIsModal(true);
@@ -279,7 +286,9 @@ export default function ProductDetail() {
                     </Size>
                   </form>
                   {/* <Size type="input" placeholder="사이즈" /> */}
-                  <GoToCart>SHOPPING BAG</GoToCart>
+                  <GoToCart onClick={() => dispatch(addCart())}>
+                    SHOPPING BAG
+                  </GoToCart>
                   <GoToBuy onClick={() => history.push('/cart')}>
                     BUY NOW
                   </GoToBuy>
