@@ -60,7 +60,9 @@ export default function Login() {
                   cookiePolicy={'single_host_origin'}
                 />
               </SocialLoginIcons>
-              <SignUpButton>계정이 없으신가요? 간편가입하기</SignUpButton>
+              <SignUpButton onClick={() => history.push('/signup1')}>
+                계정이 없으신가요? 간편가입하기
+              </SignUpButton>
               <LoginEtc>
                 <FindId>아이디 (이메일) 찾기</FindId>
                 <FindPassword>비밀번호 찾기</FindPassword>

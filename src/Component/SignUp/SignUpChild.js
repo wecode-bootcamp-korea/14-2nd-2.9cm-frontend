@@ -70,7 +70,7 @@ function SignUpChild(props) {
         Authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
-        email: 'polepole0777@naver.com',
+        email: 'polepole0002@naver.com',
         password: userInputPw,
       }),
     })

@@ -1,75 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useHistory, router } from 'react-router-dom';
-import styled, { StyleSheetManager } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import Nav from '../../Component/Nav/Nav';
 import NavScroll from '../../Component/Nav/NavScroll';
 import Footer from '../../Component/Footer/Footer';
-import { FaArrowRight } from 'react-icons/fa';
 import ProductCard from './ProductCard/ProductCard';
 import SearchModal from './SearchModal/SearchModal';
-import CheckBoxBrand from './CheckBoxBrand/CheckBoxBrand';
 import Pagination from './Pagination/Pagination';
 import Loading from '../../Component/Loading/Loading';
-
-import { TOKEN, STORE_API, PRICE_FILTER_API } from '../../config';
+import { STORE_API, PRICE_FILTER_API } from '../../config';
 import axios from 'axios';
-
-const menus = {
-  category: ['NEW', 'BEST', '스니커즈', '로퍼', '구두', '부츠', '샌들'],
-  shipping: ['무료배송', '할인상품만', '품절상품 제외'],
-  price: [
-    '전체 가격',
-    '0 ~ 10,000원',
-    '10,000원 ~ 50,000원',
-    '50,000원 ~ 100,000원',
-    '100,000원 ~ 200,000원',
-  ],
-  type: ['전체', '하이탑', '로우탑', '슬립온', '러닝화'],
-  filter: [
-    '추천순',
-    '신상품순',
-    '베스트순',
-    '낮은가격순',
-    '높은가격순',
-    '높은할인순',
-    '베스트리뷰순',
-    '베스트하트순',
-  ],
-};
-
-const brandList = {
-  brand: [
-    'Wright LLC',
-    'Cole-Smith',
-    'Coleman Inc',
-    'Thompson-Martin',
-    'Newman-Anderson',
-    'Roman Ltd',
-    'Pierce-Smith',
-  ],
-  count: ['719', '712', '736', '714', '701', '702', '724'],
-};
 
 export default function Main() {
   const [productData, setProductData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [isModal, setIsModal] = useState(false);
-
   const [loading, setLoading] = useState(true);
-
   const [search, setSearch] = useState('');
-  const [check, setCheck] = useState('');
-  const [isSearched, setIsSearched] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
   const [isScrollOver, setIsScrollOver] = useState(false);
-
   const [shoesbrand, setShoesBrand] = useState('');
-
-  const [goPriceFilter, setGoPriceFilter] = useState(true);
-
-  const [shoesType, setShoesType] = useState('');
 
   const changeNav = () => {
     if (window.scrollY >= 60 && isScrollOver === false) {
@@ -91,10 +41,20 @@ export default function Main() {
 
   const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // 비동기 작업 useEffect
+  const openModal = e => {
+    setIsModal(true);
+  };
+
+  const closeModal = () => {
+    setIsModal(false);
+  };
+
+  const handleChange = e => {
+    setSearch(e.target.value);
+  };
+
   useEffect(() => {
     setLoading(true);
-    // async await 비동기 작업처리
     const getStore = async () => {
       try {
         const response = await axios.get(STORE_API);
@@ -107,11 +67,8 @@ export default function Main() {
     setLoading(false);
   }, []);
 
-  // 이벤트 등록 useEffect
   useEffect(() => {
-    // 스크롤 이벤트 등록
     window.addEventListener('scroll', changeNav);
-    // 사이드 이펙트 해제
     return () => window.removeEventListener('scroll', changeNav);
   }, [isScrollOver]);
 
@@ -129,18 +86,6 @@ export default function Main() {
     priceFilter();
     setIsChecked(!isChecked);
     goToTop();
-  };
-
-  const openModal = e => {
-    setIsModal(true);
-  };
-
-  const closeModal = () => {
-    setIsModal(false);
-  };
-
-  const handleChange = e => {
-    setSearch(e.target.value);
   };
 
   const filterSearch = e => {
@@ -196,28 +141,33 @@ export default function Main() {
     goToTop();
   };
 
+  // 쿼리 중복 필터로 어떻게 순서없이 맥이는지 현지 선생님한테 질문
   const filterType = e => {
     setLoading(true);
 
-    let api = '';
+    let API = '';
 
     if (e.target.innerText === '전체') {
-      api = `${STORE_API}`;
+      API = `${STORE_API}`;
     } else {
       if (shoesbrand) {
-        api = `${STORE_API}?brand=${shoesbrand}&type=${e.target.innerText}`;
+        API = `${STORE_API}?brand=${shoesbrand}&type=${e.target.innerText}`;
       } else {
-        api = `${STORE_API}?type=${e.target.innerText}`;
+        API = `${STORE_API}?type=${e.target.innerText}`;
       }
     }
 
-    fetch(api)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const typeFilter = async () => {
+      try {
+        const response = await axios.get(API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    typeFilter();
   };
 
   const filterFree = () => {
@@ -280,7 +230,7 @@ export default function Main() {
                     <input
                       type='radio'
                       defaultChecked={false}
-                      onClick={goPriceFilter ? filterPrice : ''}
+                      onClick={filterPrice}
                     />
                     <PriceLabel for={`cb${idx + 1}`}>{item}</PriceLabel>
                   </PriceWidth>
@@ -341,6 +291,42 @@ export default function Main() {
     </>
   );
 }
+
+const menus = {
+  category: ['NEW', 'BEST', '스니커즈', '로퍼', '구두', '부츠', '샌들'],
+  shipping: ['무료배송', '할인상품만', '품절상품 제외'],
+  price: [
+    '전체 가격',
+    '0 ~ 10,000원',
+    '10,000원 ~ 50,000원',
+    '50,000원 ~ 100,000원',
+    '100,000원 ~ 200,000원',
+  ],
+  type: ['전체', '하이탑', '로우탑', '슬립온', '러닝화'],
+  filter: [
+    '추천순',
+    '신상품순',
+    '베스트순',
+    '낮은가격순',
+    '높은가격순',
+    '높은할인순',
+    '베스트리뷰순',
+    '베스트하트순',
+  ],
+};
+
+const brandList = {
+  brand: [
+    'Wright LLC',
+    'Cole-Smith',
+    'Coleman Inc',
+    'Thompson-Martin',
+    'Newman-Anderson',
+    'Roman Ltd',
+    'Pierce-Smith',
+  ],
+  count: ['719', '712', '736', '714', '701', '702', '724'],
+};
 
 const MainWrapper = styled.div`
   display: flex;

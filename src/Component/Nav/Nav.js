@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled, { StyleSheetManager } from 'styled-components';
+import styled from 'styled-components';
 import Dropdown from './Dropdown';
-import NavScroll from './NavScroll';
 import { AiOutlineDownload } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { AiFillShopping } from 'react-icons/ai';
 import { RiLoginBoxFill } from 'react-icons/ri';
+import { RiLogoutBoxFill } from 'react-icons/ri';
 import { FaSearch } from 'react-icons/fa';
 
 export default function Nav(props) {
   let history = useHistory();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [navData, setNavData] = useState([]);
   const [isHover, setIsHover] = useState(false);
-
+  // 이 부분 어떻게 못 고칠까??
   const navMenuData = navData[0]?.data;
   const navDetailMenuL = navData[1]?.data;
   const navDetailMenuR = navData[2]?.data;
@@ -26,6 +27,25 @@ export default function Nav(props) {
         setNavData(response.navData);
       });
   }, []);
+
+  const checkToken = () => {
+    if (localStorage.getItem('token')) {
+      setIsLoggedIn(true);
+    }
+  };
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  const logout = () => {
+    localStorage.clear();
+    alert('로그아웃 완료');
+    setIsLoggedIn(false);
+  };
+
+  console.log('>>>>', localStorage.getItem.length);
+  console.log('토큰??????', localStorage.getItem('token'));
+  console.log('구글토큰??????', sessionStorage.getItem('token'));
 
   const openDropDown = () => {
     setIsHover(true);
@@ -48,7 +68,7 @@ export default function Nav(props) {
           </BannerButton>
         </NavBanner>
         <NavIconWrapper>
-          <Logo>2.9CM</Logo>
+          <Logo onClick={() => history.push('/')}>2.9CM</Logo>
           <NavIcons>
             <MyPage>
               <FaUser className='myPageIcon' /> MY PAGE
@@ -60,17 +80,27 @@ export default function Nav(props) {
               <AiFillShopping />
               SHOPPING BAG
             </ShoppingBag>
-            <Login onClick={() => history.push('/login')}>
+            {isLoggedIn ? (
+              <LogOut onClick={logout}>
+                <RiLogoutBoxFill />
+                LOGOUT
+              </LogOut>
+            ) : (
+              <Login onClick={() => history.push('/login')}>
+                <RiLoginBoxFill />
+                LOGIN
+              </Login>
+            )}
+            {/* <Login onClick={() => history.push('/login')}>
               <RiLoginBoxFill />
               LOGIN
-            </Login>
+            </Login> */}
           </NavIcons>
         </NavIconWrapper>
         <NavMenuWrapper>
           <ul>
             {navMenuData?.map(menu => {
               return (
-                // 들썩이는거 어떻게 고치지??
                 <div style={{ padding: '10px' }}>
                   <li style={{ width: '100%', height: '100%' }}>{menu}</li>
                 </div>
@@ -157,6 +187,7 @@ const Logo = styled.div`
   font-weight: bold;
   margin-top: 30px;
   margin-left: 60px;
+  cursor: pointer;
 `;
 
 const NavIcons = styled.div`
@@ -202,6 +233,20 @@ const ShoppingBag = styled.div`
 `;
 
 const Login = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  margin: 0 5px;
+  margin-right: 50px;
+
+  svg {
+    margin: 0 5px;
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const LogOut = styled.div`
   display: flex;
   align-items: center;
   font-size: 10px;
