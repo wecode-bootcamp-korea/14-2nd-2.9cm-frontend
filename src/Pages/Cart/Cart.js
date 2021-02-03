@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Nav from '../../Component/Nav/Nav';
 import Footer from '../../Component/Footer/Footer';
 import { RiChatDeleteLine } from 'react-icons/ri';
 import { AiFillPlusCircle, AiFillPauseCircle } from 'react-icons/ai';
@@ -11,14 +10,13 @@ export default function Cart() {
 
   return (
     <>
-      <Nav />
       <CartWrapper>
         <CartProgressWrapper>
           <div>
-            01 SHOPPING BAG <span>'{'>'}'</span>{' '}
+            01 SHOPPING BAG <span>{'>'}</span>{' '}
           </div>
           <div>
-            02 ORDER <span>'{'>'}'</span>{' '}
+            02 ORDER <span>{'>'}</span>{' '}
           </div>
           <div>03 ORDER CONFIRMED</div>
         </CartProgressWrapper>
