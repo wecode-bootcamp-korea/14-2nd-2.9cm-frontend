@@ -35,8 +35,8 @@ export default function SearchModal({
           </p>
           <span>인기검색어</span>
           <ul>
-            {SearchList.menu.map(item => {
-              return <li>{item}</li>;
+            {SearchList.menu.map((item, idx) => {
+              return <li key={idx}>{item}</li>;
             })}
           </ul>
         </SearchBox>

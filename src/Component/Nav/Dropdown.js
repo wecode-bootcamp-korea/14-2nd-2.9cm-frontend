@@ -55,8 +55,12 @@ export default function Dropdown({ closeDropDown, goToProductDetail }) {
           <div key={idx}>
             <span>{itemList.title}</span>
             <ul>
-              {itemList.contents.map(item => {
-                return <li onClick={goToProductDetail}>{item}</li>;
+              {itemList.contents.map((item, idx) => {
+                return (
+                  <li key={idx} onClick={goToProductDetail}>
+                    {item}
+                  </li>
+                );
               })}
             </ul>
           </div>

@@ -82,7 +82,7 @@ export default function Order() {
               </PhoneNumberSecond>
               <ShippingDetail>
                 <input type='checkbox' defaultChecked={false} />
-                <label for='cb2'>기본배송지로 등록</label>
+                <label htmlFor='cb2'>기본배송지로 등록</label>
                 <form>
                   <select name='shippingRequest'>
                     <option value='none'>
@@ -159,8 +159,8 @@ export default function Order() {
           <span>무이자 카드혜택 보기 +</span>
         </CheckOutInfo>
         <SelectPayment>
-          {paymentList.map(payment => {
-            return <button>{payment}</button>;
+          {paymentList.map((payment, idx) => {
+            return <button key={idx}>{payment}</button>;
           })}
         </SelectPayment>
         <CheckOutEtc>
@@ -209,7 +209,7 @@ export default function Order() {
           </TotalPrice>
           <div>
             <input type='checkbox' defaultChecked={false} />
-            <label for='cb3'>
+            <label htmlFor='cb3'>
               주문하실 상품 및 결제, 주문정보 확인하였으며, 이에 동의합니다.
               (필수)
             </label>

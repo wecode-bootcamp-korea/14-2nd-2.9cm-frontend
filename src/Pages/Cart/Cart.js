@@ -12,8 +12,6 @@ export default function Cart() {
 
   const cartListItem = useSelector(state => state.cartReducer);
 
-  // console.log('<<<<<<<<<<<<<<<', cartListItem);
-
   return (
     <>
       <Nav />
@@ -30,25 +28,23 @@ export default function Cart() {
         <CartContentsWrapper>
           <CartInfo>
             <CartInfoCheckBox type='checkbox' defaultChecked={false} />
-            <CartInfoLabel for='cb1'></CartInfoLabel>
+            <CartInfoLabel htmlFor='cb1'></CartInfoLabel>
             <ProductInfo>상품정보</ProductInfo>
             <ProductQuantity>수량</ProductQuantity>
             <ProductPrice>주문금액</ProductPrice>
             <ShippingFee>배송비</ShippingFee>
           </CartInfo>
           {cartListItem.map((el, idx) => (
-            <CartContents>
+            <CartContents key={idx}>
               <CartContentsCheckBox type='checkbox' defaultChecked={false} />
-              <CartContentsLabel for='cb2'></CartContentsLabel>
+              <CartContentsLabel htmlFor='cb2'></CartContentsLabel>
               <ProductDetailWrapper>
                 <ProductInfoDetail>
                   <>
                     <ProductInfoImage src={el.product_img}></ProductInfoImage>
                     <ProductDetailContents>
                       <ProductInfoBrand>{el.title}</ProductInfoBrand>
-                      {/* <ProductInfoName>{el.description}</ProductInfoName> */}
                       <ProductInfoPrice>{el.sale_price}</ProductInfoPrice>
-                      {/* <ProductInfoOption>옵션 : [사이즈] 260</ProductInfoOption> */}
                     </ProductDetailContents>
                   </>
                 </ProductInfoDetail>
@@ -103,8 +99,6 @@ export default function Cart() {
             <div>
               <AiFillPauseCircle />
             </div>
-            {/* <div>111,750원</div>
-             */}
             {cartListItem
               .reduce((acc, cur) => {
                 return (acc += Number(cur.sale_price));

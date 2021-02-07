@@ -29,15 +29,16 @@ export default function Nav(props) {
       });
   }, []);
 
+  // 에러의 원인
+  useEffect(() => {
+    checkToken();
+  }, []);
+
   const checkToken = () => {
     if (localStorage.getItem('token')) {
       setIsLoggedIn(true);
     }
   };
-
-  useEffect(() => {
-    checkToken();
-  }, []);
 
   const logout = () => {
     localStorage.clear();
@@ -62,10 +63,10 @@ export default function Nav(props) {
       <NavWrapper>
         <NavBanner>
           <BannerDescription>
-            29CM 회원가입 경품혜택과 앱 <color>15%</color> 할인쿠폰
+            29CM 회원가입 경품혜택과 앱 <span>15%</span> 할인쿠폰
           </BannerDescription>
           <BannerButton>
-            <bonus>혜택받기</bonus>
+            <b>혜택받기</b>
             <AiOutlineDownload />
           </BannerButton>
         </NavBanner>
@@ -83,10 +84,10 @@ export default function Nav(props) {
               SHOPPING BAG
             </ShoppingBag>
             {isLoggedIn ? (
-              <LogOut onClick={logout}>
+              <Logout onClick={logout}>
                 <RiLogoutBoxFill />
                 LOGOUT
-              </LogOut>
+              </Logout>
             ) : (
               <Login onClick={() => history.push('/login')}>
                 <RiLoginBoxFill />
@@ -97,9 +98,9 @@ export default function Nav(props) {
         </NavIconWrapper>
         <NavMenuWrapper>
           <ul>
-            {navMenuData?.map(menu => {
+            {navMenuData?.map((menu, idx) => {
               return (
-                <div style={{ padding: '10px' }}>
+                <div key={idx} style={{ padding: '10px' }}>
                   <li style={{ width: '100%', height: '100%' }}>{menu}</li>
                 </div>
               );
@@ -109,14 +110,18 @@ export default function Nav(props) {
         </NavMenuWrapper>
         <NavDetailMenuWrapper>
           <ul>
-            {navDetailMenuL?.map(menu => {
-              return <li onMouseEnter={openDropDown}>{menu}</li>;
+            {navDetailMenuL?.map((menu, idx) => {
+              return (
+                <li key={idx} onMouseEnter={openDropDown}>
+                  {menu}
+                </li>
+              );
             })}
           </ul>
           <Border></Border>
           <ul>
-            {navDetailMenuR?.map(menu => {
-              return <li>{menu}</li>;
+            {navDetailMenuR?.map((menu, idx) => {
+              return <li key={idx}>{menu}</li>;
             })}
           </ul>
         </NavDetailMenuWrapper>
@@ -244,7 +249,21 @@ const Login = styled.div`
   }
 `;
 
-const LogOut = styled(Login);
+// const Logout = styled(Login);
+
+const Logout = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  margin: 0 5px;
+  margin-right: 50px;
+
+  svg {
+    margin: 0 5px;
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 const NavMenuWrapper = styled.div`
   display: flex;

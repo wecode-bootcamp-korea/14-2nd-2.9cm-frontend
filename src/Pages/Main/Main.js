@@ -14,7 +14,7 @@ import axios from 'axios';
 export default function Main() {
   const [productData, setProductData] = useState([]);
   const [isModal, setIsModal] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,6 +37,7 @@ export default function Main() {
 
   const goToProductDetail = id => {
     history.push(`/product-detail/${id}`);
+    window.scrollTo({ top: 0 });
   };
 
   const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -200,8 +201,8 @@ export default function Main() {
         <CategoryOption>
           <CategoryOptionList>
             <h1>남성신발</h1>
-            {menus.category.map(item => {
-              return <button>{item}</button>;
+            {menus.category.map((item, idx) => {
+              return <button key={idx}>{item}</button>;
             })}
           </CategoryOptionList>
           <OptionFilter>
@@ -213,12 +214,10 @@ export default function Main() {
               <div>상품정보</div>
               {menus.shipping.map((item, idx) => {
                 return (
-                  <>
-                    <CheckBoxWrapper>
-                      <input type='checkbox' defaultChecked={false} />
-                      <PriceLabel for={`cb${idx + 1}`}>{item}</PriceLabel>
-                    </CheckBoxWrapper>
-                  </>
+                  <CheckBoxWrapper key={idx}>
+                    <input type='checkbox' defaultChecked={false} />
+                    <PriceLabel htmlFor={`cb${idx + 1}`}>{item}</PriceLabel>
+                  </CheckBoxWrapper>
                 );
               })}
             </ProductInfo>
@@ -226,13 +225,13 @@ export default function Main() {
               <div>가격대</div>
               {menus.price.map((item, idx) => {
                 return (
-                  <PriceWidth>
+                  <PriceWidth key={idx}>
                     <input
                       type='radio'
                       defaultChecked={false}
                       onClick={filterPrice}
                     />
-                    <PriceLabel for={`cb${idx + 1}`}>{item}</PriceLabel>
+                    <PriceLabel htmlFor={`cb${idx + 1}`}>{item}</PriceLabel>
                   </PriceWidth>
                 );
               })}
@@ -241,14 +240,14 @@ export default function Main() {
               <BrandsHeading>브랜드</BrandsHeading>
               {brandList.brand.map((item, idx) => {
                 return (
-                  <div>
+                  <div key={idx}>
                     <Brand
                       type='checkbox'
                       defaultChecked={false}
                       name={item}
                       onClick={filterCheckbox}
                     />
-                    <BrandLabel for={`cb${idx}`} name={item}>
+                    <BrandLabel htmlFor={`cb${idx}`} name={item}>
                       {item} ({Math.ceil(Math.random() * 700)})
                     </BrandLabel>
                   </div>
@@ -260,13 +259,21 @@ export default function Main() {
         <CategoryList>
           <ListFilterWrapper>
             <ListFilter>
-              {menus.type.map(item => {
-                return <FilterItem onClick={filterType}>{item}</FilterItem>;
+              {menus.type.map((item, idx) => {
+                return (
+                  <FilterItem key={idx} onClick={filterType}>
+                    {item}
+                  </FilterItem>
+                );
               })}
             </ListFilter>
             <ListFilterButton>
               {menus.filter.map((item, idx) => {
-                return <option value={'$(idx)'}>{item}</option>;
+                return (
+                  <option key={idx} value={'$(idx)'}>
+                    {item}
+                  </option>
+                );
               })}
             </ListFilterButton>
           </ListFilterWrapper>

@@ -1,8 +1,8 @@
-import * as React from "react";
-import styled from "styled-components";
-import Line from "./Components/SignUpFirstStep";
-import { useState, useEffect } from "react";
-import Footer from "../Footer/Footer";
+import * as React from 'react';
+import styled from 'styled-components';
+import Line from './Components/SignUpFirstStep';
+import { useState, useEffect } from 'react';
+import Footer from '../Footer/Footer';
 
 function SignUpFirst(props) {
   const [allChecked, setAllChecked] = useState(false);
@@ -77,63 +77,63 @@ function SignUpFirst(props) {
             </Text>
             <AllAgreement>
               <InputCheckbox
-                type="checkbox"
+                type='checkbox'
                 checked={allChecked}
                 onChange={handleAllChecked}
               />
-              <Label for="cb1">모두 동의 (선택 정보 포함)</Label>
+              <Label htmlFor='cb1'>모두 동의 (선택 정보 포함)</Label>
             </AllAgreement>
             <AgreementCheckbox>
               <InputCheckbox
-                type="checkbox"
+                type='checkbox'
                 checked={checked1}
                 onChange={handleChecked1}
               />
-              <Label title="[필수] 만14세 이상 보기" for="cb1">
+              <Label title='[필수] 만14세 이상 보기' htmlFor='cb1'>
                 [필수] 만 14세 이상
               </Label>
-              <None type="button">비밀글인데 보셨나요?</None>
+              <None type='button'>비밀글인데 보셨나요?</None>
             </AgreementCheckbox>
             <AgreementCheckbox>
               <InputCheckbox
-                type="checkbox"
+                type='checkbox'
                 checked={checked2}
                 onChange={handleChecked2}
               />
-              <Label title="[필수] 만14세 이상 보기" for="cb1">
+              <Label title='[필수] 만14세 이상 보기' htmlFor='cb1'>
                 [필수] 이용약관 동의
               </Label>
-              <Button type="button">보기</Button>
+              <Button type='button'>보기</Button>
             </AgreementCheckbox>
             <AgreementCheckbox>
               <InputCheckbox
-                type="checkbox"
+                type='checkbox'
                 checked={checked3}
                 onChange={handleChecked3}
               />
-              <Label title="[필수] 만14세 이상 보기" for="cb1">
+              <Label title='[필수] 만14세 이상 보기' htmlFor='cb1'>
                 [필수] 개인정보 처리방침 동의
               </Label>
-              <Button type="button">보기</Button>
+              <Button type='button'>보기</Button>
             </AgreementCheckbox>
             <AgreementCheckbox>
               <InputCheckbox
-                type="checkbox"
+                type='checkbox'
                 checked={checked4}
                 onChange={handleChecked4}
               />
-              <Label title="[필수] 만14세 이상 보기" for="cb1">
+              <Label title='[필수] 만14세 이상 보기' htmlFor='cb1'>
                 [선택] 광고성 정보 수신 및 마케팅 활용 동의
               </Label>
-              <Button type="button">보기</Button>
+              <Button type='button'>보기</Button>
             </AgreementCheckbox>
             <GoToSignUp
               id={activateBtn}
-              type="button"
+              type='button'
               onClick={() => {
                 allChecked
-                  ? props.history.push("/signUp2")
-                  : props.history.push("#");
+                  ? props.history.push('/signUp2')
+                  : props.history.push('#');
               }}
             >
               동의하고 가입하기
@@ -238,7 +238,7 @@ const GoToSignUp = styled.button`
   width: 100%;
   height: 48px;
   border: none;
-  background: ${(props) => (props.activateBtn ? "#c4c4c4" : "#375FFF")};
+  background: ${props => (props.activateBtn ? '#c4c4c4' : '#375FFF')};
   font-size: 14px;
   color: #fff;
   outline: none;

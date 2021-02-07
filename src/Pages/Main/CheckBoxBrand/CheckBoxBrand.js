@@ -11,7 +11,7 @@ export default function CheckBoxBrand(props) {
         name="나이키"
         onClick={props.handleCheckbox}
       />
-      <BrandLabel for='cb1' name='나이키'>
+      <BrandLabel htmlFor='cb1' name='나이키'>
         나이키 (59)
       </BrandLabel>
     </div>
