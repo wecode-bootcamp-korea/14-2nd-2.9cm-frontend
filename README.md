@@ -30,7 +30,7 @@ SNS 느낌의 29TV나 블로그 형식의 Welove라는 자체 콘텐츠들도 �
 - 상세 페이지: 댓글 CRUD, 슬릭 슬라이더, 별점 기능, 페이지네이션 기능
 
 ## 영상
-영상 제작예정...
+https://www.youtube.com/watch?v=Mn88LzM-pCQ
 
 ## 개인 역할
 `김영주(PM)`
