@@ -107,7 +107,6 @@ export default function ProductDetail(props) {
         console.log(error);
       }
     };
-
     loadDetailImage();
   }, []);
 
@@ -388,8 +387,8 @@ export default function ProductDetail(props) {
             commentsData={commentsData}
           />
           <Pagination>
-            {num.map(number => (
-              <button onClick={handlePagination}>
+            {num.map((number, idx) => (
+              <button key={idx} onClick={handlePagination}>
                 {number + '\xa0\xa0\xa0\xa0'}
               </button>
             ))}

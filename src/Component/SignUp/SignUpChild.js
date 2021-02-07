@@ -70,7 +70,7 @@ function SignUpChild(props) {
         Authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
-        email: 'polepole0004@naver.com',
+        email: 'polepole0010@naver.com',
         password: userInputPw,
       }),
     })
@@ -78,7 +78,7 @@ function SignUpChild(props) {
       .then(res => {
         console.log('2', res);
         localStorage.setItem('token', res.access_token);
-        setRes(res);
+        // setRes(res);
         if (res.message === 'SUCCESS') {
           props.push('/signUp4');
         }

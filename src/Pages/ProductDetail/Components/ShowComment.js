@@ -29,7 +29,7 @@ export default function ShowComment(props) {
     <ReviewCommentsWrapper>
       {showData?.map(el => (
         <>
-          <ReviewInfo>
+          <ReviewInfo key={el.id}>
             <div>
               <HoverRatings value={el?.rate} />
               <span>{el?.user}</span>

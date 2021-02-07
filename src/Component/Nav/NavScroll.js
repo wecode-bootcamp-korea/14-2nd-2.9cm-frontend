@@ -55,8 +55,8 @@ export default function NavScroll(props) {
         <Logo>2.9CM</Logo>
         <NavMenuWrapper>
           <ul>
-            {navMenuData?.map(menu => {
-              return <li>{menu}</li>;
+            {navMenuData?.map((menu, idx) => {
+              return <li key={idx}>{menu}</li>;
             })}
           </ul>
         </NavMenuWrapper>
@@ -94,8 +94,8 @@ export default function NavScroll(props) {
           </ul>
           <Border></Border>
           <ul>
-            {navDetailMenuR?.map(menu => {
-              return <li>{menu}</li>;
+            {navDetailMenuR?.map((menu, idx) => {
+              return <li key={idx}>{menu}</li>;
             })}
           </ul>
         </div>

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import styled, { StyleSheetManager } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { FaInstagramSquare } from "react-icons/fa";
-import { AiFillGoogleCircle } from "react-icons/ai";
+import React, { useEffect, useState } from 'react';
+import styled, { StyleSheetManager } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FaInstagramSquare } from 'react-icons/fa';
+import { AiFillGoogleCircle } from 'react-icons/ai';
 
 export default function Footer() {
   const [footerData, setFooterData] = useState([]);
 
   useEffect(() => {
-    fetch("/data/footerData.json")
-      .then((response) => response.json())
-      .then((response) => {
+    fetch('/data/footerData.json')
+      .then(response => response.json())
+      .then(response => {
         setFooterData(response.footerdata);
       });
   }, []);

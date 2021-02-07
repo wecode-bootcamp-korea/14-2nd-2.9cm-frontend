@@ -19,14 +19,14 @@ function SignUpFourth(props) {
             <BottomWrapper>
               <AgreeBox>
                 <Input type='checkbox' defaultChecked={true} />
-                <Label title='[필수] 이용약관 동의' for='cb1'>
+                <Label title='[필수] 이용약관 동의' htmlFor='cb1'>
                   이벤트 참여 시 당첨 확률이 높아요.
                 </Label>
               </AgreeBox>
 
               <AgreeBox>
                 <Input type='checkbox' defaultChecked={true} />
-                <Label title='[필수] 개인정보 처리방침 동의' for='cb1'>
+                <Label title='[필수] 개인정보 처리방침 동의' htmlFor='cb1'>
                   더 많은 쿠폰을 받을 수 있어요.
                 </Label>
               </AgreeBox>
@@ -35,7 +35,7 @@ function SignUpFourth(props) {
                 <Input type='checkbox' defaultChecked={true} />
                 <Label
                   title='[선택]] 광고성 정보 수신 및 마케팅 활용 동의'
-                  for='cb1'
+                  htmlFor='cb1'
                 >
                   주문 시 따로 본인인증할 필요 없어요.
                 </Label>
