@@ -15,34 +15,27 @@ import SignUpFourth from './Component/SignUp/SignUpFourth';
 import SignUpFifth from './Component/SignUp/SignUpFifth';
 import HoverRatings from './Pages/ProductDetail/Components/HoverRatings';
 import Category from './Pages/ProductDetail/Components/Category';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import rootReducer from './Store/reducers';
-
-const store = createStore(rootReducer);
 class Routes extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <Router>
-          <Switch>
-            <Route exact path='/footer' component={Footer}></Route>
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/signUp1' component={SignUpFirst} />
-            <Route exact path='/signUp2' component={SignUpSecond} />
-            <Route exact path='/signUp3' component={SignUpThird} />
-            <Route exact path='/signUp4' component={SignUpFourth} />
-            <Route exact path='/signUp5' component={SignUpFifth} />
-            <Route exact path='/' component={Main} />
-            <Route exact path='/cart' component={Cart} />
-            <Route exact path='/order' component={Order} />
-            <Route exact path='/product-detail/:id' component={ProductDetail} />
-            <Route exact path='/tv' component={Tv} />
-            <Route exact path='/Category' component={Category} />
-            <Route exact path='/rating' component={HoverRatings} />
-          </Switch>
-        </Router>
-      </Provider>
+      <Router>
+        <Switch>
+          <Route exact path='/footer' component={Footer}></Route>
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/signUp1' component={SignUpFirst} />
+          <Route exact path='/signUp2' component={SignUpSecond} />
+          <Route exact path='/signUp3' component={SignUpThird} />
+          <Route exact path='/signUp4' component={SignUpFourth} />
+          <Route exact path='/signUp5' component={SignUpFifth} />
+          <Route exact path='/' component={Main} />
+          <Route exact path='/cart' component={Cart} />
+          <Route exact path='/order' component={Order} />
+          <Route exact path='/product-detail/:id' component={ProductDetail} />
+          <Route exact path='/tv' component={Tv} />
+          <Route exact path='/Category' component={Category} />
+          <Route exact path='/rating' component={HoverRatings} />
+        </Switch>
+      </Router>
     );
   }
 }

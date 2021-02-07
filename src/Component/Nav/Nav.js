@@ -11,7 +11,6 @@ import { RiLogoutBoxFill } from 'react-icons/ri';
 import { FaSearch } from 'react-icons/fa';
 
 export default function Nav(props) {
-  let history = useHistory();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [navData, setNavData] = useState([]);
   const [isHover, setIsHover] = useState(false);
@@ -19,6 +18,8 @@ export default function Nav(props) {
   const navMenuData = navData[0]?.data;
   const navDetailMenuL = navData[1]?.data;
   const navDetailMenuR = navData[2]?.data;
+
+  let history = useHistory();
 
   useEffect(() => {
     fetch('/data/navData.json')
@@ -33,6 +34,7 @@ export default function Nav(props) {
       setIsLoggedIn(true);
     }
   };
+
   useEffect(() => {
     checkToken();
   }, []);
@@ -43,9 +45,9 @@ export default function Nav(props) {
     setIsLoggedIn(false);
   };
 
-  console.log('>>>>', localStorage.getItem.length);
-  console.log('토큰??????', localStorage.getItem('token'));
-  console.log('구글토큰??????', sessionStorage.getItem('token'));
+  // console.log('>>>>', localStorage.getItem.length);
+  // console.log('토큰??????', localStorage.getItem('token'));
+  // console.log('구글토큰??????', sessionStorage.getItem('token'));
 
   const openDropDown = () => {
     setIsHover(true);
@@ -91,10 +93,6 @@ export default function Nav(props) {
                 LOGIN
               </Login>
             )}
-            {/* <Login onClick={() => history.push('/login')}>
-              <RiLoginBoxFill />
-              LOGIN
-            </Login> */}
           </NavIcons>
         </NavIconWrapper>
         <NavMenuWrapper>
@@ -246,19 +244,7 @@ const Login = styled.div`
   }
 `;
 
-const LogOut = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 10px;
-  margin: 0 5px;
-  margin-right: 50px;
-
-  svg {
-    margin: 0 5px;
-    width: 20px;
-    height: 20px;
-  }
-`;
+const LogOut = styled(Login);
 
 const NavMenuWrapper = styled.div`
   display: flex;

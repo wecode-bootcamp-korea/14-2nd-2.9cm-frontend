@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCart } from '../../store/actions';
 import styled from 'styled-components';
 import Category from './Components/Category';
 import ShowComment from './Components/ShowComment';
@@ -13,11 +15,10 @@ import '../../../node_modules/slick-carousel/slick/slick.css';
 import '../../../node_modules/slick-carousel/slick/slick-theme.css';
 import { isDOMComponentElement } from 'react-dom/test-utils';
 import { fireEvent } from '@testing-library/react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { addCart } from '../../Store/actions/';
 import { SERVER, MOCK } from '../../config';
 import Loading from '../../Component/Loading/Loading';
 import axios from 'axios';
+import Nav from '../../Component/Nav/Nav';
 
 export default function ProductDetail(props) {
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ export default function ProductDetail(props) {
   // let location = useLocation();
   const params = useParams();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const cartlist = useSelector(state => state.cartReducer);
 
   const settings = {
     className: 'center',
@@ -108,7 +109,7 @@ export default function ProductDetail(props) {
     };
 
     loadDetailImage();
-  });
+  }, []);
 
   const openModal = e => {
     setIsModal(true);
@@ -173,8 +174,6 @@ export default function ProductDetail(props) {
     setCreateReview(copy);
   };
 
-  const updateComment = () => {};
-
   const goToBottom = () => {
     window.scrollTo({ top: 12000, behavior: 'smooth' });
   };
@@ -190,8 +189,20 @@ export default function ProductDetail(props) {
       });
   };
 
+  const dispatch = useDispatch();
+
+  const handleCart = () => {
+    alert('장바구니에 물품이 담겼습니다!');
+    const cartitem = productDetailData[0];
+    cartitem.count = 1;
+    dispatch(addCart(cartitem));
+  };
+
+  console.log('cartlist >>>>', cartlist);
+
   return (
     <>
+      <Nav />
       <Category />
       <ModalWrapper>
         {isModal ? (
@@ -303,10 +314,7 @@ export default function ProductDetail(props) {
                       <option value='9'>{size[9]}</option>
                     </Size>
                   </form>
-                  {/* <Size type="input" placeholder="사이즈" /> */}
-                  <GoToCart onClick={() => dispatch(addCart())}>
-                    SHOPPING BAG
-                  </GoToCart>
+                  <GoToCart onClick={handleCart}>SHOPPING BAG</GoToCart>
                   <GoToBuy onClick={() => history.push('/cart')}>
                     BUY NOW
                   </GoToBuy>
@@ -356,9 +364,9 @@ export default function ProductDetail(props) {
                       <span>{data.userId}</span>
                     </div>
                     <div>
-                      <UpdateBtn id={data.id} onClick={updateComment}>
+                      {/* <UpdateBtn id={data.id} onClick={updateComment}>
                         수정
-                      </UpdateBtn>
+                      </UpdateBtn> */}
                       <DeleteBtn idx={data.id} onClick={deleteComment}>
                         삭제
                       </DeleteBtn>{' '}
