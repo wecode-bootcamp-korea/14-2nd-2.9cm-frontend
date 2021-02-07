@@ -1,29 +1,49 @@
-import React, { useState, useEffect } from "react";
-import styled, { StyleSheetManager } from "styled-components";
-import Dropdown from "./Dropdown";
-import ScrolledDropdown from "./ScrolledDropdown";
-
-import { AiOutlineDownload } from "react-icons/ai";
-import { FaUser } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { AiFillShopping } from "react-icons/ai";
-import { RiLoginBoxFill } from "react-icons/ri";
-import { FaSearch } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import styled, { StyleSheetManager } from 'styled-components';
+import Dropdown from './Dropdown';
+import ScrolledDropdown from './ScrolledDropdown';
+import { useHistory } from 'react-router-dom';
+import { AiOutlineDownload } from 'react-icons/ai';
+import { FaUser } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import { AiFillShopping } from 'react-icons/ai';
+import { RiLoginBoxFill } from 'react-icons/ri';
+import { RiLogoutBoxFill } from 'react-icons/ri';
+import { FaSearch } from 'react-icons/fa';
 
 export default function NavScroll(props) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [navData, setNavData] = useState([]);
   const [isHover, setIsHover] = useState(false);
   const navMenuData = navData[0]?.data;
   const navDetailMenuL = navData[1]?.data;
   const navDetailMenuR = navData[2]?.data;
 
+  let history = useHistory();
+
   useEffect(() => {
-    fetch("/data/navData.json")
-      .then((response) => response.json())
-      .then((response) => {
+    fetch('/data/navData.json')
+      .then(response => response.json())
+      .then(response => {
         setNavData(response.navData);
       });
   }, []);
+
+  const checkToken = () => {
+    if (localStorage.getItem('token')) {
+      setIsLoggedIn(true);
+    }
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  const logout = () => {
+    localStorage.clear();
+    alert('로그아웃 완료');
+    setIsLoggedIn(false);
+  };
 
   const openDropDown = () => setIsHover(true);
 
@@ -35,14 +55,14 @@ export default function NavScroll(props) {
         <Logo>2.9CM</Logo>
         <NavMenuWrapper>
           <ul>
-            {navMenuData?.map((menu) => {
+            {navMenuData?.map(menu => {
               return <li>{menu}</li>;
             })}
           </ul>
         </NavMenuWrapper>
         <NavIcons>
           <MyPage>
-            <FaUser className="myPageIcon" />
+            <FaUser className='myPageIcon' />
           </MyPage>
           <MyHeart>
             <FaHeart />
@@ -50,9 +70,15 @@ export default function NavScroll(props) {
           <ShoppingBag>
             <AiFillShopping />
           </ShoppingBag>
-          <Login>
-            <RiLoginBoxFill />
-          </Login>
+          {isLoggedIn ? (
+            <Logout onClick={logout}>
+              <RiLogoutBoxFill />
+            </Logout>
+          ) : (
+            <Login onClick={() => history.push('/login')}>
+              <RiLoginBoxFill />
+            </Login>
+          )}
         </NavIcons>
       </NavIconWrapper>
       <NavDetailMenuWrapper>
@@ -68,7 +94,7 @@ export default function NavScroll(props) {
           </ul>
           <Border></Border>
           <ul>
-            {navDetailMenuR?.map((menu) => {
+            {navDetailMenuR?.map(menu => {
               return <li>{menu}</li>;
             })}
           </ul>
@@ -84,7 +110,7 @@ export default function NavScroll(props) {
           <Dropdown closeDropDown={closeDropDown} />
         )
       ) : (
-        ""
+        ''
       )}
     </NavScrollWrapper>
   );
@@ -143,6 +169,17 @@ const ShoppingBag = styled.div`
 `;
 
 const Login = styled.div`
+  font-size: 10px;
+  margin: auto 5px;
+  margin-right: 50px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const Logout = styled.div`
   font-size: 10px;
   margin: auto 5px;
   margin-right: 50px;

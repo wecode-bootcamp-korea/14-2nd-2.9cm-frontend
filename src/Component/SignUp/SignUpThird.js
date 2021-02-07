@@ -27,7 +27,7 @@ export default function SignUpThird(props) {
   return (
     <div>
       <SignUpChild
-        type="password"
+        type='password'
         title={title}
         push={props.history.push}
         data={datas}

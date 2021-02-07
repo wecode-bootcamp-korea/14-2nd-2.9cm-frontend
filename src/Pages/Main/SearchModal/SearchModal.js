@@ -1,36 +1,41 @@
-import React from "react";
-import styled, { StyleSheetManager } from "styled-components";
-import { FaSearch } from "react-icons/fa";
+import React from 'react';
+import styled, { StyleSheetManager } from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
 
-export default function SearchModal(props) {
+export default function SearchModal({
+  closeModal,
+  filterSearch,
+  handleChange,
+}) {
   const SearchList = {
     menu: [
-      "Wright LLC",
-      "Cole-Smith",
-      "Coleman Inc",
-      "Thompson-Martin",
-      "Newman-Anderson",
-      "Roman Ltd",
-      "Pierce-Smith",
+      'Wright LLC',
+      'Cole-Smith',
+      'Coleman Inc',
+      'Thompson-Martin',
+      'Newman-Anderson',
+      'Roman Ltd',
+      'Pierce-Smith',
     ],
   };
 
   return (
-    <ModalWrapper onClick={props.closeModal}>
+    // 모달창 닫는 문제
+    <ModalWrapper onClick={closeModal}>
       <Modal>
-        <button onClick={props.closeModal}>X</button>
-        <SearchBox onClick={(e) => e.stopPropagation()}>
+        <button onClick={closeModal}>X</button>
+        <SearchBox onClick={e => e.stopPropagation()}>
           <p>
             <input
-              onChange={props.handleChange}
-              onKeyUp={props.handleSearch}
-              placeholder="Search"
+              onChange={handleChange}
+              onKeyDown={filterSearch}
+              placeholder='Search'
             ></input>
             <FaSearch />
           </p>
           <span>인기검색어</span>
           <ul>
-            {SearchList.menu.map((item) => {
+            {SearchList.menu.map(item => {
               return <li>{item}</li>;
             })}
           </ul>

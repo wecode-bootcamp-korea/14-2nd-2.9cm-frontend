@@ -1,83 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled, { StyleSheetManager } from 'styled-components';
+import styled from 'styled-components';
 import Nav from '../../Component/Nav/Nav';
 import NavScroll from '../../Component/Nav/NavScroll';
 import Footer from '../../Component/Footer/Footer';
-import { FaArrowRight } from 'react-icons/fa';
 import ProductCard from './ProductCard/ProductCard';
 import SearchModal from './SearchModal/SearchModal';
-import CheckBoxBrand from './CheckBoxBrand/CheckBoxBrand';
 import Pagination from './Pagination/Pagination';
 import Loading from '../../Component/Loading/Loading';
-
-import { TOKEN, STORE_API } from '../../config';
+import { STORE_API, PRICE_FILTER_API } from '../../config';
 import axios from 'axios';
-
-const menus = {
-  category: ['NEW', 'BEST', '스니커즈', '로퍼', '구두', '부츠', '샌들'],
-  shipping: ['무료배송', '할인상품만', '품절상품 제외'],
-  price: [
-    '전체 가격',
-    '0 ~ 10,000원',
-    '10,000원 ~ 50,000원',
-    '50,000원 ~ 100,000원',
-    '100,000원 ~ 200,000원',
-  ],
-  type: ['전체', '하이탑', '로우탑', '슬립온', '러닝화'],
-  filter: [
-    '추천순',
-    '신상품순',
-    '베스트순',
-    '낮은가격순',
-    '높은가격순',
-    '높은할인순',
-    '베스트리뷰순',
-    '베스트하트순',
-  ],
-};
-
-const brandList = {
-  brand: [
-    'Wright LLC',
-    'Cole-Smith',
-    'Coleman Inc',
-    'Thompson-Martin',
-    'Newman-Anderson',
-    'Roman Ltd',
-    'Pierce-Smith',
-  ],
-  count: ['719', '712', '736', '714', '701', '702', '724'],
-};
 
 export default function Main() {
   const [productData, setProductData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [isModal, setIsModal] = useState(false);
-
   const [loading, setLoading] = useState(true);
-
   const [search, setSearch] = useState('');
-  const [check, setCheck] = useState('');
-  const [isSearched, setIsSearched] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
   const [isScrollOver, setIsScrollOver] = useState(false);
-
   const [shoesbrand, setShoesBrand] = useState('');
 
-  const [goPriceFilter, setGoPriceFilter] = useState(true);
-
-  const [shoesType, setShoesType] = useState('');
-
   const changeNav = () => {
-    if (window.scrollY >= 60 && !isScrollOver) {
+    if (window.scrollY >= 60 && isScrollOver === false) {
       setIsScrollOver(true);
       setIsScrolled(true);
     }
 
-    if ((window.scrollY < 60) & isScrollOver) {
+    if (window.scrollY < 60 && isScrollOver === true) {
       setIsScrollOver(false);
       setIsScrolled(false);
     }
@@ -85,9 +35,22 @@ export default function Main() {
 
   const history = useHistory();
 
-  console.log('his >>>>> ', history);
-  const goToProductDetail = () => {
-    history.push('/product-detail/1');
+  const goToProductDetail = id => {
+    history.push(`/product-detail/${id}`);
+  };
+
+  const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const openModal = e => {
+    setIsModal(true);
+  };
+
+  const closeModal = () => {
+    setIsModal(false);
+  };
+
+  const handleChange = e => {
+    setSearch(e.target.value);
   };
 
   useEffect(() => {
@@ -95,7 +58,6 @@ export default function Main() {
     const getStore = async () => {
       try {
         const response = await axios.get(STORE_API);
-        console.log(response.data.result);
         setProductData(response.data.result);
       } catch (error) {
         console.log(error);
@@ -110,114 +72,115 @@ export default function Main() {
     return () => window.removeEventListener('scroll', changeNav);
   }, [isScrollOver]);
 
-  // 안 먹는다
   const filterPrice = e => {
     setLoading(true);
-    fetch(`${STORE_API}?min_price=50000&max_price=100000`)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const priceFilter = async () => {
+      try {
+        const response = await axios.get(PRICE_FILTER_API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
-    console.log('>>>>>>>>>> filtered', productData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    priceFilter();
     setIsChecked(!isChecked);
     goToTop();
   };
 
-  const openModal = e => {
-    setIsModal(true);
-  };
-
-  const closeModal = e => {
-    setIsModal(false);
-  };
-
-  const handleChange = e => {
-    setSearch(e.target.value);
-  };
-
-  const goToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  const handleSearch = e => {
-    setLoading(true);
+  const filterSearch = e => {
+    const SEARCH_FILTER_API = `${STORE_API}?search=${search}`;
     if (e.keyCode === 13) {
       setLoading(true);
-      fetch(`${STORE_API}?search=${search}`)
-        .then(response => response.json())
-        .then(result => {
-          setProductData(result.result);
+      const searchFilter = async () => {
+        try {
+          const response = await axios.get(SEARCH_FILTER_API);
+          setProductData(response.data.result);
           setLoading(false);
-        })
-        .catch(error => console.log('error', error));
-
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      searchFilter();
       closeModal();
     }
   };
 
-  const handleCheckbox = e => {
-    setLoading(true);
+  const filterCheckbox = e => {
+    const CHECKBOX_FILTER_API = `${STORE_API}?brand=${e.target.name}`;
     setShoesBrand(e.target.name);
-    fetch(`${STORE_API}?brand=${e.target.name}`)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    setLoading(true);
+    const checkboxFilter = async () => {
+      try {
+        const response = await axios.get(CHECKBOX_FILTER_API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    checkboxFilter();
     setIsChecked(!isChecked);
     goToTop();
   };
 
   const paginate = e => {
+    const PAGINATE_API = `${STORE_API}?page=${e.target.innerText}`;
     setLoading(true);
-    fetch(`${STORE_API}?page=${e.target.innerText}`)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const changePages = async () => {
+      try {
+        const response = await axios.get(PAGINATE_API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    changePages();
     goToTop();
   };
 
+  // 쿼리 중복 필터로 어떻게 순서없이 맥이는지 현지 선생님한테 질문
   const filterType = e => {
     setLoading(true);
 
-    let api = '';
+    let API = '';
 
     if (e.target.innerText === '전체') {
-      api = `${STORE_API}`;
+      API = `${STORE_API}`;
     } else {
       if (shoesbrand) {
-        api = `${STORE_API}?brand=${shoesbrand}&type=${e.target.innerText}`;
+        API = `${STORE_API}?brand=${shoesbrand}&type=${e.target.innerText}`;
       } else {
-        api = `${STORE_API}?type=${e.target.innerText}`;
+        API = `${STORE_API}?type=${e.target.innerText}`;
       }
     }
 
-    fetch(api)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const typeFilter = async () => {
+      try {
+        const response = await axios.get(API);
+        setProductData(response.data.result);
         setLoading(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    typeFilter();
   };
 
-  const filterFree = e => {
+  const filterFree = () => {
     setLoading(true);
-    const api = e.target.innerText === '초기화' && `${STORE_API}`;
-    fetch(api)
-      .then(response => response.json())
-      .then(result => {
-        setProductData(result.result);
+    const filterFree = async () => {
+      try {
+        const response = await axios.get(STORE_API);
+        setProductData(response.data.result);
         setLoading(false);
-        setGoPriceFilter(false);
-      })
-      .catch(error => console.log('error', error));
+      } catch (error) {}
+    };
 
+    filterFree();
     goToTop();
   };
 
@@ -267,7 +230,7 @@ export default function Main() {
                     <input
                       type='radio'
                       defaultChecked={false}
-                      onClick={goPriceFilter ? filterPrice : ''}
+                      onClick={filterPrice}
                     />
                     <PriceLabel for={`cb${idx + 1}`}>{item}</PriceLabel>
                   </PriceWidth>
@@ -283,7 +246,7 @@ export default function Main() {
                       type='checkbox'
                       defaultChecked={false}
                       name={item}
-                      onClick={handleCheckbox}
+                      onClick={filterCheckbox}
                     />
                     <BrandLabel for={`cb${idx}`} name={item}>
                       {item} ({Math.ceil(Math.random() * 700)})
@@ -319,10 +282,8 @@ export default function Main() {
       <Footer />
       {isModal && (
         <SearchModal
-          isModal={isModal}
-          openModal={openModal}
           closeModal={closeModal}
-          handleSearch={handleSearch}
+          filterSearch={filterSearch}
           handleChange={handleChange}
         />
       )}
@@ -330,6 +291,42 @@ export default function Main() {
     </>
   );
 }
+
+const menus = {
+  category: ['NEW', 'BEST', '스니커즈', '로퍼', '구두', '부츠', '샌들'],
+  shipping: ['무료배송', '할인상품만', '품절상품 제외'],
+  price: [
+    '전체 가격',
+    '0 ~ 10,000원',
+    '10,000원 ~ 50,000원',
+    '50,000원 ~ 100,000원',
+    '100,000원 ~ 200,000원',
+  ],
+  type: ['전체', '하이탑', '로우탑', '슬립온', '러닝화'],
+  filter: [
+    '추천순',
+    '신상품순',
+    '베스트순',
+    '낮은가격순',
+    '높은가격순',
+    '높은할인순',
+    '베스트리뷰순',
+    '베스트하트순',
+  ],
+};
+
+const brandList = {
+  brand: [
+    'Wright LLC',
+    'Cole-Smith',
+    'Coleman Inc',
+    'Thompson-Martin',
+    'Newman-Anderson',
+    'Roman Ltd',
+    'Pierce-Smith',
+  ],
+  count: ['719', '712', '736', '714', '701', '702', '724'],
+};
 
 const MainWrapper = styled.div`
   display: flex;

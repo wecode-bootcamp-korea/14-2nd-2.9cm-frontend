@@ -1,27 +1,26 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import styled, { StyleSheetManager } from "styled-components";
-import { FaRegHeart } from "react-icons/fa";
-import { VscComment } from "react-icons/vsc";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import styled, { StyleSheetManager } from 'styled-components';
+import { FaRegHeart } from 'react-icons/fa';
+import { VscComment } from 'react-icons/vsc';
 
-export default function ProductCard(props) {
+export default function ProductCard({ goToProductDetail, product }) {
   return (
     <ProductCardWrapper>
-      {props.product.map((item, idx) => {
+      {product.map((item, idx) => {
         return (
           <ProductCards key={idx}>
             <ProductImageWrapper>
               <ProductImage
-                onClick={props.goToProductDetail}
+                onClick={() => goToProductDetail(idx + 1)}
                 src={item.image}
               ></ProductImage>
             </ProductImageWrapper>
             <ProductName>{item.brand}</ProductName>
             <ProductNameDetail>{item.name}</ProductNameDetail>
             <ProductPrice>{item.price}</ProductPrice>
-            {/* <Percent></Percent> */}
             <ProductSalePrice>
-              {Math.ceil((1 - item.sale_price / item.price) * 100)}%{" "}
+              {Math.ceil((1 - item.sale_price / item.price) * 100)}%{' '}
               <span>{item.sale_price}원</span>
             </ProductSalePrice>
             <span>무료배송</span>
@@ -90,10 +89,6 @@ const ProductPrice = styled.div`
   font-size: 14px;
   font-weight: bold;
   text-decoration: line-through;
-`;
-
-const Percent = styled.div`
-  margin-bottom: 5px;
 `;
 
 const ProductSalePrice = styled.div`

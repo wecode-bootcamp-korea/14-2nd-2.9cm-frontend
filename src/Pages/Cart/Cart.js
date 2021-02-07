@@ -1,13 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Nav from '../../Component/Nav/Nav';
 import Footer from '../../Component/Footer/Footer';
 import { RiChatDeleteLine } from 'react-icons/ri';
 import { AiFillPlusCircle, AiFillPauseCircle } from 'react-icons/ai';
 import styled from 'styled-components';
+import Nav from '../../Component/Nav/Nav';
+import { useSelector } from 'react-redux';
 
 export default function Cart() {
   let history = useHistory();
+
+  const cartListItem = useSelector(state => state.cartReducer);
+
+  // console.log('<<<<<<<<<<<<<<<', cartListItem);
 
   return (
     <>
@@ -15,10 +20,10 @@ export default function Cart() {
       <CartWrapper>
         <CartProgressWrapper>
           <div>
-            01 SHOPPING BAG <span>'{'>'}'</span>{' '}
+            01 SHOPPING BAG <span>{'>'}</span>{' '}
           </div>
           <div>
-            02 ORDER <span>'{'>'}'</span>{' '}
+            02 ORDER <span>{'>'}</span>{' '}
           </div>
           <div>03 ORDER CONFIRMED</div>
         </CartProgressWrapper>
@@ -31,35 +36,41 @@ export default function Cart() {
             <ProductPrice>주문금액</ProductPrice>
             <ShippingFee>배송비</ShippingFee>
           </CartInfo>
-          <CartContents>
-            <CartContentsCheckBox type='checkbox' defaultChecked={false} />
-            <CartContentsLabel for='cb2'></CartContentsLabel>
-            <ProductDetailWrapper>
-              <ProductInfoDetail>
-                <ProductInfoImage src='/images/shoesshoes.jpg'></ProductInfoImage>
-                <ProductDetailContetns>
-                  <ProductInfoBrand>Wright LLC</ProductInfoBrand>
-                  <ProductInfoName>Erika Shaw</ProductInfoName>
-                  <ProductInfoPrice>111,750원</ProductInfoPrice>
-                  <ProductInfoOption>옵션 : [사이즈] 260</ProductInfoOption>
-                </ProductDetailContetns>
-              </ProductInfoDetail>
-              <CartDeleteButton>
-                <RiChatDeleteLine />
-              </CartDeleteButton>
-            </ProductDetailWrapper>
-            <ProductQuantityCheckWrapper>
-              <ProductQuantityCheck>
-                <InputQuantity value='1' />
-              </ProductQuantityCheck>
-            </ProductQuantityCheckWrapper>
-            <ProductPriceDetail>
-              <PriceTag>111,750원</PriceTag>
-              <BuyButton>BUY NOW</BuyButton>
-              <SoldOut>SOLD OUT</SoldOut>
-            </ProductPriceDetail>
-            <ShippingDetail>29CM 무료배송</ShippingDetail>
-          </CartContents>
+          {cartListItem.map((el, idx) => (
+            <CartContents>
+              <CartContentsCheckBox type='checkbox' defaultChecked={false} />
+              <CartContentsLabel for='cb2'></CartContentsLabel>
+              <ProductDetailWrapper>
+                <ProductInfoDetail>
+                  <>
+                    <ProductInfoImage src={el.product_img}></ProductInfoImage>
+                    <ProductDetailContents>
+                      <ProductInfoBrand>{el.title}</ProductInfoBrand>
+                      {/* <ProductInfoName>{el.description}</ProductInfoName> */}
+                      <ProductInfoPrice>{el.sale_price}</ProductInfoPrice>
+                      {/* <ProductInfoOption>옵션 : [사이즈] 260</ProductInfoOption> */}
+                    </ProductDetailContents>
+                  </>
+                </ProductInfoDetail>
+                <CartDeleteButton>
+                  <RiChatDeleteLine />
+                </CartDeleteButton>
+              </ProductDetailWrapper>
+              <ProductQuantityCheckWrapper>
+                <MinusBtn>-</MinusBtn>
+                <ProductQuantityCheck>
+                  <InputQuantity value='1' />
+                </ProductQuantityCheck>
+                <PlusBtn>+</PlusBtn>
+              </ProductQuantityCheckWrapper>
+              <ProductPriceDetail>
+                <PriceTag>{el.sale_price.toLocaleString()} 원</PriceTag>
+                <BuyButton>BUY NOW</BuyButton>
+                <SoldOut>SOLD OUT</SoldOut>
+              </ProductPriceDetail>
+              <ShippingDetail>29CM 무료배송</ShippingDetail>
+            </CartContents>
+          ))}
         </CartContentsWrapper>
         <ChooseDeleteWrapper>
           <div>
@@ -76,15 +87,30 @@ export default function Cart() {
           </PriceHeading>
           <CalculatePrice>
             <div>
-              <h1>111,750원</h1>
-              <span>총 1개</span>
+              <h1>
+                {' '}
+                {cartListItem
+                  .reduce((acc, cur) => {
+                    return (acc += Number(cur.sale_price));
+                  }, 0)
+                  .toLocaleString()}
+                원
+              </h1>
+              <span>총 {cartListItem.length}개</span>
             </div>
             <AiFillPlusCircle />
             <div>0원</div>
             <div>
               <AiFillPauseCircle />
             </div>
-            <div>111,750원</div>
+            {/* <div>111,750원</div>
+             */}
+            {cartListItem
+              .reduce((acc, cur) => {
+                return (acc += Number(cur.sale_price));
+              }, 0)
+              .toLocaleString()}
+            원
           </CalculatePrice>
         </ConfirmPriceWrapper>
         <div>
@@ -198,7 +224,7 @@ const ProductInfoImage = styled.img`
   margin: auto 20px;
 `;
 
-const ProductDetailContetns = styled.div`
+const ProductDetailContents = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 35px;
@@ -207,6 +233,7 @@ const ProductDetailContetns = styled.div`
 
 const ProductInfoDetail = styled.div`
   display: flex;
+  /* flex-direction: column; */
   margin-right: 20px;
 `;
 
@@ -251,11 +278,14 @@ const ProductQuantityCheckWrapper = styled.div`
   }
 `;
 
+const PlusBtn = styled.button``;
+
+const MinusBtn = styled.button``;
+
 const ProductQuantityCheck = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ddd;
   width: 100px;
   color: #ddd;
 `;
@@ -264,10 +294,6 @@ const InputQuantity = styled.input`
   text-align: center;
   width: 30px;
   height: 40px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-top: none;
-  border-bottom: none;
   margin: 0 10px;
 `;
 

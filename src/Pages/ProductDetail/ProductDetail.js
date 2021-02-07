@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCart } from '../../store/actions';
 import styled from 'styled-components';
 import Category from './Components/Category';
 import ShowComment from './Components/ShowComment';
@@ -13,19 +15,27 @@ import '../../../node_modules/slick-carousel/slick/slick.css';
 import '../../../node_modules/slick-carousel/slick/slick-theme.css';
 import { isDOMComponentElement } from 'react-dom/test-utils';
 import { fireEvent } from '@testing-library/react';
+import { SERVER, MOCK } from '../../config';
+import Loading from '../../Component/Loading/Loading';
+import axios from 'axios';
+import Nav from '../../Component/Nav/Nav';
 
-export default function ProductDetail() {
+export default function ProductDetail(props) {
+  const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [isModal, setIsModal] = useState(false);
   const [comment, setComment] = useState([]);
   const [createReview, setCreateReview] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [show, setShow] = useState(false);
-  const [productDetailData, setProductDetailData] = useState();
+  const [productDetailData, setProductDetailData] = useState([]);
   const [innerText, setInnerText] = useState();
   const [totalCount, setTotalCount] = useState();
 
-  let history = useHistory();
+  // let location = useLocation();
+  const params = useParams();
+  const history = useHistory();
+  const cartlist = useSelector(state => state.cartReducer);
 
   const settings = {
     className: 'center',
@@ -49,6 +59,7 @@ export default function ProductDetail() {
       comment: '태현님이 좋아할 것 같은 신발, 할인가에 겟또 :)',
     },
   ];
+
   const len = Math.ceil(totalCount / 5);
   const num = [];
   {
@@ -71,22 +82,33 @@ export default function ProductDetail() {
     }
   }
 
-  const API = 'http://3.34.44.13:8000/store/1';
-  const MOCK = ' http://localhost:3000/data/mockUp.json';
   useEffect(() => {
-    fetch(MOCK)
-      .then(res => res.json())
-      .then(res => {
-        console.log('목업데이터', res);
-        setImages(res.src);
-      });
+    const PRODUCT_DETAIL_API = `${SERVER}store/${params.id}`;
+    setLoading(true);
+    const productDetailData = async () => {
+      try {
+        const response = await axios.get(PRODUCT_DETAIL_API);
+        console.log(response.data.result);
+        setProductDetailData(response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    productDetailData();
+    setLoading(false);
+  }, []);
 
-    fetch(API)
-      .then(res => res.json())
-      .then(res => {
-        console.log('>>>>>>>>>>>>>>>>', res);
-        setProductDetailData(res.result);
-      });
+  useEffect(() => {
+    const loadDetailImage = async () => {
+      try {
+        const response = await axios.get(MOCK);
+        setImages(response.data.src);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadDetailImage();
   }, []);
 
   const openModal = e => {
@@ -100,7 +122,8 @@ export default function ProductDetail() {
   const inputValueFunc = input => {
     setInputValue(input);
   };
-  const REVIEWAPI = 'http://3.34.44.13:8000/store/1/review';
+
+  const REVIEWAPI = `${SERVER}store/${params.id}/review`;
   const SubmitComment = inputComment => {
     fetch(REVIEWAPI, {
       method: 'POST',
@@ -116,7 +139,6 @@ export default function ProductDetail() {
       .then(res => res.json())
       .then(res => {
         console.log('message', res);
-        // props.
       });
     setCreateReview([
       {
@@ -150,22 +172,16 @@ export default function ProductDetail() {
     const copy = Object.assign([], createReview);
     copy.splice(idx, 1);
     setCreateReview(copy);
-    // setCreateReview(createReview.filter(review => review.id !== idx));
   };
-
-  const updateComment = () => {};
 
   const goToBottom = () => {
     window.scrollTo({ top: 12000, behavior: 'smooth' });
   };
-  // const seeReview = (e) => {
-  //   wscrollTo();
-  // }
-  // const PAGINATIONAPI = `http://3.34.44.13:8000/store/1/review?page=${innerText}`;
+
   const handlePagination = e => {
     setInnerText(e.target.innerText);
     console.log(innerText);
-    fetch(`http://3.34.44.13:8000/store/1/review?page=${e.target.innerText}`)
+    fetch(`${SERVER}store/${params.id}/review?page=${e.target.innerText}`)
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -173,10 +189,20 @@ export default function ProductDetail() {
       });
   };
 
-  // console.log("111111111111111111",productDetailData);
+  const dispatch = useDispatch();
+
+  const handleCart = () => {
+    alert('장바구니에 물품이 담겼습니다!');
+    const cartitem = productDetailData[0];
+    cartitem.count = 1;
+    dispatch(addCart(cartitem));
+  };
+
+  console.log('cartlist >>>>', cartlist);
 
   return (
     <>
+      <Nav />
       <Category />
       <ModalWrapper>
         {isModal ? (
@@ -229,7 +255,12 @@ export default function ProductDetail() {
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Price>
                   <Sale>
-                    {Number((1 - el.sale_price / el.market_price) * 100)}%{' '}
+                    <span>
+                      {Number(
+                        (1 - el.sale_price / el.market_price) * 100
+                      ).toFixed(2)}
+                      %{' '}
+                    </span>
                     {el.sale_price
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -243,7 +274,12 @@ export default function ProductDetail() {
                     </BonusMenu>
                     <Bonus>
                       <ProductSale>
-                        {Number((1 - el.sale_price / el.market_price) * 100)}%{' '}
+                        <span>
+                          {Number(
+                            (1 - el.sale_price / el.market_price) * 100
+                          ).toFixed(2)}
+                          %{' '}
+                        </span>
                         {el.sale_price
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -267,19 +303,18 @@ export default function ProductDetail() {
                   <form>
                     <Size name='couponSelect'>
                       <option value='0'>사이즈</option>
-                      <option value='1'>{size[0]}</option>
-                      <option value='2'>{size[1]}</option>
+                      <option value='1'>{size[1]}</option>
                       <option value='2'>{size[2]}</option>
-                      <option value='2'>{size[3]}</option>
-                      <option value='2'>{size[4]}</option>
-                      <option value='2'>{size[5]}</option>
-                      <option value='2'>{size[6]}</option>
-                      <option value='2'>{size[7]}</option>
-                      <option value='2'>{size[8]}</option>
+                      <option value='3'>{size[3]}</option>
+                      <option value='4'>{size[4]}</option>
+                      <option value='5'>{size[5]}</option>
+                      <option value='6'>{size[6]}</option>
+                      <option value='7'>{size[7]}</option>
+                      <option value='8'>{size[8]}</option>
+                      <option value='9'>{size[9]}</option>
                     </Size>
                   </form>
-                  {/* <Size type="input" placeholder="사이즈" /> */}
-                  <GoToCart>SHOPPING BAG</GoToCart>
+                  <GoToCart onClick={handleCart}>SHOPPING BAG</GoToCart>
                   <GoToBuy onClick={() => history.push('/cart')}>
                     BUY NOW
                   </GoToBuy>
@@ -329,9 +364,9 @@ export default function ProductDetail() {
                       <span>{data.userId}</span>
                     </div>
                     <div>
-                      <UpdateBtn id={data.id} onClick={updateComment}>
+                      {/* <UpdateBtn id={data.id} onClick={updateComment}>
                         수정
-                      </UpdateBtn>
+                      </UpdateBtn> */}
                       <DeleteBtn idx={data.id} onClick={deleteComment}>
                         삭제
                       </DeleteBtn>{' '}
@@ -362,6 +397,7 @@ export default function ProductDetail() {
           <Etc>...</Etc>
         </Product>
       </ProductDetailWrapper>
+      {loading && <Loading />}
     </>
   );
 }
@@ -494,8 +530,13 @@ const Sale = styled.div`
   line-height: 30px;
   text-decoration: none solid rgb(255, 72, 0);
   word-spacing: 0px;
-  color: #ff4800;
+
+  span {
+    color: #ff4800;
+  }
 `;
+
+// color: #ff4800;
 
 const BonusBox = styled.div`
   display: flex;
